@@ -450,7 +450,8 @@
                 selectedBtn.classList.remove('bg-slate-50', 'border-slate-200');
                 selectedBtn.classList.add('bg-emerald-50', 'border-emerald-300', 'text-emerald-800');
                 explanationBox.className = "p-4 rounded-xl text-sm border bg-emerald-50 border-emerald-200 text-emerald-800 slide-in";
-                explanationBox.innerHTML = `${q.explanation}`;
+                // FIXED: Explicitly shows "Correct!" in the green box for correct answers
+                explanationBox.innerHTML = `<strong>Correct!</strong> ${q.explanation}`;
                 score += 20;
             } else {
                 selectedBtn.classList.remove('bg-slate-50', 'border-slate-200');
