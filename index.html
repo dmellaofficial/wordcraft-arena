@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>WordCraft & Grammar Arena</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#eef2ff',
+                            100: '#e0e7ff',
+                            500: '#6366f1',
+                            600: '#4f46e5',
+                            700: '#4338ca',
+                            900: '#312e81',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            user-select: none;
+        }
+        .slide-in {
+            animation: slideIn 0.3s ease-out forwards;
+        }
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col items-center justify-between p-4 sm:p-6">
+
+    <!-- Header / Navbar (Hidden on Auth Screen) -->
+    <header id="main-header" class="w-full max-w-2xl hidden items-center justify-between py-3 px-4 bg-white/80 backdrop-blur-md rounded-2xl border border-slate-200 shadow-sm">
+        <div class="flex items-center space-x-3">
+            <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-500 to-purple-500 text-white flex items-center justify-center shadow-md font-extrabold text-xl">
+                W
+            </div>
+            <div>
+                <h1 class="font-bold text-base sm:text-lg tracking-tight text-slate-900 leading-tight">WordCraft Arena</h1>
+                <p id="user-display-email" class="text-xs text-indigo-600 font-medium">Player</p>
+            </div>
+        </div>
+        
+        <div class="flex items-center space-x-2 sm:space-x-3">
+            <div class="flex items-center space-x-1 bg-slate-100 px-3 py-1.5 rounded-xl border border-slate-200 text-xs sm:text-sm font-semibold text-slate-700">
+                <span class="text-amber-500">🔥</span>
+                <span id="header-streak">0</span>
+            </div>
+            <div class="flex items-center space-x-1 bg-slate-100 px-3 py-1.5 rounded-xl border border-slate-200 text-xs sm:text-sm font-semibold text-slate-700">
+                <span class="text-emerald-500">⭐</span>
+                <span id="header-score">0</span>
+            </div>
+            <button onclick="showLeaderboard()" class="p-2 bg-indigo-50 hover:bg-indigo-100 text-indigo-600 rounded-xl border border-indigo-200 transition" title="Leaderboard">
+                🏆
+            </button>
+            <button onclick="logoutUser()" class="p-2 bg-rose-50 hover:bg-rose-100 text-rose-600 rounded-xl border border-rose-200 transition text-xs font-bold" title="Logout">
+                🚪
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Container Card -->
+    <main class="w-full max-w-2xl my-auto py-4">
+        
+        <!-- SCREEN 0: AUTHENTICATION (LOGIN / SIGN UP) -->
+        <div id="screen-auth" class="slide-in space-y-6 max-w-md mx-auto bg-white border border-slate-200 p-6 sm:p-8 rounded-3xl shadow-xl">
+            <div class="text-center space-y-2">
+                <div class="w-14 h-14 bg-indigo-50 border border-indigo-100 text-indigo-600 rounded-2xl flex items-center justify-center text-2xl mx-auto shadow-inner mb-2">
+                    🔐
+                </div>
+                <h2 id="auth-title" class="text-2xl font-extrabold text-slate-900">Welcome to WordCraft</h2>
+                <p class="text-xs text-slate-500">Sign in with your email to save your scores and compete globally.</p>
+            </div>
+
+            <div id="auth-error" class="hidden p-3 rounded-xl bg-rose-50 border border-rose-200 text-rose-600 text-xs text-center"></div>
+
+            <form id="auth-form" onsubmit="handleAuth(
