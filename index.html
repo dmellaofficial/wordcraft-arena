@@ -240,8 +240,7 @@
 
     <!-- Firebase Configuration & App Logic -->
     <script>
-        // ==========================================
-        // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+        // Your actual Firebase configuration keys
         const firebaseConfig = {
             apiKey: "AIzaSyA11KQplnkpLiG2bkSyiTD4gJdiI6EhBHg",
             authDomain: "wordcraft-arena-52121.firebaseapp.com",
@@ -252,9 +251,10 @@
             measurementId: "G-M5CY9B4HFX"
         };
 
-        // Initialize Firebase
-        const app = initializeApp(firebaseConfig);
-        const analytics = getAnalytics(app);
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const db = firebase.firestore();
+
         const questionBank = {
             kids: [
                 { q: "Which animal says 'Meow'?", options: ["Dog", "Cat", "Cow", "Duck"], answer: 1, explanation: "Correct! Cats make a 'meow' sound." },
