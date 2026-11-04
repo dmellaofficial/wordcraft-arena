@@ -53,7 +53,6 @@ const questionBank = {
     ],
 
     teens: [
-        // 100-question pool for Teens mock exam
         { q: "What is the past tense of 'run'?", options: ["Ran", "Running", "Runned", "Runs"], answer: 0, explanation: "The irregular past tense of run is ran." },
         { q: "Which sentence uses correct punctuation?", options: ["Where are you going.", "Where are you going?", "Where are you going!", "Where are you going,"], answer: 1, explanation: "Direct questions always end with a question mark." },
         { q: "What does the idiom 'break a leg' mean?", options: ["Get hurt", "Good luck", "Run fast", "Take a break"], answer: 1, explanation: "'Break a leg' is a common theatrical idiom wishing someone good luck." },
@@ -158,7 +157,6 @@ const questionBank = {
     ],
 
     advanced: [
-        // 100-question pool for Advanced Scholar mock exam
         { q: "Choose the correct form: 'Neither of the candidates _____ qualified.'", options: ["is", "are", "were", "have been"], answer: 0, explanation: "'Neither' is singular, so it takes the singular verb 'is'." },
         { q: "What does the word 'ephemeral' mean?", options: ["Eternal", "Lasting a very short time", "Extremely large", "Transparent"], answer: 1, explanation: "Ephemeral refers to something lasting for a brief duration." },
         { q: "Which sentence is written in the passive voice?", options: ["The chef baked a delicious cake.", "A delicious cake was baked by the chef.", "The chef is baking right now.", "She will bake tomorrow."], answer: 1, explanation: "The subject receives the action in passive voice ('was baked by')." },
@@ -169,7 +167,6 @@ const questionBank = {
         { q: "What is the meaning of 'pragmatic'?", options: ["Impractical", "Dealing with things sensibly and realistically", "Overly emotional", "Theoretical"], answer: 1, explanation: "Pragmatic means dealing with matters practically rather than theoretically." },
         { q: "Identify the gerund in: 'Swimming is a great workout.'", options: ["Swimming", "Is", "Great", "Workout"], answer: 0, explanation: "'Swimming' functions as a noun here, making it a gerund." },
         { q: "What does 'ameliorate' mean?", options: ["Worsen", "Make something bad better", "Analyze deeply", "Ignore"], answer: 1, explanation: "Ameliorate means to make something bad or unsatisfactory better." },
-        // Expanded to 100 unique advanced questions...
         { q: "What does 'cacophony' mean?", options: ["Melody", "Harsh mixture of sounds", "Silence", "Harmony"], answer: 1, explanation: "Cacophony refers to a harsh, discordant mixture of sounds." },
         { q: "Identify the mood of the verb in: 'If I were you, I would accept.'", options: ["Indicative", "Imperative", "Subjunctive", "Interrogative"], answer: 2, explanation: "Hypothetical situations use the subjunctive mood ('were')." },
         { q: "What does 'gregarious' mean?", options: ["Anti-social", "Sociable", "Aggressive", "Reserved"], answer: 1, explanation: "Gregarious means fond of company and sociable." },
@@ -180,7 +177,6 @@ const questionBank = {
         { q: "Identify the subjunctive verb: 'It is crucial that he ___ present.'", options: ["is", "be", "was", "will be"], answer: 1, explanation: "Mandative subjunctive uses the base form 'be'." },
         { q: "What does 'quixotic' mean?", options: ["Pragmatic", "Extremely idealistic", "Pessimistic", "Cynical"], answer: 1, explanation: "Quixotic means exceedingly idealistic and impractical." },
         { q: "What is an 'anachronism'?", options: ["Something out of its proper time period", "A type of poem", "A grammatical error", "A scientific measurement"], answer: 0, explanation: "An anachronism belongs to a period other than where it exists." },
-        // ... (Repeating advanced structure up to 100 items to form a complete advanced pool)
         { q: "What does 'loquacious' mean?", options: ["Taciturn", "Talkative", "Quiet", "Shy"], answer: 1, explanation: "Loquacious means tending to talk a great deal." },
         { q: "What does 'obsequious' mean?", options: ["Rebellious", "Obedient or attentive to an excessive degree", "Independent", "Arrogant"], answer: 1, explanation: "Obsequious implies excessive servility or compliance." },
         { q: "What does 'recalcitrant' mean?", options: ["Cooperative", "Having an obstinately uncooperative attitude", "Docile", "Compliant"], answer: 1, explanation: "Recalcitrant means stubborn and defiant of authority." },
@@ -190,18 +186,10 @@ const questionBank = {
         { q: "What does 'zealot' mean?", options: ["A moderate person", "A person who is fanatical and uncompromising in pursuit of their ideals", "An indifferent person", "A skeptic"], answer: 1, explanation: "A zealot displays fanatical devotion." },
         { q: "What does 'acumen' mean?", options: ["Ignorance", "The ability to make good judgments and quick decisions", "Slowness", "Naivety"], answer: 1, explanation: "Acumen denotes keen mental sharpness and insight." },
         { q: "What does 'bellicose' mean?", options: ["Peaceful", "Demonstrating aggression and willingness to fight", "Friendly", "Harmonious"], answer: 1, explanation: "Bellicose means warlike and aggressive." },
-        { q: "What does 'chicanery' mean?", options: ["Honesty", "The use of trickery to achieve a political, financial, or legal purpose", "Transparency", "Truthfulness"], answer: 1, explanation: "Chicanery refers to deception or trickery." },
-        // (Filled out with structured high-level vocabulary items to ensure 100 total items in production)
-        ...Array.from({ length: 70 }, (_, i) => ({
-            q: `Advanced Grammar & Vocabulary Concept #${i + 31}: Choose the correct syntactic interpretation.`,
-            options: ["Option A (Standard)", "Option B (Advanced Nuance)", "Option C (Archaic Form)", "Option D (Incorrect Syntax)"],
-            answer: 1,
-            explanation: "Advanced linguistic analysis favors Option B due to formal structural constraints."
-        }))
+        { q: "What does 'chicanery' mean?", options: ["Honesty", "The use of trickery to achieve a political, financial, or legal purpose", "Transparency", "Truthfulness"], answer: 1, explanation: "Chicanery refers to deception or trickery." }
     ],
 
     expert: [
-        // 100-question pool for Expert Hardcore mock exam
         { q: "Which philosophical term describes a statement that appears self-contradictory but reveals a deeper truth?", options: ["Oxymoron", "Paradox", "Allegory", "Tautology"], answer: 1, explanation: "A paradox is a proposition that seems self-contradictory but expresses a profound truth." },
         { q: "What is the etymological root of the word 'sycophant'?", options: ["One who flatters for gain", "One who shows figs (in ancient Greek legal disputes)", "A seeker of wisdom", "A tax collector"], answer: 1, explanation: "Historically linked to ancient Greek informers accusing illegal fig exporters ('sycophantes')." },
         { q: "Identify the subjunctive mood in formal English syntax:", options: ["If I was you...", "If I were you...", "If I am you...", "If I will be you..."], answer: 1, explanation: "In hypothetical counterfactuals, standard formal English requires the subjunctive 'were'." },
@@ -212,12 +200,15 @@ const questionBank = {
         { q: "Which word best defines 'pusillanimous'?", options: ["Extremely brave", "Showing a lack of courage; timid", "Generous", "Wise"], answer: 1, explanation: "Pusillanimous means cowardly, fearful, or lacking resolution." },
         { q: "What does 'lucubration' refer to?", options: ["Studying or working late into the night", "A bright flash of light", "Excessive talking", "A gentle breeze"], answer: 0, explanation: "Lucubration refers to writing or studying laboriously, especially by night." },
         { q: "Identify the rhetorical device: 'The pen is mightier than the sword.'", options: ["Metonymy", "Litotes", "Anaphora", "Asyndeton"], answer: 0, explanation: "This is metonymy, where an object is substituted for an institution closely associated with it (pen for written word/press)." },
-        // Expanded with rigorous expert GRE/SAT items up to 100 total items
-        ...Array.from({ length: 90 }, (_, i) => ({
-            q: `Expert Master-Tier Syntax & Etymology Challenge #${i + 11}: Identify the precise lexical definition or structural rule.`,
-            options: ["Incorrect Edge Case", "Syntactically & Etymologically Precise Definition", "Colloquial Misinterpretation", "Archaic Solecism"],
-            answer: 1,
-            explanation: "Master-tier linguistic evaluation confirms option 1 aligns with rigorous classical grammar rules."
-        }))
+        { q: "What is an 'asyndeton'?", options: ["The omission of conjunctions between clauses", "The repetition of a word at the beginning of clauses", "An exaggerated statement", "A contradiction in terms"], answer: 0, explanation: "Asyndeton is a literary scheme in which conjunctions are deliberately omitted." },
+        { q: "What does 'anacoluthon' mean?", options: ["A sentence syntax that changes midway without grammatical completion", "A smooth transition", "A poetic meter", "A spelling error"], answer: 0, explanation: "Anacoluthon is an abrupt change in a sentence's grammatical structure." },
+        { q: "Which rhetorical device uses a part to represent the whole?", options: ["Synecdoche", "Metonymy", "Litotes", "Chiasmus"], answer: 0, explanation: "Synecdoche uses a part of something to refer to the whole (or vice versa)." },
+        { q: "What is 'litotes'?", options: ["An understatement by using double negatives", "An extreme exaggeration", "A sarcastic remark", "A rhyming scheme"], answer: 0, explanation: "Litotes is an understatement expressing an affirmative by negating its opposite (e.g., 'not bad')." },
+        { q: "What does 'chiasmus' involve?", options: ["A reversal of grammatical structures in successive clauses (ABBA pattern)", "Repeating the same sound", "Listing items in order", "Omiting vowels"], answer: 0, explanation: "Chiasmus reverses the order of corresponding words or phrases in two parallel clauses." },
+        { q: "What is an 'epizeuxis'?", options: ["The emphatic repetition of a single word with no words in between", "A gradual increase in intensity", "A play on words", "A soft whisper"], answer: 0, explanation: "Epizeuxis is the immediate repetition of a word for emphasis (e.g., 'Words, words, words')." },
+        { q: "What does 'polysyndeton' use?", options: ["Multiple successive coordinating conjunctions close together", "No conjunctions at all", "Complex foreign words", "Only short nouns"], answer: 0, explanation: "Polysyndeton uses several conjunctions in close succession, typically for rhythmic effect." },
+        { q: "What is a 'litotes' example?", options: ["'He is not the brightest man in town.'", "'She ran as fast as lightning.'", "'The wind whispered softly.'", "'Time flies.'"], answer: 0, explanation: "Using 'not the brightest' is a classic understatement (litotes)." },
+        { q: "What does 'metonymy' substitute?", options: ["An attribute or associated object for the thing meant", "A completely unrelated concept", "A longer sentence structure", "A lowercase letter"], answer: 0, explanation: "Metonymy replaces a word with an associated concept (e.g., 'the Crown' for royalty)." },
+        { q: "What is an 'apocope'?", options: ["The omission of one or more sounds from the end of a word", "Adding letters to a word", "Capitalizing words", "Splitting syllables"], answer: 0, explanation: "Apocope is the dropping of the final sound or syllable of a word (e.g., 'photo' from 'photograph')." }
     ]
 };
