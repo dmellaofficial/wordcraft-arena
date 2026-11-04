@@ -262,7 +262,6 @@
         const auth = firebase.auth();
         const db = firebase.firestore();
 
-        // Show/Hide Password Function
         function togglePasswordVisibility() {
             const passwordInput = document.getElementById('auth-password');
             const eyeBtn = document.getElementById('eye-btn');
@@ -277,32 +276,32 @@
 
         const questionBank = {
             kids: [
-                { q: "Which animal says 'Meow'?", options: ["Dog", "Cat", "Cow", "Duck"], answer: 1, explanation: "Correct! Cats make a 'meow' sound." },
-                { q: "What color is a ripe banana?", options: ["Blue", "Yellow", "Red", "Black"], answer: 1, explanation: "Correct! Ripe bananas are bright yellow." },
-                { q: "Choose the correct spelling:", options: ["Aple", "Apple", "Apel", "Appell"], answer: 1, explanation: "Correct! 'Apple' is spelled with two p's." },
-                { q: "Which word is an action word (verb)?", options: ["Run", "Table", "Happy", "Blue"], answer: 0, explanation: "Correct! 'Run' is an action you can do." },
-                { q: "Opposite of 'Hot' is:", options: ["Warm", "Cold", "Bright", "Soft"], answer: 1, explanation: "Correct! Cold is the exact opposite of hot." }
+                { q: "Which animal says 'Meow'?", options: ["Dog", "Cat", "Cow", "Duck"], answer: 1, explanation: "Cats make a 'meow' sound." },
+                { q: "What color is a ripe banana?", options: ["Blue", "Yellow", "Red", "Black"], answer: 1, explanation: "Ripe bananas are bright yellow." },
+                { q: "Choose the correct spelling:", options: ["Aple", "Apple", "Apel", "Appell"], answer: 1, explanation: "'Apple' is spelled with two p's." },
+                { q: "Which word is an action word (verb)?", options: ["Run", "Table", "Happy", "Blue"], answer: 0, explanation: "'Run' is an action you can do." },
+                { q: "Opposite of 'Hot' is:", options: ["Warm", "Cold", "Bright", "Soft"], answer: 1, explanation: "Cold is the exact opposite of hot." }
             ],
             teens: [
-                { q: "What is the past tense of 'run'?", options: ["Ran", "Running", "Runned", "Runs"], answer: 0, explanation: "Correct! The irregular past tense of run is ran." },
-                { q: "Which sentence uses correct punctuation?", options: ["Where are you going.", "Where are you going?", "Where are you going!", "Where are you going,"], answer: 1, explanation: "Correct! Direct questions always end with a question mark." },
-                { q: "What does the idiom 'break a leg' mean?", options: ["Get hurt", "Good luck", "Run fast", "Take a break"], answer: 1, explanation: "Correct! 'Break a leg' is a common theatrical idiom wishing someone good luck." },
-                { q: "Identify the adjective in: 'The fierce tiger hunted in the jungle.'", options: ["Tiger", "Fierce", "Hunted", "Jungle"], answer: 1, explanation: "Correct! 'Fierce' describes the tiger, making it an adjective." },
-                { q: "Which word is a synonym for 'fast'?", options: ["Sluggish", "Rapid", "Heavy", "Dull"], answer: 1, explanation: "Correct! 'Rapid' means moving with great speed." }
+                { q: "What is the past tense of 'run'?", options: ["Ran", "Running", "Runned", "Runs"], answer: 0, explanation: "The irregular past tense of run is ran." },
+                { q: "Which sentence uses correct punctuation?", options: ["Where are you going.", "Where are you going?", "Where are you going!", "Where are you going,"], answer: 1, explanation: "Direct questions always end with a question mark." },
+                { q: "What does the idiom 'break a leg' mean?", options: ["Get hurt", "Good luck", "Run fast", "Take a break"], answer: 1, explanation: "'Break a leg' is a common theatrical idiom wishing someone good luck." },
+                { q: "Identify the adjective in: 'The fierce tiger hunted in the jungle.'", options: ["Tiger", "Fierce", "Hunted", "Jungle"], answer: 1, explanation: "'Fierce' describes the tiger, making it an adjective." },
+                { q: "Which word is a synonym for 'fast'?", options: ["Sluggish", "Rapid", "Heavy", "Dull"], answer: 1, explanation: "'Rapid' means moving with great speed." }
             ],
             advanced: [
-                { q: "Choose the correct form: 'Neither of the candidates _____ qualified.'", options: ["is", "are", "were", "have been"], answer: 0, explanation: "Correct! 'Neither' is singular, so it takes the singular verb 'is'." },
-                { q: "What does the word 'ephemeral' mean?", options: ["Eternal", "Lasting a very short time", "Extremely large", "Transparent"], answer: 1, explanation: "Correct! Ephemeral refers to something lasting for a brief duration." },
-                { q: "Which sentence is written in the passive voice?", options: ["The chef baked a delicious cake.", "A delicious cake was baked by the chef.", "The chef is baking right now.", "She will bake tomorrow."], answer: 1, explanation: "Correct! The subject receives the action in passive voice ('was baked by')." },
-                { q: "Identify the correct spelling:", options: ["Accomodate", "Acommodate", "Accommodate", "Acomodate"], answer: 2, explanation: "Correct! 'Accommodate' has two c's and two m's." },
-                { q: "What is a 'portmanteau' word?", options: ["A word borrowed from French", "Blending two words into one new word", "A word with multiple meanings", "An archaic verb"], answer: 1, explanation: "Correct! A portmanteau (like 'brunch' or 'motel') blends the sounds and meanings of two words." }
+                { q: "Choose the correct form: 'Neither of the candidates _____ qualified.'", options: ["is", "are", "were", "have been"], answer: 0, explanation: "'Neither' is singular, so it takes the singular verb 'is'." },
+                { q: "What does the word 'ephemeral' mean?", options: ["Eternal", "Lasting a very short time", "Extremely large", "Transparent"], answer: 1, explanation: "Ephemeral refers to something lasting for a brief duration." },
+                { q: "Which sentence is written in the passive voice?", options: ["The chef baked a delicious cake.", "A delicious cake was baked by the chef.", "The chef is baking right now.", "She will bake tomorrow."], answer: 1, explanation: "The subject receives the action in passive voice ('was baked by')." },
+                { q: "Identify the correct spelling:", options: ["Accomodate", "Acommodate", "Accommodate", "Acomodate"], answer: 2, explanation: "'Accommodate' has two c's and two m's." },
+                { q: "What is a 'portmanteau' word?", options: ["A word borrowed from French", "Blending two words into one new word", "A word with multiple meanings", "An archaic verb"], answer: 1, explanation: "A portmanteau (like 'brunch' or 'motel') blends the sounds and meanings of two words." }
             ],
             expert: [
-                { q: "Which philosophical term describes a statement that appears self-contradictory but reveals a deeper truth?", options: ["Oxymoron", "Paradox", "Allegory", "Tautology"], answer: 1, explanation: "Correct! A paradox is a proposition that seems self-contradictory but expresses a profound truth." },
-                { q: "What is the etymological root of the word 'sycophant'?", options: ["One who flatters for gain", "One who shows figs (in ancient Greek legal disputes)", "A seeker of wisdom", "A tax collector"], answer: 1, explanation: "Correct! Historically linked to ancient Greek informers accusing illegal fig exporters ('sycophantes')." },
-                { q: "Identify the subjunctive mood in formal English syntax:", options: ["If I was you...", "If I were you...", "If I am you...", "If I will be you..."], answer: 1, explanation: "Correct! In hypothetical counterfactuals, standard formal English requires the subjunctive 'were'." },
-                { q: "What does the literary device 'tmesis' involve?", options: ["Overstating a claim for effect", "Inserting a word inside another compound word for emphasis", "Omission of conjunctions", "Repetition of initial consonant sounds"], answer: 1, explanation: "Correct! Tmesis is the separation of parts of a compound word (e.g., 'abso-lutely-lutely')." },
-                { q: "Which term denotes the substitution of a mild expression for one considered too direct or harsh?", options: ["Dysphemism", "Euphemism", "Metonymy", "Synecdoche"], answer: 1, explanation: "Correct! A euphemism softens harsh or direct terminology." }
+                { q: "Which philosophical term describes a statement that appears self-contradictory but reveals a deeper truth?", options: ["Oxymoron", "Paradox", "Allegory", "Tautology"], answer: 1, explanation: "A paradox is a proposition that seems self-contradictory but expresses a profound truth." },
+                { q: "What is the etymological root of the word 'sycophant'?", options: ["One who flatters for gain", "One who shows figs (in ancient Greek legal disputes)", "A seeker of wisdom", "A tax collector"], answer: 1, explanation: "Historically linked to ancient Greek informers accusing illegal fig exporters ('sycophantes')." },
+                { q: "Identify the subjunctive mood in formal English syntax:", options: ["If I was you...", "If I were you...", "If I am you...", "If I will be you..."], answer: 1, explanation: "In hypothetical counterfactuals, standard formal English requires the subjunctive 'were'." },
+                { q: "What does the literary device 'tmesis' involve?", options: ["Overstating a claim for effect", "Inserting a word inside another compound word for emphasis", "Omission of conjunctions", "Repetition of initial consonant sounds"], answer: 1, explanation: "Tmesis is the separation of parts of a compound word (e.g., 'abso-lutely-lutely')." },
+                { q: "Which term denotes the substitution of a mild expression for one considered too direct or harsh?", options: ["Dysphemism", "Euphemism", "Metonymy", "Synecdoche"], answer: 1, explanation: "A euphemism softens harsh or direct terminology." }
             ]
         };
 
@@ -463,7 +462,7 @@
                 selectedBtn.classList.remove('bg-slate-50', 'border-slate-200');
                 selectedBtn.classList.add('bg-emerald-50', 'border-emerald-300', 'text-emerald-800');
                 explanationBox.className = "p-4 rounded-xl text-sm border bg-emerald-50 border-emerald-200 text-emerald-800 slide-in";
-                explanationBox.innerHTML = `<strong>Correct!</strong> ${q.explanation}`;
+                explanationBox.innerHTML = `${q.explanation}`;
                 score += 20;
             } else {
                 selectedBtn.classList.remove('bg-slate-50', 'border-slate-200');
@@ -471,7 +470,7 @@
                 options[q.answer].classList.remove('bg-slate-50', 'border-slate-200');
                 options[q.answer].classList.add('bg-emerald-50', 'border-emerald-300', 'text-emerald-800');
                 explanationBox.className = "p-4 rounded-xl text-sm border bg-rose-50 border-rose-200 text-rose-800 slide-in";
-                explanationBox.innerHTML = `<strong>Incorrect.</strong> ${q.explanation}`;
+                explanationBox.innerHTML = `<strong>Incorrect.</strong> The correct answer is: ${q.explanation}`;
             }
 
             document.getElementById('next-btn').classList.remove('hidden');
