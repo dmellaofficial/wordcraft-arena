@@ -123,38 +123,42 @@
         <div id="screen-levels" class="slide-in hidden space-y-4">
             <div class="text-center space-y-2 mb-6">
                 <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900">Choose Your Challenge</h2>
-                <p class="text-sm text-slate-500">Select your age group or skill tier to begin your linguistic journey.</p>
+                <p class="text-sm text-slate-500">Select your skill tier to begin your linguistic journey.</p>
             </div>
 
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+                <!-- Kids Explorer -->
                 <button onclick="selectLevel('kids')" class="group p-5 bg-white hover:bg-slate-50 border border-slate-200 hover:border-emerald-400 rounded-2xl text-left transition shadow-sm flex items-start space-x-4">
                     <div class="w-12 h-12 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-2xl group-hover:scale-110 transition">🧸</div>
                     <div>
                         <h3 class="font-bold text-base text-slate-900 group-hover:text-emerald-600 transition">Kids Explorer</h3>
-                        <p class="text-xs text-slate-500 mt-0.5">Ages 7 - 11 • Basic words, animals & simple spelling.</p>
+                        <p class="text-xs text-slate-500 mt-0.5">Basic words, animals & simple spelling.</p>
                     </div>
                 </button>
 
+                <!-- Intermediate (Teens pool) -->
                 <button onclick="selectLevel('teens')" class="group p-5 bg-white hover:bg-slate-50 border border-slate-200 hover:border-indigo-400 rounded-2xl text-left transition shadow-sm flex items-start space-x-4">
                     <div class="w-12 h-12 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center text-2xl group-hover:scale-110 transition">⚡</div>
                     <div>
-                        <h3 class="font-bold text-base text-slate-900 group-hover:text-indigo-600 transition">Teens & Everyday</h3>
-                        <p class="text-xs text-slate-500 mt-0.5">Ages 12 - 18 • 10 Random questions pulled from a large pool!</p>
+                        <h3 class="font-bold text-base text-slate-900 group-hover:text-indigo-600 transition">Intermediate</h3>
+                        <p class="text-xs text-slate-500 mt-0.5">10 Random questions pulled from a large pool.</p>
                     </div>
                 </button>
 
+                <!-- Advanced Scholar -->
                 <button onclick="selectLevel('advanced')" class="group p-5 bg-white hover:bg-slate-50 border border-slate-200 hover:border-purple-400 rounded-2xl text-left transition shadow-sm flex items-start space-x-4">
                     <div class="w-12 h-12 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center text-2xl group-hover:scale-110 transition">🎓</div>
                     <div>
                         <h3 class="font-bold text-base text-slate-900 group-hover:text-purple-600 transition">Advanced Scholar</h3>
-                        <p class="text-xs text-slate-500 mt-0.5">Ages 19+ • Professional vocabulary & complex syntax.</p>
+                        <p class="text-xs text-slate-500 mt-0.5">Professional vocabulary & complex syntax.</p>
                     </div>
                 </button>
 
+                <!-- Expert -->
                 <button onclick="selectLevel('expert')" class="group p-5 bg-white hover:bg-slate-50 border border-slate-200 hover:border-rose-400 rounded-2xl text-left transition shadow-sm flex items-start space-x-4">
                     <div class="w-12 h-12 rounded-xl bg-rose-50 text-rose-600 flex items-center justify-center text-2xl group-hover:scale-110 transition">🔥</div>
                     <div>
-                        <h3 class="font-bold text-base text-slate-900 group-hover:text-rose-600 transition">Expert Hardcore</h3>
+                        <h3 class="font-bold text-base text-slate-900 group-hover:text-rose-600 transition">Expert</h3>
                         <p class="text-xs text-slate-500 mt-0.5">Master Tier • GRE/SAT vocabulary & archaic rules.</p>
                     </div>
                 </button>
@@ -403,9 +407,9 @@
             
             const badges = {
                 kids: "🧸 Kids Explorer (5 Qs)",
-                teens: "⚡ Teens & Everyday (10 of Pool)",
+                teens: "⚡ Intermediate (10 Qs)",
                 advanced: "🎓 Advanced Scholar (10 Qs)",
-                expert: "🔥 Expert Hardcore (10 Qs)"
+                expert: "🔥 Expert (10 Qs)"
             };
             document.getElementById('quiz-level-badge').textContent = badges[level];
 
@@ -450,7 +454,6 @@
                 selectedBtn.classList.remove('bg-slate-50', 'border-slate-200');
                 selectedBtn.classList.add('bg-emerald-50', 'border-emerald-300', 'text-emerald-800');
                 explanationBox.className = "p-4 rounded-xl text-sm border bg-emerald-50 border-emerald-200 text-emerald-800 slide-in";
-                // FIXED: Explicitly shows "Correct!" in the green box for correct answers
                 explanationBox.innerHTML = `<strong>Correct!</strong> ${q.explanation}`;
                 score += 20;
             } else {
