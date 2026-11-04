@@ -46,7 +46,7 @@
 </head>
 <body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col items-center justify-between p-4 sm:p-6">
 
-    <!-- Header / Navbar (Hidden on Auth Screen) -->
+    <!-- Header / Navbar -->
     <header id="main-header" class="w-full max-w-2xl hidden items-center justify-between py-3 px-4 bg-white/90 backdrop-blur-md rounded-2xl border border-slate-200 shadow-sm">
         <div class="flex items-center space-x-3">
             <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-500 to-purple-500 text-white flex items-center justify-center shadow-md font-extrabold text-xl">
@@ -80,7 +80,7 @@
     <!-- Main Container Card -->
     <main class="w-full max-w-2xl my-auto py-4">
         
-        <!-- SCREEN 0: AUTHENTICATION (LOGIN / SIGN UP) -->
+        <!-- SCREEN 0: AUTHENTICATION -->
         <div id="screen-auth" class="slide-in space-y-6 max-w-md mx-auto bg-white border border-slate-200 p-6 sm:p-8 rounded-3xl shadow-xl">
             <div class="text-center space-y-2">
                 <div class="w-14 h-14 bg-indigo-50 border border-indigo-100 text-indigo-600 rounded-2xl flex items-center justify-center text-2xl mx-auto shadow-inner mb-2">
@@ -102,6 +102,7 @@
                     <label class="text-xs font-semibold text-slate-700">Password</label>
                     <div class="relative">
                         <input type="password" id="auth-password" required minlength="6" class="w-full px-4 py-3 pr-12 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 text-sm focus:outline-none focus:border-indigo-500 focus:bg-white" placeholder="••••••••">
+                        <!-- FIXED: Added type="button" to prevent form submission bug -->
                         <button type="button" onclick="togglePasswordVisibility()" class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-700 text-xs font-semibold px-2 py-1" id="eye-btn">
                             👁️
                         </button>
@@ -127,7 +128,6 @@
             </div>
 
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
-                <!-- Level 1: Kids -->
                 <button onclick="selectLevel('kids')" class="group p-5 bg-white hover:bg-slate-50 border border-slate-200 hover:border-emerald-400 rounded-2xl text-left transition shadow-sm flex items-start space-x-4">
                     <div class="w-12 h-12 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-2xl group-hover:scale-110 transition">🧸</div>
                     <div>
@@ -136,7 +136,6 @@
                     </div>
                 </button>
 
-                <!-- Level 2: Teens -->
                 <button onclick="selectLevel('teens')" class="group p-5 bg-white hover:bg-slate-50 border border-slate-200 hover:border-indigo-400 rounded-2xl text-left transition shadow-sm flex items-start space-x-4">
                     <div class="w-12 h-12 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center text-2xl group-hover:scale-110 transition">⚡</div>
                     <div>
@@ -145,7 +144,6 @@
                     </div>
                 </button>
 
-                <!-- Level 3: Advanced -->
                 <button onclick="selectLevel('advanced')" class="group p-5 bg-white hover:bg-slate-50 border border-slate-200 hover:border-purple-400 rounded-2xl text-left transition shadow-sm flex items-start space-x-4">
                     <div class="w-12 h-12 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center text-2xl group-hover:scale-110 transition">🎓</div>
                     <div>
@@ -154,7 +152,6 @@
                     </div>
                 </button>
 
-                <!-- Level 4: Expert (Hardcore) -->
                 <button onclick="selectLevel('expert')" class="group p-5 bg-white hover:bg-slate-50 border border-slate-200 hover:border-rose-400 rounded-2xl text-left transition shadow-sm flex items-start space-x-4">
                     <div class="w-12 h-12 rounded-xl bg-rose-50 text-rose-600 flex items-center justify-center text-2xl group-hover:scale-110 transition">🔥</div>
                     <div>
@@ -274,7 +271,6 @@
             }
         }
 
-        // Comprehensive Question Bank including a 100-question pool for Teens!
         const questionBank = {
             kids: [
                 { q: "Which animal says 'Meow'?", options: ["Dog", "Cat", "Cow", "Duck"], answer: 1, explanation: "Cats make a 'meow' sound." },
@@ -284,7 +280,6 @@
                 { q: "Opposite of 'Hot' is:", options: ["Warm", "Cold", "Bright", "Soft"], answer: 1, explanation: "Cold is the exact opposite of hot." }
             ],
             teens: [
-                // 100-question bank pool for Teens & Everyday mock exams
                 { q: "What is the past tense of 'run'?", options: ["Ran", "Running", "Runned", "Runs"], answer: 0, explanation: "The irregular past tense of run is ran." },
                 { q: "Which sentence uses correct punctuation?", options: ["Where are you going.", "Where are you going?", "Where are you going!", "Where are you going,"], answer: 1, explanation: "Direct questions always end with a question mark." },
                 { q: "What does the idiom 'break a leg' mean?", options: ["Get hurt", "Good luck", "Run fast", "Take a break"], answer: 1, explanation: "'Break a leg' is a common theatrical idiom wishing someone good luck." },
@@ -494,8 +489,8 @@
                     document.getElementById('header-score').textContent = totalScore;
                     document.getElementById('header-streak').textContent = streak;
                 }
-            } else {
-                console.log("No user document found.");
+            } catch (e) {
+                console.log("Error loading user data:", e);
             }
         }
 
@@ -513,7 +508,6 @@
             }
         }
 
-        // Helper function to shuffle and slice random items (Mock-exam style)
         function getRandomQuestions(array, count) {
             let shuffled = [...array];
             for (let i = shuffled.length - 1; i > 0; i--) {
@@ -526,7 +520,6 @@
         function selectLevel(level) {
             currentLevel = level;
             
-            // If teens, pick 10 random questions out of the 100-question pool!
             if (level === 'teens') {
                 currentQuestions = getRandomQuestions(questionBank.teens, 10);
             } else if (level === 'kids') {
@@ -667,7 +660,7 @@
                     const isYou = currentUser && doc.id === currentUser.uid;
 
                     const row = document.createElement('div');
-                    row.className = `flex items-center justify-between p-3 rounded-2xl border ${isYou ? 'bg-indigo-50 border-indigo-200' : 'bg-slate-50 border-slate-200'}`;
+                    row.className = `flex items-center justify-between p-3 rounded-2xl border ${isYou ? 'bg-indigo-55 border-indigo-200' : 'bg-slate-50 border-slate-200'}`;
                     row.innerHTML = `
                         <div class="flex items-center space-x-3">
                             <span class="font-bold text-amber-500">${rank}</span>
@@ -690,3 +683,4 @@
     </script>
 </body>
 </html>
+1
