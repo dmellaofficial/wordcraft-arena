@@ -246,18 +246,17 @@
         // ==========================================
         const firebaseConfig = {
             apiKey: "AIzaSyA11KQplnkpLiG2bkSyiTD4gJdiI6EhBHg",
-  authDomain: "wordcraft-arena-52121.firebaseapp.com",
-  projectId: "wordcraft-arena-52121",
-  storageBucket: "wordcraft-arena-52121.firebasestorage.app",
-  messagingSenderId: "188887441085",
-  appId: "1:188887441085:web:c359d44930e76612f861d4",
-  measurementId: "G-M5CY9B4HFX"
+            authDomain: "wordcraft-arena-52121.firebaseapp.com",
+            projectId: "wordcraft-arena-52121",
+            storageBucket: "wordcraft-arena-52121.firebasestorage.app",
+            messagingSenderId: "188887441085",
+            appId: "1:188887441085:web:c359d44930e76612f861d4",
+            measurementId: "G-M5CY9B4HFX"
         };
 
-        firebase.initializeApp(firebaseConfig);
-        const auth = firebase.auth();
-        const db = firebase.firestore();
-
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
         const questionBank = {
             kids: [
                 { q: "Which animal says 'Meow'?", options: ["Dog", "Cat", "Cow", "Duck"], answer: 1, explanation: "Correct! Cats make a 'meow' sound." },
