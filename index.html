@@ -141,7 +141,7 @@
                     <div class="w-12 h-12 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center text-2xl group-hover:scale-110 transition">⚡</div>
                     <div>
                         <h3 class="font-bold text-base text-slate-900 group-hover:text-indigo-600 transition">Teens & Everyday</h3>
-                        <p class="text-xs text-slate-500 mt-0.5">Ages 12 - 18 • Idioms, sentence structure & everyday conversation.</p>
+                        <p class="text-xs text-slate-500 mt-0.5">Ages 12 - 18 • 10 Randomized questions on idioms & syntax.</p>
                     </div>
                 </button>
 
@@ -150,7 +150,7 @@
                     <div class="w-12 h-12 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center text-2xl group-hover:scale-110 transition">🎓</div>
                     <div>
                         <h3 class="font-bold text-base text-slate-900 group-hover:text-purple-600 transition">Advanced Scholar</h3>
-                        <p class="text-xs text-slate-500 mt-0.5">Ages 19+ • Professional vocabulary, nuances & complex syntax.</p>
+                        <p class="text-xs text-slate-500 mt-0.5">Ages 19+ • 10 Randomized questions on professional vocabulary.</p>
                     </div>
                 </button>
 
@@ -159,7 +159,7 @@
                     <div class="w-12 h-12 rounded-xl bg-rose-50 text-rose-600 flex items-center justify-center text-2xl group-hover:scale-110 transition">🔥</div>
                     <div>
                         <h3 class="font-bold text-base text-slate-900 group-hover:text-rose-600 transition">Expert Hardcore</h3>
-                        <p class="text-xs text-slate-500 mt-0.5">Master Tier • GRE/SAT vocabulary, archaic rules & brutal edge cases.</p>
+                        <p class="text-xs text-slate-500 mt-0.5">Master Tier • 10 Randomized GRE/SAT & archaic edge cases.</p>
                     </div>
                 </button>
             </div>
@@ -170,10 +170,10 @@
             <div class="space-y-2">
                 <div class="flex justify-between text-xs font-semibold text-slate-500">
                     <span id="quiz-level-badge" class="px-2.5 py-0.5 rounded-full bg-indigo-50 text-indigo-700 border border-indigo-200">Level</span>
-                    <span id="question-counter">Question 1 of 5</span>
+                    <span id="question-counter">Question 1 of 10</span>
                 </div>
                 <div class="w-full bg-slate-200 h-2.5 rounded-full overflow-hidden border border-slate-300">
-                    <div id="progress-bar" class="bg-indigo-600 h-full transition-all duration-300" style="width: 20%"></div>
+                    <div id="progress-bar" class="bg-indigo-600 h-full transition-all duration-300" style="width: 10%"></div>
                 </div>
             </div>
 
@@ -204,7 +204,7 @@
                 </div>
                 <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200">
                     <p class="text-xs text-slate-500">Correct Answers</p>
-                    <p id="final-correct" class="text-2xl font-black text-emerald-600 mt-1">0/5</p>
+                    <p id="final-correct" class="text-2xl font-black text-emerald-600 mt-1">0/10</p>
                 </div>
             </div>
 
@@ -274,6 +274,7 @@
             }
         }
 
+        // Expanded Question Bank (10 questions each for Teens, Advanced, and Expert)
         const questionBank = {
             kids: [
                 { q: "Which animal says 'Meow'?", options: ["Dog", "Cat", "Cow", "Duck"], answer: 1, explanation: "Cats make a 'meow' sound." },
@@ -287,21 +288,36 @@
                 { q: "Which sentence uses correct punctuation?", options: ["Where are you going.", "Where are you going?", "Where are you going!", "Where are you going,"], answer: 1, explanation: "Direct questions always end with a question mark." },
                 { q: "What does the idiom 'break a leg' mean?", options: ["Get hurt", "Good luck", "Run fast", "Take a break"], answer: 1, explanation: "'Break a leg' is a common theatrical idiom wishing someone good luck." },
                 { q: "Identify the adjective in: 'The fierce tiger hunted in the jungle.'", options: ["Tiger", "Fierce", "Hunted", "Jungle"], answer: 1, explanation: "'Fierce' describes the tiger, making it an adjective." },
-                { q: "Which word is a synonym for 'fast'?", options: ["Sluggish", "Rapid", "Heavy", "Dull"], answer: 1, explanation: "'Rapid' means moving with great speed." }
+                { q: "Which word is a synonym for 'fast'?", options: ["Sluggish", "Rapid", "Heavy", "Dull"], answer: 1, explanation: "'Rapid' means moving with great speed." },
+                { q: "What is the plural form of 'child'?", options: ["Childs", "Children", "Childrens", "Childes"], answer: 1, explanation: "The correct irregular plural of child is children." },
+                { q: "Which word is spelled correctly?",options: ["Definately", "Definitely", "Definetly", "Definitly"], answer: 1, explanation: "'Definitely' is spelled with an 'i' and an 'a'." },
+                { q: "What does the idiom 'piece of cake' mean?", options: ["Something sweet", "Something very easy", "A birthday gift", "A difficult task"], answer: 1, explanation: "'Piece of cake' means an activity that is easy to accomplish." },
+                { q: "Identify the pronoun in: 'She walked to the library.'", options: ["Walked", "Library", "She", "To"], answer: 2, explanation: "'She' is a pronoun replacing a noun." },
+                { q: "Which word is an antonym for 'brave'?", options: ["Courageous", "Fearless", "Cowardly", "Bold"], answer: 2, explanation: "'Cowardly' is the opposite of brave." }
             ],
             advanced: [
                 { q: "Choose the correct form: 'Neither of the candidates _____ qualified.'", options: ["is", "are", "were", "have been"], answer: 0, explanation: "'Neither' is singular, so it takes the singular verb 'is'." },
                 { q: "What does the word 'ephemeral' mean?", options: ["Eternal", "Lasting a very short time", "Extremely large", "Transparent"], answer: 1, explanation: "Ephemeral refers to something lasting for a brief duration." },
                 { q: "Which sentence is written in the passive voice?", options: ["The chef baked a delicious cake.", "A delicious cake was baked by the chef.", "The chef is baking right now.", "She will bake tomorrow."], answer: 1, explanation: "The subject receives the action in passive voice ('was baked by')." },
                 { q: "Identify the correct spelling:", options: ["Accomodate", "Acommodate", "Accommodate", "Acomodate"], answer: 2, explanation: "'Accommodate' has two c's and two m's." },
-                { q: "What is a 'portmanteau' word?", options: ["A word borrowed from French", "Blending two words into one new word", "A word with multiple meanings", "An archaic verb"], answer: 1, explanation: "A portmanteau (like 'brunch' or 'motel') blends the sounds and meanings of two words." }
+                { q: "What is a 'portmanteau' word?", options: ["A word borrowed from French", "Blending two words into one new word", "A word with multiple meanings", "An archaic verb"], answer: 1, explanation: "A portmanteau (like 'brunch' or 'motel') blends the sounds and meanings of two words." },
+                { q: "What does 'ubiquitous' mean?", options: ["Rare", "Found everywhere", "Invisible", "Harmful"], answer: 1, explanation: "Ubiquitous means present, appearing, or found everywhere." },
+                { q: "Choose the sentence with correct subject-verb agreement:", options: ["The box of chocolates are missing.", "The box of chocolates is missing.", "A group of students were singing.", "Data is always singular."], answer: 1, explanation: "The subject is 'box' (singular), so it takes 'is'." },
+                { q: "What is the meaning of 'pragmatic'?", options: ["Impractical", "Dealing with things sensibly and realistically", "Overly emotional", "Theoretical"], answer: 1, explanation: "Pragmatic means dealing with matters practically rather than theoretically." },
+                { q: "Identify the gerund in: 'Swimming is a great workout.'", options: ["Swimming", "Is", "Great", "Workout"], answer: 0, explanation: "'Swimming' functions as a noun here, making it a gerund." },
+                { q: "What does 'ameliorate' mean?", options: ["Worsen", "Make something bad better", "Analyze deeply", "Ignore"], answer: 1, explanation: "Ameliorate means to make something bad or unsatisfactory better." }
             ],
             expert: [
                 { q: "Which philosophical term describes a statement that appears self-contradictory but reveals a deeper truth?", options: ["Oxymoron", "Paradox", "Allegory", "Tautology"], answer: 1, explanation: "A paradox is a proposition that seems self-contradictory but expresses a profound truth." },
                 { q: "What is the etymological root of the word 'sycophant'?", options: ["One who flatters for gain", "One who shows figs (in ancient Greek legal disputes)", "A seeker of wisdom", "A tax collector"], answer: 1, explanation: "Historically linked to ancient Greek informers accusing illegal fig exporters ('sycophantes')." },
                 { q: "Identify the subjunctive mood in formal English syntax:", options: ["If I was you...", "If I were you...", "If I am you...", "If I will be you..."], answer: 1, explanation: "In hypothetical counterfactuals, standard formal English requires the subjunctive 'were'." },
                 { q: "What does the literary device 'tmesis' involve?", options: ["Overstating a claim for effect", "Inserting a word inside another compound word for emphasis", "Omission of conjunctions", "Repetition of initial consonant sounds"], answer: 1, explanation: "Tmesis is the separation of parts of a compound word (e.g., 'abso-lutely-lutely')." },
-                { q: "Which term denotes the substitution of a mild expression for one considered too direct or harsh?", options: ["Dysphemism", "Euphemism", "Metonymy", "Synecdoche"], answer: 1, explanation: "A euphemism softens harsh or direct terminology." }
+                { q: "Which term denotes the substitution of a mild expression for one considered too direct or harsh?", options: ["Dysphemism", "Euphemism", "Metonymy", "Synecdoche"], answer: 1, explanation: "A euphemism softens harsh or direct terminology." },
+                { q: "What does the term 'sesquipedalian' mean?", options: ["Having many feet", "Using long, polysyllabic words", "Walking in a circle", "A short phrase"], answer: 1, explanation: "Sesquipedalian describes someone using long, polysyllabic words or relating to words of many syllables." },
+                { q: "What is a 'zeugma'?", options: ["A type of ancient ship", "A figure of speech where a word applies to two others in different senses", "A rhetorical question", "An incorrect verb tense"], answer: 1, explanation: "Zeugma involves a word applying to two parts of a sentence blending literal and figurative meanings (e.g., 'opened her door and her heart')." },
+                { q: "Which word best defines 'pusillanimous'?", options: ["Extremely brave", "Showing a lack of courage; timid", "Generous", "Wise"], answer: 1, explanation: "Pusillanimous means cowardly, fearful, or lacking resolution." },
+                { q: "What does 'lucubration' refer to?", options: ["Studying or working late into the night", "A bright flash of light", "Excessive talking", "A gentle breeze"], answer: 0, explanation: "Lucubration refers to writing or studying laboriously, especially by night." },
+                { q: "Identify the rhetorical device: 'The pen is mightier than the sword.'", options: ["Metonymy", "Litotes", "Anaphora", "Asyndeton"], answer: 0, explanation: "This is metonymy, where an object is substituted for an institution closely associated with it (pen for written word/press)." }
             ]
         };
 
@@ -405,9 +421,20 @@
             }
         }
 
+        // Helper function to shuffle array elements randomly
+        function shuffleArray(array) {
+            let arr = [...array];
+            for (let i = arr.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [arr[i], arr[j]] = [arr[j], arr[i]];
+            }
+            return arr;
+        }
+
         function selectLevel(level) {
             currentLevel = level;
-            currentQuestions = questionBank[level];
+            // Shuffle questions randomly every time a level is selected!
+            currentQuestions = shuffleArray(questionBank[level]);
             currentIndex = 0;
             score = 0;
 
@@ -415,10 +442,10 @@
             document.getElementById('screen-quiz').classList.remove('hidden');
             
             const badges = {
-                kids: "🧸 Kids Explorer",
-                teens: "⚡ Teens & Everyday",
-                advanced: "🎓 Advanced Scholar",
-                expert: "🔥 Expert Hardcore"
+                kids: "🧸 Kids Explorer (5 Qs)",
+                teens: "⚡ Teens & Everyday (10 Qs)",
+                advanced: "🎓 Advanced Scholar (10 Qs)",
+                expert: "🔥 Expert Hardcore (10 Qs)"
             };
             document.getElementById('quiz-level-badge').textContent = badges[level];
 
@@ -427,8 +454,9 @@
 
         function loadQuestion() {
             const q = currentQuestions[currentIndex];
-            document.getElementById('question-counter').textContent = `Question ${currentIndex + 1} of ${currentQuestions.length}`;
-            document.getElementById('progress-bar').style.width = `${((currentIndex + 1) / currentQuestions.length) * 100}%`;
+            const totalQ = currentQuestions.length;
+            document.getElementById('question-counter').textContent = `Question ${currentIndex + 1} of ${totalQ}`;
+            document.getElementById('progress-bar').style.width = `${((currentIndex + 1) / totalQ) * 100}%`;
             document.getElementById('question-text').textContent = q.q;
 
             const optionsContainer = document.getElementById('options-container');
@@ -489,8 +517,9 @@
             document.getElementById('screen-quiz').classList.add('hidden');
             document.getElementById('screen-results').classList.remove('hidden');
 
+            const totalQ = currentQuestions.length;
             document.getElementById('final-score').textContent = score;
-            document.getElementById('final-correct').textContent = `${score / 20}/${currentQuestions.length}`;
+            document.getElementById('final-correct').textContent = `${score / 20}/${totalQ}`;
 
             totalScore += score;
             streak += 1;
