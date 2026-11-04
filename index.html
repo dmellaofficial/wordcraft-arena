@@ -70,8 +70,9 @@
             <button onclick="showLeaderboard()" class="p-2 bg-indigo-50 hover:bg-indigo-100 text-indigo-600 rounded-xl border border-indigo-200 transition" title="Leaderboard">
                 🏆
             </button>
-            <button onclick="logoutUser()" class="p-2 bg-rose-50 hover:bg-rose-100 text-rose-600 rounded-xl border border-rose-200 transition text-xs font-bold" title="Logout">
-                🚪
+            <button onclick="logoutUser()" class="flex items-center space-x-1.5 px-3 py-2 bg-rose-50 hover:bg-rose-100 text-rose-600 rounded-xl border border-rose-200 transition text-xs font-bold" title="Log Out">
+                <span>🚪</span>
+                <span class="hidden sm:inline">Log Out</span>
             </button>
         </div>
     </header>
@@ -96,10 +97,17 @@
                     <label class="text-xs font-semibold text-slate-700">Email Address</label>
                     <input type="email" id="auth-email" required class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 text-sm focus:outline-none focus:border-indigo-500 focus:bg-white" placeholder="your.email@example.com">
                 </div>
+                
                 <div class="space-y-1">
                     <label class="text-xs font-semibold text-slate-700">Password</label>
-                    <input type="password" id="auth-password" required minlength="6" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 text-sm focus:outline-none focus:border-indigo-500 focus:bg-white" placeholder="••••••••">
+                    <div class="relative">
+                        <input type="password" id="auth-password" required minlength="6" class="w-full px-4 py-3 pr-12 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 text-sm focus:outline-none focus:border-indigo-500 focus:bg-white" placeholder="••••••••">
+                        <button type="button" onclick="togglePasswordVisibility()" class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-700 text-xs font-semibold px-2 py-1" id="eye-btn">
+                            👁️
+                        </button>
+                    </div>
                 </div>
+
                 <button type="submit" id="auth-submit-btn" class="w-full py-3.5 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl transition shadow-md text-sm">
                     Sign In
                 </button>
@@ -240,7 +248,6 @@
 
     <!-- Firebase Configuration & App Logic -->
     <script>
-        // Your actual Firebase configuration keys
         const firebaseConfig = {
             apiKey: "AIzaSyA11KQplnkpLiG2bkSyiTD4gJdiI6EhBHg",
             authDomain: "wordcraft-arena-52121.firebaseapp.com",
@@ -254,6 +261,19 @@
         firebase.initializeApp(firebaseConfig);
         const auth = firebase.auth();
         const db = firebase.firestore();
+
+        // Show/Hide Password Function
+        function togglePasswordVisibility() {
+            const passwordInput = document.getElementById('auth-password');
+            const eyeBtn = document.getElementById('eye-btn');
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                eyeBtn.textContent = '🙈';
+            } else {
+                passwordInput.type = 'password';
+                eyeBtn.textContent = '👁️';
+            }
+        }
 
         const questionBank = {
             kids: [
