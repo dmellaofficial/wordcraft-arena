@@ -132,7 +132,7 @@
                     <div class="w-12 h-12 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-2xl group-hover:scale-110 transition">🧸</div>
                     <div>
                         <h3 class="font-bold text-base text-slate-900 group-hover:text-emerald-600 transition">Kids Explorer</h3>
-                        <p class="text-xs text-slate-500 mt-0.5">Ages 7 - 11 • Basic words, animals, simple grammar & spelling.</p>
+                        <p class="text-xs text-slate-500 mt-0.5">Ages 7 - 11 • Basic words, animals & simple spelling.</p>
                     </div>
                 </button>
 
@@ -141,7 +141,7 @@
                     <div class="w-12 h-12 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center text-2xl group-hover:scale-110 transition">⚡</div>
                     <div>
                         <h3 class="font-bold text-base text-slate-900 group-hover:text-indigo-600 transition">Teens & Everyday</h3>
-                        <p class="text-xs text-slate-500 mt-0.5">Ages 12 - 18 • 10 Randomized questions on idioms & syntax.</p>
+                        <p class="text-xs text-slate-500 mt-0.5">Ages 12 - 18 • 10 Random questions pulled from a 100-question pool!</p>
                     </div>
                 </button>
 
@@ -150,7 +150,7 @@
                     <div class="w-12 h-12 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center text-2xl group-hover:scale-110 transition">🎓</div>
                     <div>
                         <h3 class="font-bold text-base text-slate-900 group-hover:text-purple-600 transition">Advanced Scholar</h3>
-                        <p class="text-xs text-slate-500 mt-0.5">Ages 19+ • 10 Randomized questions on professional vocabulary.</p>
+                        <p class="text-xs text-slate-500 mt-0.5">Ages 19+ • Professional vocabulary & complex syntax.</p>
                     </div>
                 </button>
 
@@ -159,7 +159,7 @@
                     <div class="w-12 h-12 rounded-xl bg-rose-50 text-rose-600 flex items-center justify-center text-2xl group-hover:scale-110 transition">🔥</div>
                     <div>
                         <h3 class="font-bold text-base text-slate-900 group-hover:text-rose-600 transition">Expert Hardcore</h3>
-                        <p class="text-xs text-slate-500 mt-0.5">Master Tier • 10 Randomized GRE/SAT & archaic edge cases.</p>
+                        <p class="text-xs text-slate-500 mt-0.5">Master Tier • GRE/SAT vocabulary & archaic rules.</p>
                     </div>
                 </button>
             </div>
@@ -274,7 +274,7 @@
             }
         }
 
-        // Expanded Question Bank (10 questions each for Teens, Advanced, and Expert)
+        // Comprehensive Question Bank including a 100-question pool for Teens!
         const questionBank = {
             kids: [
                 { q: "Which animal says 'Meow'?", options: ["Dog", "Cat", "Cow", "Duck"], answer: 1, explanation: "Cats make a 'meow' sound." },
@@ -284,16 +284,108 @@
                 { q: "Opposite of 'Hot' is:", options: ["Warm", "Cold", "Bright", "Soft"], answer: 1, explanation: "Cold is the exact opposite of hot." }
             ],
             teens: [
+                // 100-question bank pool for Teens & Everyday mock exams
                 { q: "What is the past tense of 'run'?", options: ["Ran", "Running", "Runned", "Runs"], answer: 0, explanation: "The irregular past tense of run is ran." },
                 { q: "Which sentence uses correct punctuation?", options: ["Where are you going.", "Where are you going?", "Where are you going!", "Where are you going,"], answer: 1, explanation: "Direct questions always end with a question mark." },
                 { q: "What does the idiom 'break a leg' mean?", options: ["Get hurt", "Good luck", "Run fast", "Take a break"], answer: 1, explanation: "'Break a leg' is a common theatrical idiom wishing someone good luck." },
                 { q: "Identify the adjective in: 'The fierce tiger hunted in the jungle.'", options: ["Tiger", "Fierce", "Hunted", "Jungle"], answer: 1, explanation: "'Fierce' describes the tiger, making it an adjective." },
                 { q: "Which word is a synonym for 'fast'?", options: ["Sluggish", "Rapid", "Heavy", "Dull"], answer: 1, explanation: "'Rapid' means moving with great speed." },
                 { q: "What is the plural form of 'child'?", options: ["Childs", "Children", "Childrens", "Childes"], answer: 1, explanation: "The correct irregular plural of child is children." },
-                { q: "Which word is spelled correctly?",options: ["Definately", "Definitely", "Definetly", "Definitly"], answer: 1, explanation: "'Definitely' is spelled with an 'i' and an 'a'." },
+                { q: "Which word is spelled correctly?", options: ["Definately", "Definitely", "Definetly", "Definitly"], answer: 1, explanation: "'Definitely' is spelled with an 'i' and an 'a'." },
                 { q: "What does the idiom 'piece of cake' mean?", options: ["Something sweet", "Something very easy", "A birthday gift", "A difficult task"], answer: 1, explanation: "'Piece of cake' means an activity that is easy to accomplish." },
                 { q: "Identify the pronoun in: 'She walked to the library.'", options: ["Walked", "Library", "She", "To"], answer: 2, explanation: "'She' is a pronoun replacing a noun." },
-                { q: "Which word is an antonym for 'brave'?", options: ["Courageous", "Fearless", "Cowardly", "Bold"], answer: 2, explanation: "'Cowardly' is the opposite of brave." }
+                { q: "Which word is an antonym for 'brave'?", options: ["Courageous", "Fearless", "Cowardly", "Bold"], answer: 2, explanation: "'Cowardly' is the opposite of brave." },
+                { q: "What is the plural of 'mouse'?", options: ["Mouses", "Mice", "Meese", "Mouse's"], answer: 1, explanation: "The irregular plural of mouse is mice." },
+                { q: "Choose the correct spelling:", options: ["Recieve", "Receive", "Receve", "Receiv"], answer: 1, explanation: "'Receive' follows the 'i before e except after c' rule." },
+                { q: "What is a synonym for 'happy'?", options: ["Joyful", "Sorrowful", "Angry", "Tired"], answer: 0, explanation: "'Joyful' means feeling or expressing great happiness." },
+                { q: "Identify the verb in: 'The bird sings in the tree.'", options: ["Bird", "Sings", "Tree", "The"], answer: 1, explanation: "'Sings' is the action verb performed by the bird." },
+                { q: "What does 'bizarre' mean?", options: ["Normal", "Strange or unusual", "Expensive", "Tiny"], answer: 1, explanation: "Bizarre means very unusual or eccentric." },
+                { q: "Which word is a conjunction?", options: ["And", "Run", "Quickly", "Apple"], answer: 0, explanation: "'And' is a coordinating conjunction used to connect words or clauses." },
+                { q: "What is the past tense of 'eat'?", options: ["Eated", "Ate", "Eaten", "Eating"], answer: 1, explanation: "The past tense of eat is ate." },
+                { q: "Choose the correct contraction for 'do not':", options: ["Don't", "Dont'", "Do'nt", "D'not"], answer: 0, explanation: "'Don't' is the correct standard contraction." },
+                { q: "What does 'gourmet' relate to?", options: ["Fast food", "High-quality food and drink", "Sports equipment", "Clothing"], answer: 1, explanation: "Gourmet refers to superior quality food and culinary expertise." },
+                { q: "Identify the noun in: 'The sun shines brightly.'", options: ["Sun", "Shines", "Brightly", "The"], answer: 0, explanation: "'Sun' is a person, place, or thing (a noun)." },
+                { q: "What is an antonym of 'ancient'?", options: ["Old", "Modern", "Historic", "Aged"], answer: 1, explanation: "'Modern' means relating to the present or recent times, opposite to ancient." },
+                { q: "Which sentence is declarative?", options: ["Close the door.", "Where are you going?", "The sky is blue.", "Ouch!"], answer: 2, explanation: "A declarative sentence makes a statement and ends with a period." },
+                { q: "What does the idiom 'cost an arm and a leg' mean?", options: ["Very cheap", "Very expensive", "Free", "Painful injury"], answer: 1, explanation: "It means something costs an extremely high amount of money." },
+                { q: "Choose the correct spelling:", options: ["Tomorrow", "Tomorow", "Tomorro", "Toumorrow"], answer: 0, explanation: "'Tomorrow' is spelled with two m's and one r." },
+                { q: "What is the superlative form of 'good'?", options: ["Gooder", "Best", "Better", "Most good"], answer: 1, explanation: "'Best' is the superlative form of good." },
+                { q: "Identify the adverb in: 'He ran quickly across the field.'", options: ["He", "Ran", "Quickly", "Field"], answer: 2, explanation: "'Quickly' describes how he ran, making it an adverb." },
+                { q: "What does 'transparent' mean?", options: ["Opaque", "Allowing light to pass through so objects can be seen clearly", "Very dark", "Painted blue"], answer: 1, explanation: "Transparent materials allow clear visibility through them." },
+                { q: "Which word is a preposition?", options: ["Under", "Jump", "Happy", "Table"], answer: 0, explanation: "'Under' shows spatial relationship, making it a preposition." },
+                { q: "What is the plural of 'city'?", options: ["Citys", "Cities", "Cites", "Citie"], answer: 1, explanation: "Words ending in a consonant + y change to 'ies' in the plural." },
+                { q: "What does 'ambitious' mean?", options: ["Lazy", "Having a strong desire for success or achievement", "Confused", "Hungry"], answer: 1, explanation: "Ambitious means striving hard for success or goal fulfillment." },
+                { q: "Choose the correct spelling:", options: ["Accomodate", "Acommodate", "Accommodate", "Acomodate"], answer: 2, explanation: "'Accommodate' has double c and double m." },
+                { q: "What is a synonym for 'silent'?", options: ["Quiet", "Noisy", "Loud", "Shrill"], answer: 0, explanation: "'Quiet' means making little or no noise." },
+                { q: "Identify the subject in: 'The cold wind howled.'", options: ["Wind", "Cold wind", "Howled", "The"], answer: 1, explanation: "'The cold wind' is the complete subject performing the action." },
+                { q: "What does 'diligent' mean?", options: ["Careless", "Showing steady and earnest effort", "Slow", "Sleepy"], answer: 1, explanation: "Diligent means hardworking and careful." },
+                { q: "Which word is an interjection?", options: ["Wow", "Walk", "Blue", "And"], answer: 0, explanation: "'Wow' expresses sudden emotion, making it an interjection." },
+                { q: "What is the past participle of 'write'?", options: ["Wrote", "Written", "Writed", "Writing"], answer: 1, explanation: "The past participle of write is written." },
+                { q: "Choose the correct spelling:", options: ["Necessary", "Neccessary", "Nessesary", "Nesecary"], answer: 0, explanation: "'Necessary' has one 'c' and double 's'." },
+                { q: "What does 'fictitious' mean?", options: ["True", "Fake or imagined", "Historical", "Scientific"], answer: 1, explanation: "Fictitious means created in the mind; not real." },
+                { q: "Identify the adjective in: 'She wore a bright red dress.'", options: ["Wore", "Dress", "Bright", "She"], answer: 2, explanation: "'Bright' (and 'red') describe the noun dress." },
+                { q: "What is an antonym for 'scarce'?", options: ["Abundant", "Rare", "Scanty", "Few"], answer: 0, explanation: "'Abundant' means existing or available in large quantities." },
+                { q: "Which word is spelled correctly?", options: ["Separate", "Seperate", "Seperet", "Separat"], answer: 0, explanation: "'Separate' is spelled with 'a' and 'e' vowels (sep-a-rate)." },
+                { q: "What does 'meander' mean?", options: ["Run straight", "Wander at random or follow a winding course", "Climb fast", "Stay still"], answer: 1, explanation: "Meander means to wander aimlessly or take a winding path." },
+                { q: "Choose the correct pronoun: 'John and ___ went to the store.'", options: ["me", "I", "myself", "him"], answer: 1, explanation: "'I' is the correct subject pronoun." },
+                { q: "What does 'benevolent' mean?", options: ["Cruel", "Well-meaning and kindly", "Greedy", "Indifferent"], answer: 1, explanation: "Benevolent describes someone kind and charitable." },
+                { q: "Identify the verb phrase: 'She has been studying for hours.'", options: ["Has been studying", "Studying for", "She has", "For hours"], answer: 0, explanation: "'Has been studying' forms the complete verb phrase." },
+                { q: "What is the plural of 'leaf'?", options: ["Leafs", "Leaves", "Leavs", "Leafes"], answer: 1, explanation: "Nouns ending in 'f' typically change to 'ves' in plural form." },
+                { q: "Which word is a synonym for 'exhausted'?", options: ["Energetic", "Tired", "Tired out / Fatigued", "Vibrant"], answer: 2, explanation: "Exhausted means drained of strength or energy." },
+                { q: "What does 'fastidious' mean?", options: ["Very attentive to and concerned about accuracy and detail", "Careless", "Fast", "Messy"], answer: 0, explanation: "Fastidious means excessively particular or meticulous." },
+                { q: "Choose the correct spelling:", options: ["Occurred", "Ocurred", "Occured", "Ocurred"], answer: 0, explanation: "'Occurred' doubles both the c and the r." },
+                { q: "What is an antonym of 'hostile'?", options: ["Friendly", "Aggressive", "Unfriendly", "Bitter"], answer: 0, explanation: "'Friendly' is the direct opposite of hostile." },
+                { q: "Identify the prepositional phrase in: 'The cat slept on the mat.'", options: ["Slept on", "On the mat", "The cat", "Slept"], answer: 1, explanation: "'On the mat' functions as the prepositional phrase." },
+                { q: "What does 'audacious' mean?", options: ["Timid", "Showing a willingness to take surprisingly bold risks", "Quiet", "Foolish"], answer: 1, explanation: "Audacious means daring, bold, or intrepid." },
+                { q: "Which word is a plural noun?", options: ["Child", "Ox", "Geese", "Man"], answer: 2, explanation: "'Geese' is the plural form of goose." },
+                { q: "What does 'gregarious' mean?", options: ["Loner", "Fond of company; sociable", "Angry", "Quiet"], answer: 1, explanation: "Gregarious means outgoing and sociable." },
+                { q: "Choose the correct sentence:", options: ["Their going to the park.", "They're going to the park.", "There going to the park.", "Theirs going to the park."], answer: 1, explanation: "'They're' is the contraction for 'they are'." },
+                { q: "What is the past tense of 'catch'?", options: ["Catched", "Caught", "Cought", "Catching"], answer: 1, explanation: "The irregular past tense of catch is caught." },
+                { q: "Identify the proper noun in: 'We visited Manila last summer.'", options: ["Visited", "Summer", "Manila", "We"], answer: 2, explanation: "'Manila' is a specific place name, making it a proper noun." },
+                { q: "What does 'lucid' mean?", options: ["Confused", "Expressed clearly; easy to understand", "Dark", "Hidden"], answer: 1, explanation: "Lucid means clear, logical, and easy to comprehend." },
+                { q: "Which word is spelled correctly?", options: ["Mischievous", "Mischievious", "Mischevous", "Mischevious"], answer: 0, explanation: "'Mischievous' is spelled with 'iev' near the end." },
+                { q: "What is an antonym of 'artificial'?", options: ["Synthetic", "Natural", "Fake", "Manmade"], answer: 1, explanation: "'Natural' means existing in or caused by nature; not made by humankind." },
+                { q: "What does 'novice' mean?", options: ["Expert", "A person new to or inexperienced in a field or situation", "Master", "Leader"], answer: 1, explanation: "A novice is a beginner." },
+                { q: "Choose the correct spelling:", options: ["Rythm", "Rhythm", "Rithm", "Rhythym"], answer: 1, explanation: "'Rhythm' contains the spelling pattern r-h-y-t-h-m." },
+                { q: "What does 'obstinate' mean?", options: ["Flexible", "Stubbornly refusing to change one's opinion or chosen course", "Helpful", "Yielding"], answer: 1, explanation: "Obstinate means stubborn or unyielding." },
+                { q: "Identify the conjunction in: 'I wanted to go, but it started raining.'", options: ["Wanted", "To", "But", "Raining"], answer: 2, explanation: "'But' is a coordinating conjunction." },
+                { q: "What is the plural of 'analysis'?", options: ["Analysiss", "Analyses", "Analysises", "Analysi"], answer: 1, explanation: "Words ending in 'sis' form their plural by changing to 'ses'." },
+                { q: "What does 'pensive' mean?", options: ["Thoughtful", "Carefree", "Angry", "Active"], answer: 0, explanation: "Pensive means engaged in deep or serious thought." },
+                { q: "Choose the correct word: 'Please accept / except my apology.'", options: ["accept", "except"], answer: 0, explanation: "'Accept' means to receive, whereas 'except' means excluding." },
+                { q: "What is a synonym for 'clever'?", options: ["Dull", "Smart / Intelligent", "Foolish", "Slow"], answer: 1, explanation: "Clever means quick-witted and intelligent." },
+                { q: "Identify the article in: 'An apple a day keeps the doctor away.'", options: ["An", "Keeps", "Away", "Doctor"], answer: 0, explanation: "'An' is an indefinite article." },
+                { q: "What does 'resilient' mean?", options: ["Fragile", "Able to withstand or recover quickly from difficult conditions", "Weak", "Stiff"], answer: 1, explanation: "Resilient means flexible and quick to bounce back." },
+                { q: "Which word is spelled correctly?", options: ["Priviledge", "Privilege", "Privlege", "Privelege"], answer: 1, explanation: "'Privilege' is spelled with an 'i' and two 'e's." },
+                { q: "What does 'scrupulous' mean?", options: ["Careful, thorough, and extremely attentive to details", "Careless", "Dishonest", "Fast"], answer: 0, explanation: "Scrupulous means meticulous, honest, and exact." },
+                { q: "What is the past tense of 'bring'?", options: ["Brang", "Brought", "Bringed", "Bringing"], answer: 1, explanation: "The past tense of bring is brought." },
+                { q: "Identify the subject in: 'Rapid rivers flow swiftly.'", options: ["Swiftly", "Flow", "Rapid rivers", "Rivers"], answer: 2, explanation: "'Rapid rivers' is the complete subject." },
+                { q: "What does 'tirade' mean?", options: ["A calm speech", "A long, angry speech of criticism or accusation", "A short phrase", "A whisper"], answer: 1, explanation: "A tirade is a lengthy, passionate, and critical speech." },
+                { q: "Choose the correct spelling:", options: ["Vacuum", "Vaccum", "Vaccum", "Vakuum"], answer: 0, explanation: "'Vacuum' is spelled with two u's." },
+                { q: "What is an antonym for 'brazen'?", options: ["Bold", "Modest / Humble", "Shameless", "Daring"], answer: 1, explanation: "'Modest' is an antonym for brazen (bold/shameless)." },
+                { q: "What does 'zenith' mean?", options: ["Lowest point", "The time at which something is most powerful or successful (peak)", "Bottom", "Beginning"], answer: 1, explanation: "The zenith is the highest point or peak." },
+                { q: "Identify the direct object in: 'She kicked the ball.'", options: ["She", "Kicked", "The ball", "Ball"], answer: 3, explanation: "'Ball' is the direct object receiving the action of kicking." },
+                { q: "What does 'quell' mean?", options: ["Encourage", "Put an end to (a rebellion or other disorder), typically by the use of force", "Start", "Ignite"], answer: 1, explanation: "Quell means to suppress or calm down." },
+                { q: "Which word is a compound word?", options: ["Sunflower", "Run", "Happy", "Dog"], answer: 0, explanation: "'Sunflower' combines sun and flower into a single compound word." },
+                { q: "What is the plural of 'ox'?", options: ["Oxes", "Oxen", "Oxs", "Oxens"], answer: 1, explanation: "The irregular plural of ox is oxen." },
+                { q: "What does 'alacrity' mean?", options: ["Slowness", "Brisk and cheerful readiness", "Hesitation", "Sadness"], answer: 1, explanation: "Alacrity means eager willingness and promptness." },
+                { q: "Choose the correct sentence:", options: ["Whose jacket is this?", "Who's jacket is this?", "Who jacket is this?", "Whos jacket is this?"], answer: 0, explanation: "'Whose' is the correct possessive pronoun form." },
+                { q: "What does 'ephemeral' mean?", options: ["Lasting forever", "Lasting for a very short time", "Large", "Bright"], answer: 1, explanation: "Ephemeral means transient or short-lived." },
+                { q: "Identify the adverb in: 'The exceptionally bright student passed.'", options: ["Student", "Bright", "Exceptionally", "Passed"], answer: 2, explanation: "'Exceptionally' modifies the adjective bright." },
+                { q: "What does 'cacophony' mean?", options: ["Harmonious sound", "A harsh, discordant mixture of sounds", "Silence", "A sweet melody"], answer: 1, explanation: "Cacophony refers to a loud, unpleasant noise mix." },
+                { q: "Which word is spelled correctly?", options: ["Athelete", "Athlete", "Athleat", "Athlit"], answer: 1, explanation: "'Athlete' has no extra 'e' in the middle syllable." },
+                { q: "What is an antonym for 'detrimental'?", options: ["Harmful", "Beneficial", "Damaging", "Injurious"], answer: 1, explanation: "'Beneficial' is the exact opposite of detrimental." },
+                { q: "What does 'luminous' mean?", options: ["Dark", "Emitting or reflecting bright light", "Dull", "Heavy"], answer: 1, explanation: "Luminous means glowing or full of light." },
+                { q: "Choose the correct spelling:", options: ["Occurrence", "Occurance", "Occurrance", "Ocurence"], answer: 0, explanation: "'Occurrence' is spelled with double c and double r, ending in -ence." },
+                { q: "What does 'pragmatic' mean?", options: ["Dealing with things sensibly and realistically", "Utopian", "Dreamy", "Foolish"], answer: 0, explanation: "Pragmatic means practical and realistic." },
+                { q: "Identify the conjunction in: 'Neither the teacher nor the students were ready.'", options: ["Neither / nor", "Were", "Ready", "Teacher"], answer: 0, explanation: "'Neither... nor' functions as correlative conjunctions." },
+                { q: "What is the plural of 'datum'?", options: ["Datums", "Data", "Datas", "Date"], answer: 1, explanation: "The traditional Latin plural of datum is data." },
+                { q: "What does 'copious' mean?", options: ["Scanty", "Abundant in supply or quantity", "Rare", "Small"], answer: 1, explanation: "Copious means plentiful or abundant." },
+                { q: "Choose the correct word: 'The weather will affect / effect your plans.'", options: ["affect", "effect"], answer: 0, explanation: "'Affect' is generally used as a verb meaning to influence." },
+                { q: "What is a synonym for 'ancient'?", options: ["Antique / Old", "Modern", "Recent", "Fresh"], answer: 0, explanation: "Antique or old means belonging to the distant past." },
+                { q: "Identify the preposition in: 'The plane flew above the clouds.'", options: ["Flew", "Above", "Clouds", "The"], answer: 1, explanation: "'Above' shows location, making it a preposition." },
+                { q: "What does 'zenith' represent?", options: ["Peak", "Bottom", "Valley", "End"], answer: 0, explanation: "The zenith represents the peak or highest point." },
+                { q: "Which word is spelled correctly?", options: ["Guarante", "Guarantee", "Garantee", "Garantie"], answer: 1, explanation: "'Guarantee' is spelled with double e at the end." },
+                { q: "What does 'zeal' mean?", options: ["Apathy", "Great energy or enthusiasm in pursuit of a cause or objective", "Laziness", "Slowness"], answer: 1, explanation: "Zeal means passion and fervor." }
             ],
             advanced: [
                 { q: "Choose the correct form: 'Neither of the candidates _____ qualified.'", options: ["is", "are", "were", "have been"], answer: 0, explanation: "'Neither' is singular, so it takes the singular verb 'is'." },
@@ -402,8 +494,8 @@
                     document.getElementById('header-score').textContent = totalScore;
                     document.getElementById('header-streak').textContent = streak;
                 }
-            } catch (e) {
-                console.error("Error loading user data:", e);
+            } else {
+                console.log("No user document found.");
             }
         }
 
@@ -421,20 +513,30 @@
             }
         }
 
-        // Helper function to shuffle array elements randomly
-        function shuffleArray(array) {
-            let arr = [...array];
-            for (let i = arr.length - 1; i > 0; i--) {
+        // Helper function to shuffle and slice random items (Mock-exam style)
+        function getRandomQuestions(array, count) {
+            let shuffled = [...array];
+            for (let i = shuffled.length - 1; i > 0; i--) {
                 const j = Math.floor(Math.random() * (i + 1));
-                [arr[i], arr[j]] = [arr[j], arr[i]];
+                [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
             }
-            return arr;
+            return shuffled.slice(0, count);
         }
 
         function selectLevel(level) {
             currentLevel = level;
-            // Shuffle questions randomly every time a level is selected!
-            currentQuestions = shuffleArray(questionBank[level]);
+            
+            // If teens, pick 10 random questions out of the 100-question pool!
+            if (level === 'teens') {
+                currentQuestions = getRandomQuestions(questionBank.teens, 10);
+            } else if (level === 'kids') {
+                currentQuestions = getRandomQuestions(questionBank.kids, 5);
+            } else if (level === 'advanced') {
+                currentQuestions = getRandomQuestions(questionBank.advanced, 10);
+            } else if (level === 'expert') {
+                currentQuestions = getRandomQuestions(questionBank.expert, 10);
+            }
+
             currentIndex = 0;
             score = 0;
 
@@ -443,7 +545,7 @@
             
             const badges = {
                 kids: "🧸 Kids Explorer (5 Qs)",
-                teens: "⚡ Teens & Everyday (10 Qs)",
+                teens: "⚡ Teens & Everyday (10 of 100 Pool)",
                 advanced: "🎓 Advanced Scholar (10 Qs)",
                 expert: "🔥 Expert Hardcore (10 Qs)"
             };
