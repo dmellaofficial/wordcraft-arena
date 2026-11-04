@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>WordCraft & Grammar Arena</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#eef2ff',
+                            100: '#e0e7ff',
+                            500: '#6366f1',
+                            600: '#4f46e5',
+                            700: '#4338ca',
+                            900: '#312e81',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            user-select: none;
+        }
+        .slide-in {
+            animation: slideIn 0.3s ease-out forwards;
+        }
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col items-center justify-between p-4 sm:p-6">
+
+    <!-- Header / Navbar (Hidden on Auth Screen) -->
+    <header id="main-header" class="w-full max-w-2xl hidden items-center justify-between py-3 px-4 bg-white/90 backdrop-blur-md rounded-2xl border border-slate-200 shadow-sm">
+        <div class="flex items-center space-x-3">
+            <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-500 to-purple-500 text-white flex items-center justify-center shadow-md font-extrabold text-xl">
+                W
+            </div>
+            <div>
+                <h1 class="font-bold text-base sm:text-lg tracking-tight text-slate-900 leading-tight">WordCraft Arena</h1>
+                <p id="user-display-email" class="text-xs text-indigo-600 font-medium">Player</p>
+            </div>
+        </div>
+        
+        <div class="flex items-center space-x-2 sm:space-x-3">
+            <div class="flex items-center space-x-1 bg-slate-100 px-3 py-1.5 rounded-xl border border-slate-200 text-xs sm:text-sm font-semibold text-slate-700">
+                <span class="text-amber-500">🔥</span>
+                <span id="header-streak">0</span>
+            </div>
+            <div class="flex items-center space-x-1 bg-slate-100 px-3 py-1.5 rounded-xl border border-slate-200 text-xs sm:text-sm font-semibold text-slate-700">
+                <span class="text-emerald-500">⭐</span>
+                <span id="header-score">0</span>
+            </div>
+            <button onclick="showLeaderboard()" class="p-2 bg-indigo-50 hover:bg-indigo-100 text-indigo-600 rounded-xl border border-indigo-200 transition" title="Leaderboard">
+                🏆
+            </button>
+            <button onclick="logoutUser()" class="p-2 bg-rose-50 hover:bg-rose-100 text-rose-600 rounded-xl border border-rose-200 transition text-xs font-bold" title="Logout">
+                🚪
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Container Card -->
+    <main class="w-full max-w-2xl my-auto py-4">
+        
+        <!-- SCREEN 0: AUTHENTICATION (LOGIN / SIGN UP) -->
+        <div id="screen-auth" class="slide-in space-y-6 max-w-md mx-auto bg-white border border-slate-200 p-6 sm:p-8 rounded-3xl shadow-xl">
+            <div class="text-center space-y-2">
+                <div class="w-14 h-14 bg-indigo-50 border border-indigo-100 text-indigo-600 rounded-2xl flex items-center justify-center text-2xl mx-auto shadow-inner mb-2">
+                    🔐
+                </div>
+                <h2 id="auth-title" class="text-2xl font-extrabold text-slate-900">Welcome to WordCraft</h2>
+                <p class="text-xs text-slate-500">Sign in with your email to save scores and compete on the global leaderboard.</p>
+            </div>
+
+            <div id="auth-error" class="hidden p-3 rounded-xl bg-rose-50 border border-rose-200 text-rose-600 text-xs text-center"></div>
+
+            <form id="auth-form" onsubmit="handleAuth(event)" class="space-y-4">
+                <div class="space-y-1">
+                    <label class="text-xs font-semibold text-slate-700">Email Address</label>
+                    <input type="email" id="auth-email" required class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 text-sm focus:outline-none focus:border-indigo-500 focus:bg-white" placeholder="your.email@example.com">
+                </div>
+                <div class="space-y-1">
+                    <label class="text-xs font-semibold text-slate-700">Password</label>
+                    <input type="password" id="auth-password" required minlength="6" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 text-sm focus:outline-none focus:border-indigo-500 focus:bg-white" placeholder="••••••••">
+                </div>
+                <button type="submit" id="auth-submit-btn" class="w-full py-3.5 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl transition shadow-md text-sm">
+                    Sign In
+                </button>
+            </form>
+
+            <div class="text-center text-xs pt-2">
+                <span id="auth-toggle-text" class="text-slate-500">Don't have an account?</span>
+                <button type="button" onclick="toggleAuthMode()" id="auth-toggle-btn" class="text-indigo-600 font-bold ml-1 hover:underline">Create one</button>
+            </div>
+        </div>
+
+        <!-- SCREEN 1: LEVEL SELECTION -->
+        <div id="screen-levels" class="slide-in hidden space-y-4">
+            <div class="text-center space-y-2 mb-6">
+                <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900">Choose Your Challenge</h2>
+                <p class="text-sm text-slate-500">Select your age group or skill tier to begin your linguistic journey.</p>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+                <!-- Level 1: Kids -->
+                <button onclick="selectLevel('kids')" class="group p-5 bg-white hover:bg-slate-50 border border-slate-200 hover:border-emerald-400 rounded-2xl text-left transition shadow-sm flex items-start space-x-4">
+                    <div class="w-12 h-12 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-2xl group-hover:scale-110 transition">🧸</div>
+                    <div>
+                        <h3 class="font-bold text-base text-slate-900 group-hover:text-emerald-600 transition">Kids Explorer</h3>
+                        <p class="text-xs text-slate-500 mt-0.5">Ages 7 - 11 • Basic words, animals, simple grammar & spelling.</p>
+                    </div>
+                </button>
+
+                <!-- Level 2: Teens -->
+                <button onclick="selectLevel('teens')" class="group p-5 bg-white hover:bg-slate-50 border border-slate-200 hover:border-indigo-400 rounded-2xl text-left transition shadow-sm flex items-start space-x-4">
+                    <div class="w-12 h-12 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center text-2xl group-hover:scale-110 transition">⚡</div>
+                    <div>
+                        <h3 class="font-bold text-base text-slate-900 group-hover:text-indigo-600 transition">Teens & Everyday</h3>
+                        <p class="text-xs text-slate-500 mt-0.5">Ages 12 - 18 • Idioms, sentence structure & everyday conversation.</p>
+                    </div>
+                </button>
+
+                <!-- Level 3: Advanced -->
+                <button onclick="selectLevel('advanced')" class="group p-5 bg-white hover:bg-slate-50 border border-slate-200 hover:border-purple-400 rounded-2xl text-left transition shadow-sm flex items-start space-x-4">
+                    <div class="w-12 h-12 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center text-2xl group-hover:scale-110 transition">🎓</div>
+                    <div>
+                        <h3 class="font-bold text-base text-slate-900 group-hover:text-purple-600 transition">Advanced Scholar</h3>
+                        <p class="text-xs text-slate-500 mt-0.5">Ages 19+ • Professional vocabulary, nuances & complex syntax.</p>
+                    </div>
+                </button>
+
+                <!-- Level 4: Expert (Hardcore) -->
+                <button onclick="selectLevel('expert')" class="group p-5 bg-white hover:bg-slate-50 border border-slate-200 hover:border-rose-400 rounded-2xl text-left transition shadow-sm flex items-start space-x-4">
+                    <div class="w-12 h-12 rounded-xl bg-rose-50 text-rose-600 flex items-center justify-center text-2xl group-hover:scale-110 transition">🔥</div>
+                    <div>
+                        <h3 class="font-bold text-base text-slate-900 group-hover:text-rose-600 transition">Expert Hardcore</h3>
+                        <p class="text-xs text-slate-500 mt-0.5">Master Tier • GRE/SAT vocabulary, archaic rules & brutal edge cases.</p>
+                    </div>
+                </button>
+            </div>
+        </div>
+
+        <!-- SCREEN 2: QUIZ ROOM -->
+        <div id="screen-quiz" class="slide-in hidden space-y-6">
+            <div class="space-y-2">
+                <div class="flex justify-between text-xs font-semibold text-slate-500">
+                    <span id="quiz-level-badge" class="px-2.5 py-0.5 rounded-full bg-indigo-50 text-indigo-700 border border-indigo-200">Level</span>
+                    <span id="question-counter">Question 1 of 5</span>
+                </div>
+                <div class="w-full bg-slate-200 h-2.5 rounded-full overflow-hidden border border-slate-300">
+                    <div id="progress-bar" class="bg-indigo-600 h-full transition-all duration-300" style="width: 20%"></div>
+                </div>
+            </div>
+
+            <div class="bg-white border border-slate-200 rounded-2xl p-5 sm:p-6 shadow-md space-y-6">
+                <h3 id="question-text" class="text-lg sm:text-xl font-bold text-slate-900 leading-snug">Loading question...</h3>
+                <div id="options-container" class="space-y-3"></div>
+                <div id="explanation-box" class="hidden p-4 rounded-xl text-sm border slide-in"></div>
+                <button id="next-btn" onclick="nextQuestion()" class="hidden w-full py-3.5 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl transition shadow-md">
+                    Next Question →
+                </button>
+            </div>
+        </div>
+
+        <!-- SCREEN 3: RESULTS SUMMARY -->
+        <div id="screen-results" class="slide-in hidden text-center space-y-6 bg-white border border-slate-200 p-6 sm:p-8 rounded-3xl shadow-xl">
+            <div class="w-20 h-20 bg-indigo-50 border border-indigo-200 text-indigo-600 rounded-3xl flex items-center justify-center text-4xl mx-auto shadow-inner">
+                🏆
+            </div>
+            <div class="space-y-2">
+                <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900">Quiz Completed!</h2>
+                <p id="result-message" class="text-sm text-slate-500">Score saved securely to the cloud.</p>
+            </div>
+
+            <div class="grid grid-cols-2 gap-4 max-w-sm mx-auto py-2">
+                <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200">
+                    <p class="text-xs text-slate-500">Final Score</p>
+                    <p id="final-score" class="text-2xl font-black text-indigo-600 mt-1">0</p>
+                </div>
+                <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200">
+                    <p class="text-xs text-slate-500">Correct Answers</p>
+                    <p id="final-correct" class="text-2xl font-black text-emerald-600 mt-1">0/5</p>
+                </div>
+            </div>
+
+            <div class="flex flex-col sm:flex-row gap-3 justify-center pt-2">
+                <button onclick="restartQuiz()" class="px-6 py-3.5 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl transition shadow-md">
+                    Play Again
+                </button>
+                <button onclick="goHome()" class="px-6 py-3.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded-xl transition">
+                    Choose Another Level
+                </button>
+            </div>
+        </div>
+
+        <!-- SCREEN 4: LEADERBOARD MODAL -->
+        <div id="modal-leaderboard" class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm hidden items-center justify-center p-4 z-50">
+            <div class="bg-white border border-slate-200 w-full max-w-md rounded-3xl p-6 shadow-2xl space-y-5 slide-in">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center space-x-2">
+                        <span class="text-xl">🏆</span>
+                        <h3 class="text-lg font-bold text-slate-900">Global Leaderboard</h3>
+                    </div>
+                    <button onclick="closeLeaderboard()" class="text-slate-400 hover:text-slate-700 font-bold p-1">✕</button>
+                </div>
+
+                <div id="leaderboard-list" class="space-y-2.5 max-h-72 overflow-y-auto pr-1">
+                    <p class="text-center text-xs text-slate-500 py-4">Loading scores...</p>
+                </div>
+
+                <button onclick="closeLeaderboard()" class="w-full py-3 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded-xl transition">
+                    Close
+                </button>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Footer Note -->
+    <footer class="w-full max-w-2xl text-center py-3 text-xs text-slate-400">
+        WordCraft & Grammar Arena • Cloud-Synced Learning Hub
+    </footer>
+
+    <!-- Firebase Configuration & App Logic -->
+    <script>
+        // ==========================================
+        // FIREBASE CONFIGURATION
+        // (Replace with your actual keys once you create your project)
+        // ==========================================
+        const firebaseConfig = {
+            apiKey: "YOUR_FIREBASE_API_KEY",
+            authDomain: "your-project.firebaseapp.com",
+            projectId: "your-project-id",
+            storageBucket: "your-project.appspot.com",
+            messagingSenderId: "123456789",
+            appId: "1:123:web:abc"
+        };
+
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const db = firebase.firestore();
+
+        const questionBank = {
+            kids: [
+                { q: "Which animal says 'Meow'?", options: ["Dog", "Cat", "Cow", "Duck"], answer: 1, explanation: "Correct! Cats make a 'meow' sound." },
+                { q: "What color is a ripe banana?", options: ["Blue", "Yellow", "Red", "Black"], answer: 1, explanation: "Correct! Ripe bananas are bright yellow." },
+                { q: "Choose the correct spelling:", options: ["Aple", "Apple", "Apel", "Appell"], answer: 1, explanation: "Correct! 'Apple' is spelled with two p's." },
+                { q: "Which word is an action word (verb)?", options: ["Run", "Table", "Happy", "Blue"], answer: 0, explanation: "Correct! 'Run' is an action you can do." },
+                { q: "Opposite of 'Hot' is:", options: ["Warm", "Cold", "Bright", "Soft"], answer: 1, explanation: "Correct! Cold is the exact opposite of hot." }
+            ],
+            teens: [
+                { q: "What is the past tense of 'run'?", options: ["Ran", "Running", "Runned", "Runs"], answer: 0, explanation: "Correct! The irregular past tense of run is ran." },
+                { q: "Which sentence uses correct punctuation?", options: ["Where are you going.", "Where are you going?", "Where are you going!", "Where are you going,"], answer: 1, explanation: "Correct! Direct questions always end with a question mark." },
+                { q: "What does the idiom 'break a leg' mean?", options: ["Get hurt", "Good luck", "Run fast", "Take a break"], answer: 1, explanation: "Correct! 'Break a leg' is a common theatrical idiom wishing someone good luck." },
+                { q: "Identify the adjective in: 'The fierce tiger hunted in the jungle.'", options: ["Tiger", "Fierce", "Hunted", "Jungle"], answer: 1, explanation: "Correct! 'Fierce' describes the tiger, making it an adjective." },
+                { q: "Which word is a synonym for 'fast'?", options: ["Sluggish", "Rapid", "Heavy", "Dull"], answer: 1, explanation: "Correct! 'Rapid' means moving with great speed." }
+            ],
+            advanced: [
+                { q: "Choose the correct form: 'Neither of the candidates _____ qualified.'", options: ["is", "are", "were", "have been"], answer: 0, explanation: "Correct! 'Neither' is singular, so it takes the singular verb 'is'." },
+                { q: "What does the word 'ephemeral' mean?", options: ["Eternal", "Lasting a very short time", "Extremely large", "Transparent"], answer: 1, explanation: "Correct! Ephemeral refers to something lasting for a brief duration." },
+                { q: "Which sentence is written in the passive voice?", options: ["The chef baked a delicious cake.", "A delicious cake was baked by the chef.", "The chef is baking right now.", "She will bake tomorrow."], answer: 1, explanation: "Correct! The subject receives the action in passive voice ('was baked by')." },
+                { q: "Identify the correct spelling:", options: ["Accomodate", "Acommodate", "Accommodate", "Acomodate"], answer: 2, explanation: "Correct! 'Accommodate' has two c's and two m's." },
+                { q: "What is a 'portmanteau' word?", options: ["A word borrowed from French", "Blending two words into one new word", "A word with multiple meanings", "An archaic verb"], answer: 1, explanation: "Correct! A portmanteau (like 'brunch' or 'motel') blends the sounds and meanings of two words." }
+            ],
+            expert: [
+                { q: "Which philosophical term describes a statement that appears self-contradictory but reveals a deeper truth?", options: ["Oxymoron", "Paradox", "Allegory", "Tautology"], answer: 1, explanation: "Correct! A paradox is a proposition that seems self-contradictory but expresses a profound truth." },
+                { q: "What is the etymological root of the word 'sycophant'?", options: ["One who flatters for gain", "One who shows figs (in ancient Greek legal disputes)", "A seeker of wisdom", "A tax collector"], answer: 1, explanation: "Correct! Historically linked to ancient Greek informers accusing illegal fig exporters ('sycophantes')." },
+                { q: "Identify the subjunctive mood in formal English syntax:", options: ["If I was you...", "If I were you...", "If I am you...", "If I will be you..."], answer: 1, explanation: "Correct! In hypothetical counterfactuals, standard formal English requires the subjunctive 'were'." },
+                { q: "What does the literary device 'tmesis' involve?", options: ["Overstating a claim for effect", "Inserting a word inside another compound word for emphasis", "Omission of conjunctions", "Repetition of initial consonant sounds"], answer: 1, explanation: "Correct! Tmesis is the separation of parts of a compound word (e.g., 'abso-lutely-lutely')." },
+                { q: "Which term denotes the substitution of a mild expression for one considered too direct or harsh?", options: ["Dysphemism", "Euphemism", "Metonymy", "Synecdoche"], answer: 1, explanation: "Correct! A euphemism softens harsh or direct terminology." }
+            ]
+        };
+
+        let currentUser = null;
+        let isSignUpMode = false;
+        let currentLevel = 'kids';
+        let currentQuestions = [];
+        let currentIndex = 0;
+        let score = 0;
+        let streak = 0;
+        let totalScore = 0;
+
+        auth.onAuthStateChanged(user => {
+            const authScreen = document.getElementById('screen-auth');
+            const levelScreen = document.getElementById('screen-levels');
+            const mainHeader = document.getElementById('main-header');
+
+            if (user) {
+                currentUser = user;
+                authScreen.classList.add('hidden');
+                levelScreen.classList.remove('hidden');
+                mainHeader.classList.remove('hidden');
+                mainHeader.classList.add('flex');
+                document.getElementById('user-display-email').textContent = user.email.split('@')[0];
+                loadUserData(user.uid);
+            } else {
+                currentUser = null;
+                mainHeader.classList.add('hidden');
+                mainHeader.classList.remove('flex');
+                levelScreen.classList.add('hidden');
+                document.getElementById('screen-quiz').classList.add('hidden');
+                document.getElementById('screen-results').classList.add('hidden');
+                authScreen.classList.remove('hidden');
+            }
+        });
+
+        function toggleAuthMode() {
+            isSignUpMode = !isSignUpMode;
+            document.getElementById('auth-title').textContent = isSignUpMode ? "Create Account" : "Welcome to WordCraft";
+            document.getElementById('auth-submit-btn').textContent = isSignUpMode ? "Sign Up" : "Sign In";
+            document.getElementById('auth-toggle-text').textContent = isSignUpMode ? "Already have an account?" : "Don't have an account?";
+            document.getElementById('auth-toggle-btn').textContent = isSignUpMode ? "Sign in" : "Create one";
+            document.getElementById('auth-error').classList.add('hidden');
+        }
+
+        async function handleAuth(event) {
+            event.preventDefault();
+            const email = document.getElementById('auth-email').value;
+            const password = document.getElementById('auth-password').value;
+            const errBox = document.getElementById('auth-error');
+            errBox.classList.add('hidden');
+
+            try {
+                if (isSignUpMode) {
+                    const cred = await auth.createUserWithEmailAndPassword(email, password);
+                    await db.collection('users').doc(cred.user.uid).set({
+                        email: email,
+                        score: 0,
+                        streak: 0,
+                        updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+                    });
+                } else {
+                    await auth.signInWithEmailAndPassword(email, password);
+                }
+            } catch (error) {
+                errBox.textContent = error.message;
+                errBox.classList.remove('hidden');
+            }
+        }
+
+        function logoutUser() {
+            auth.signOut();
+        }
+
+        async function loadUserData(uid) {
+            try {
+                const docRef = await db.collection('users').doc(uid).get();
+                if (docRef.exists) {
+                    const data = docRef.data();
+                    totalScore = data.score || 0;
+                    streak = data.streak || 0;
+                    document.getElementById('header-score').textContent = totalScore;
+                    document.getElementById('header-streak').textContent = streak;
+                }
+            } catch (e) {
+                console.error("Error loading user data:", e);
+            }
+        }
+
+        async function saveUserDataToCloud() {
+            if (!currentUser) return;
+            try {
+                await db.collection('users').doc(currentUser.uid).set({
+                    email: currentUser.email,
+                    score: totalScore,
+                    streak: streak,
+                    updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+                }, { merge: true });
+            } catch (e) {
+                console.error("Error saving data:", e);
+            }
+        }
+
+        function selectLevel(level) {
+            currentLevel = level;
+            currentQuestions = questionBank[level];
+            currentIndex = 0;
+            score = 0;
+
+            document.getElementById('screen-levels').classList.add('hidden');
+            document.getElementById('screen-quiz').classList.remove('hidden');
+            
+            const badges = {
+                kids: "🧸 Kids Explorer",
+                teens: "⚡ Teens & Everyday",
+                advanced: "🎓 Advanced Scholar",
+                expert: "🔥 Expert Hardcore"
+            };
+            document.getElementById('quiz-level-badge').textContent = badges[level];
+
+            loadQuestion();
+        }
+
+        function loadQuestion() {
+            const q = currentQuestions[currentIndex];
+            document.getElementById('question-counter').textContent = `Question ${currentIndex + 1} of ${currentQuestions.length}`;
+            document.getElementById('progress-bar').style.width = `${((currentIndex + 1) / currentQuestions.length) * 100}%`;
+            document.getElementById('question-text').textContent = q.q;
+
+            const optionsContainer = document.getElementById('options-container');
+            optionsContainer.innerHTML = '';
+
+            q.options.forEach((opt, index) => {
+                const btn = document.createElement('button');
+                btn.className = "w-full p-4 rounded-xl bg-slate-50 hover:bg-slate-100 border border-slate-200 text-left font-medium text-slate-800 transition flex items-center justify-between";
+                btn.innerHTML = `<span>${opt}</span> <span class="w-6 h-6 rounded-lg bg-white border border-slate-300 flex items-center justify-center text-xs text-slate-500">${String.fromCharCode(65 + index)}</span>`;
+                btn.onclick = () => selectAnswer(index, btn);
+                optionsContainer.appendChild(btn);
+            });
+
+            document.getElementById('explanation-box').classList.add('hidden');
+            document.getElementById('next-btn').classList.add('hidden');
+        }
+
+        function selectAnswer(selectedIndex, selectedBtn) {
+            const q = currentQuestions[currentIndex];
+            const options = document.getElementById('options-container').children;
+
+            for (let btn of options) {
+                btn.disabled = true;
+                btn.classList.add('opacity-75', 'cursor-not-allowed');
+            }
+
+            const explanationBox = document.getElementById('explanation-box');
+            explanationBox.classList.remove('hidden');
+
+            if (selectedIndex === q.answer) {
+                selectedBtn.classList.remove('bg-slate-50', 'border-slate-200');
+                selectedBtn.classList.add('bg-emerald-50', 'border-emerald-300', 'text-emerald-800');
+                explanationBox.className = "p-4 rounded-xl text-sm border bg-emerald-50 border-emerald-200 text-emerald-800 slide-in";
+                explanationBox.innerHTML = `<strong>Correct!</strong> ${q.explanation}`;
+                score += 20;
+            } else {
+                selectedBtn.classList.remove('bg-slate-50', 'border-slate-200');
+                selectedBtn.classList.add('bg-rose-50', 'border-rose-300', 'text-rose-800');
+                options[q.answer].classList.remove('bg-slate-50', 'border-slate-200');
+                options[q.answer].classList.add('bg-emerald-50', 'border-emerald-300', 'text-emerald-800');
+                explanationBox.className = "p-4 rounded-xl text-sm border bg-rose-50 border-rose-200 text-rose-800 slide-in";
+                explanationBox.innerHTML = `<strong>Incorrect.</strong> ${q.explanation}`;
+            }
+
+            document.getElementById('next-btn').classList.remove('hidden');
+        }
+
+        function nextQuestion() {
+            currentIndex++;
+            if (currentIndex < currentQuestions.length) {
+                loadQuestion();
+            } else {
+                showResults();
+            }
+        }
+
+        function showResults() {
+            document.getElementById('screen-quiz').classList.add('hidden');
+            document.getElementById('screen-results').classList.remove('hidden');
+
+            document.getElementById('final-score').textContent = score;
+            document.getElementById('final-correct').textContent = `${score / 20}/${currentQuestions.length}`;
+
+            totalScore += score;
+            streak += 1;
+
+            document.getElementById('header-score').textContent = totalScore;
+            document.getElementById('header-streak').textContent = streak;
+
+            saveUserDataToCloud();
+        }
+
+        function restartQuiz() {
+            selectLevel(currentLevel);
+            document.getElementById('screen-results').classList.add('hidden');
+            document.getElementById('screen-quiz').classList.remove('hidden');
+        }
+
+        function goHome() {
+            document.getElementById('screen-results').classList.add('hidden');
+            document.getElementById('screen-quiz').classList.add('hidden');
+            document.getElementById('screen-levels').classList.remove('hidden');
+        }
+
+        async function showLeaderboard() {
+            const listContainer = document.getElementById('leaderboard-list');
+            listContainer.innerHTML = '<p class="text-center text-xs text-slate-500 py-4">Loading top players...</p>';
+            
+            document.getElementById('modal-leaderboard').classList.remove('hidden');
+            document.getElementById('modal-leaderboard').classList.add('flex');
+
+            try {
+                const snapshot = await db.collection('users').orderBy('score', 'desc').limit(10).get();
+                listContainer.innerHTML = '';
+
+                if (snapshot.empty) {
+                    listContainer.innerHTML = '<p class="text-center text-xs text-slate-500 py-4">No scores recorded yet.</p>';
+                    return;
+                }
+
+                let rank = 1;
+                snapshot.forEach(doc => {
+                    const data = doc.data();
+                    const emailName = data.email ? data.email.split('@')[0] : 'Anonymous';
+                    const isYou = currentUser && doc.id === currentUser.uid;
+
+                    const row = document.createElement('div');
+                    row.className = `flex items-center justify-between p-3 rounded-2xl border ${isYou ? 'bg-indigo-50 border-indigo-200' : 'bg-slate-50 border-slate-200'}`;
+                    row.innerHTML = `
+                        <div class="flex items-center space-x-3">
+                            <span class="font-bold text-amber-500">${rank}</span>
+                            <span class="font-semibold text-sm text-slate-800">${emailName} ${isYou ? '(You)' : ''}</span>
+                        </div>
+                        <span class="text-xs font-bold text-indigo-600 bg-indigo-100 px-2.5 py-1 rounded-lg">${data.score || 0} pts</span>
+                    `;
+                    listContainer.appendChild(row);
+                    rank++;
+                });
+            } catch (e) {
+                listContainer.innerHTML = '<p class="text-center text-xs text-rose-500 py-4">Error loading leaderboard.</p>';
+            }
+        }
+
+        function closeLeaderboard() {
+            document.getElementById('modal-leaderboard').classList.remove('flex');
+            document.getElementById('modal-leaderboard').classList.add('hidden');
+        }
+    </script>
+</body>
+</html>
