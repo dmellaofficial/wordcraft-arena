@@ -125,7 +125,7 @@
             </div>
         </div>
 
-              <!-- SCREEN 1: LEVEL SELECTION -->
+                      <!-- SCREEN 1: LEVEL SELECTION -->
         <div id="screen-levels" class="slide-in hidden space-y-4">
             <div class="text-center space-y-2 mb-6">
                 <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900">Choose Your Challenge</h2>
@@ -139,7 +139,7 @@
                         ★
                     </div>
                     <div>
-                        <h3 class="font-bold text-lg text-slate-900 group-hover:text-emerald-600 transition">Basic</h3>
+                        <h3 class="font-extrabold text-xl text-slate-900 group-hover:text-emerald-600 transition">Basic</h3>
                     </div>
                 </button>
 
@@ -149,7 +149,7 @@
                         ★★
                     </div>
                     <div>
-                        <h3 class="font-bold text-lg text-slate-900 group-hover:text-indigo-600 transition">Intermediate</h3>
+                        <h3 class="font-extrabold text-xl text-slate-900 group-hover:text-indigo-600 transition">Intermediate</h3>
                     </div>
                 </button>
 
@@ -160,7 +160,7 @@
                         <div>★</div>
                     </div>
                     <div>
-                        <h3 class="font-bold text-lg text-slate-900 group-hover:text-purple-600 transition">Advanced</h3>
+                        <h3 class="font-extrabold text-xl text-slate-900 group-hover:text-purple-600 transition">Advanced</h3>
                     </div>
                 </button>
 
@@ -171,7 +171,109 @@
                         <div>★ ★</div>
                     </div>
                     <div>
-                        <h3 class="font-bold text-lg text-slate-900 group-hover:text-rose-600 transition">Expert</h3>
+                        <h3 class="font-extrabold text-xl text-slate-900 group-hover:text-rose-600 transition">Expert</h3>
+                    </div>
+                </button>
+            </div>
+        </div>
+        <!-- SCREEN 1: LEVEL SELECTION -->
+        <div id="screen-levels" class="slide-in hidden space-y-4">
+            <div class="text-center space-y-2 mb-6">
+                <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900">Choose Your Challenge</h2>
+                <p class="text-sm text-slate-500">Select your skill tier to begin your linguistic journey.</p>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+                <!-- Basic (1 Star) -->
+                <button onclick="selectLevel('basic')" class="group p-5 bg-white hover:bg-slate-50 border border-slate-200 hover:border-emerald-400 rounded-2xl text-left transition shadow-sm flex items-center space-x-4">
+                    <div class="w-14 h-14 rounded-xl bg-amber-50 text-amber-500 flex items-center justify-center text-2xl group-hover:scale-110 transition shadow-inner shrink-0">
+                        ★
+                    </div>
+                    <div>
+                        <h3 class="font-extrabold text-xl text-slate-900 group-hover:text-emerald-600 transition">Basic</h3>
+                    </div>
+                </button>
+
+                <!-- Intermediate (2 Stars) -->
+                <button onclick="selectLevel('teens')" class="group p-5 bg-white hover:bg-slate-50 border border-slate-200 hover:border-indigo-400 rounded-2xl text-left transition shadow-sm flex items-center space-x-4">
+                    <div class="w-14 h-14 rounded-xl bg-amber-50 text-amber-500 flex items-center justify-center text-xl group-hover:scale-110 transition shadow-inner shrink-0 tracking-wider">
+                        ★★
+                    </div>
+                    <div>
+                        <h3 class="font-extrabold text-xl text-slate-900 group-hover:text-indigo-600 transition">Intermediate</h3>
+                    </div>
+                </button>
+
+                <!-- Advanced (3 Stars) -->
+                <button onclick="selectLevel('advanced')" class="group p-5 bg-white hover:bg-slate-50 border border-slate-200 hover:border-purple-400 rounded-2xl text-left transition shadow-sm flex items-center space-x-4">
+                    <div class="w-14 h-14 rounded-xl bg-amber-50 text-amber-500 flex flex-col items-center justify-center text-base group-hover:scale-110 transition shadow-inner shrink-0 leading-tight p-1">
+                        <div>★ ★</div>
+                        <div>★</div>
+                    </div>
+                    <div>
+                        <h3 class="font-extrabold text-xl text-slate-900 group-hover:text-purple-600 transition">Advanced</h3>
+                    </div>
+                </button>
+
+                <!-- Expert (4 Stars) -->
+                <button onclick="selectLevel('expert')" class="group p-5 bg-white hover:bg-slate-50 border border-slate-200 hover:border-rose-400 rounded-2xl text-left transition shadow-sm flex items-center space-x-4">
+                    <div class="w-14 h-14 rounded-xl bg-amber-50 text-amber-500 flex flex-col items-center justify-center text-base group-hover:scale-110 transition shadow-inner shrink-0 leading-tight p-1">
+                        <div>★ ★</div>
+                        <div>★ ★</div>
+                    </div>
+                    <div>
+                        <h3 class="font-extrabold text-xl text-slate-900 group-hover:text-rose-600 transition">Expert</h3>
+                    </div>
+                </button>
+            </div>
+        </div>
+        <!-- SCREEN 1: LEVEL SELECTION -->
+        <div id="screen-levels" class="slide-in hidden space-y-4">
+            <div class="text-center space-y-2 mb-6">
+                <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900">Choose Your Challenge</h2>
+                <p class="text-sm text-slate-500">Select your skill tier to begin your linguistic journey.</p>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+                <!-- Basic (1 Star) -->
+                <button onclick="selectLevel('basic')" class="group p-5 bg-white hover:bg-slate-50 border border-slate-200 hover:border-emerald-400 rounded-2xl text-left transition shadow-sm flex items-center space-x-4">
+                    <div class="w-14 h-14 rounded-xl bg-amber-50 text-amber-500 flex items-center justify-center text-2xl group-hover:scale-110 transition shadow-inner shrink-0">
+                        ★
+                    </div>
+                    <div>
+                        <h3 class="font-extrabold text-xl text-slate-900 group-hover:text-emerald-600 transition">Basic</h3>
+                    </div>
+                </button>
+
+                <!-- Intermediate (2 Stars) -->
+                <button onclick="selectLevel('teens')" class="group p-5 bg-white hover:bg-slate-50 border border-slate-200 hover:border-indigo-400 rounded-2xl text-left transition shadow-sm flex items-center space-x-4">
+                    <div class="w-14 h-14 rounded-xl bg-amber-50 text-amber-500 flex items-center justify-center text-xl group-hover:scale-110 transition shadow-inner shrink-0 tracking-wider">
+                        ★★
+                    </div>
+                    <div>
+                        <h3 class="font-extrabold text-xl text-slate-900 group-hover:text-indigo-600 transition">Intermediate</h3>
+                    </div>
+                </button>
+
+                <!-- Advanced (3 Stars) -->
+                <button onclick="selectLevel('advanced')" class="group p-5 bg-white hover:bg-slate-50 border border-slate-200 hover:border-purple-400 rounded-2xl text-left transition shadow-sm flex items-center space-x-4">
+                    <div class="w-14 h-14 rounded-xl bg-amber-50 text-amber-500 flex flex-col items-center justify-center text-base group-hover:scale-110 transition shadow-inner shrink-0 leading-tight p-1">
+                        <div>★ ★</div>
+                        <div>★</div>
+                    </div>
+                    <div>
+                        <h3 class="font-extrabold text-xl text-slate-900 group-hover:text-purple-600 transition">Advanced</h3>
+                    </div>
+                </button>
+
+                <!-- Expert (4 Stars) -->
+                <button onclick="selectLevel('expert')" class="group p-5 bg-white hover:bg-slate-50 border border-slate-200 hover:border-rose-400 rounded-2xl text-left transition shadow-sm flex items-center space-x-4">
+                    <div class="w-14 h-14 rounded-xl bg-amber-50 text-amber-500 flex flex-col items-center justify-center text-base group-hover:scale-110 transition shadow-inner shrink-0 leading-tight p-1">
+                        <div>★ ★</div>
+                        <div>★ ★</div>
+                    </div>
+                    <div>
+                        <h3 class="font-extrabold text-xl text-slate-900 group-hover:text-rose-600 transition">Expert</h3>
                     </div>
                 </button>
             </div>
