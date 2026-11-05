@@ -255,3 +255,23 @@ function goHome() {
     if (quizView) quizView.classList.add('hidden');
     if (levelsView) levelsView.classList.remove('hidden');
 }
+/**
+ * Loads user score and streak data from Firebase Firestore upon authentication
+ */
+async function loadUserData(uid) {
+    if (typeof db === 'undefined') return;
+    try {
+        const docRef = await db.collection('users').doc(uid).get();
+        if (docRef.exists) {
+            const data = docRef.data();
+            const headerScore = document.getElementById('header-score');
+            const headerStreak = document.getElementById('header-streak');
+
+            if (headerScore) headerScore.textContent = data.score || 0;
+            if (headerStreak) headerStreak.textContent = data.streak || 0;
+            console.log("User data successfully loaded from cloud.");
+        }
+    } catch (e) {
+        console.error("Error loading user data:", e);
+    }
+}
