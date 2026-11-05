@@ -246,8 +246,14 @@
         WordCraft & Grammar Arena • Cloud-Synced Learning Hub
     </footer>
 
-    <!-- EXTERNAL QUESTIONS FILE -->
-   <script src="questions.js?v=2.0"></script>
+    <!-- SEPARATED QUESTION FILES -->
+    <script src="basic-questions.js?v=2.0"></script>
+    <script src="teens-questions.js?v=2.0"></script>
+    <script src="advanced-questions.js?v=2.0"></script>
+    <script src="expert-questions.js?v=2.0"></script>
+
+    <!-- MAIN GAME LOGIC & FIREBASE SCRIPT -->
+    <script src="scripts.js?v=2.0"></script>
 
     <!-- Firebase Configuration & App Logic -->
     <script>
@@ -390,13 +396,13 @@
             currentLevel = level;
             
             if (level === 'basic') {
-                currentQuestions = getRandomQuestions(questionBank.basic, 10);
+                currentQuestions = getRandomQuestions(basicQuestions, 10);
             } else if (level === 'teens') {
-                currentQuestions = getRandomQuestions(questionBank.teens, 10);
+                currentQuestions = getRandomQuestions(teensQuestions, 10);
             } else if (level === 'advanced') {
-                currentQuestions = getRandomQuestions(questionBank.advanced, 10);
+                currentQuestions = getRandomQuestions(advancedQuestions, 10);
             } else if (level === 'expert') {
-                currentQuestions = getRandomQuestions(questionBank.expert, 10);
+                currentQuestions = getRandomQuestions(expertQuestions, 10);
             }
 
             currentIndex = 0;
