@@ -41,6 +41,13 @@ function getShuffledSessionQuestions(rawPool, count = 10) {
 }
 
 /**
+ * Bridge function matching the HTML button call
+ */
+function selectLevel(categoryKey) {
+    startQuiz(categoryKey);
+}
+
+/**
  * Starts a quiz session for a selected difficulty tier using the separated question pools.
  */
 function startQuiz(categoryKey) {
@@ -61,7 +68,6 @@ function startQuiz(categoryKey) {
     }
 
     currentCategory = categoryKey;
-    // Pulls 10 randomized, fully shuffled questions with scrambled options per session
     currentQuestions = getShuffledSessionQuestions(rawPool, 10);
     currentQuestionIndex = 0;
     score = 0;
@@ -190,9 +196,9 @@ function nextQuestion() {
 }
 
 /**
- * Displays final results
+ * Displays final results, updates header stats, and saves scores to Firebase Firestore
  */
-function showResults() {
+async function showResults() {
     const quizView = document.getElementById('screen-quiz');
     const resultsView = document.getElementById('screen-results');
     
@@ -204,6 +210,34 @@ function showResults() {
 
     if (finalScore) finalScore.textContent = score;
     if (finalCorrect) finalCorrect.textContent = `${score / 20}/${currentQuestions.length}`;
+
+    // Update local UI header counters
+    const headerScoreEl = document.getElementById('header-score');
+    const headerStreakEl = document.getElementById('header-streak');
+
+    let currentTotalScore = parseInt(headerScoreEl ? headerScoreEl.textContent : 0) || 0;
+    let currentStreak = parseInt(headerStreakEl ? headerStreakEl.textContent : 0) || 0;
+
+    currentTotalScore += score;
+    currentStreak += 1;
+
+    if (headerScoreEl) headerScoreEl.textContent = currentTotalScore;
+    if (headerStreakEl) headerStreakEl.textContent = currentStreak;
+
+    // Save securely to Firebase Firestore cloud
+    if (typeof auth !== 'undefined' && auth.currentUser) {
+        try {
+            await db.collection('users').doc(auth.currentUser.uid).set({
+                email: auth.currentUser.email,
+                score: currentTotalScore,
+                streak: currentStreak,
+                updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+            }, { merge: true });
+            console.log("Score successfully synced to cloud!");
+        } catch (e) {
+            console.error("Error saving score to cloud:", e);
+        }
+    }
 }
 
 function restartQuiz() {
@@ -220,8 +254,4 @@ function goHome() {
     if (resultsView) resultsView.classList.add('hidden');
     if (quizView) quizView.classList.add('hidden');
     if (levelsView) levelsView.classList.remove('hidden');
-}
-// Add this bridge function into your script.js file
-function selectLevel(levelKey) {
-    startQuiz(levelKey);
 }
