@@ -354,19 +354,24 @@
         }
 
         async function loadUserData(uid) {
-            try {
-                const docRef = await db.collection('users').doc(uid).get();
-                if (docRef.exists) {
-                    const data = docRef.data();
-                    totalScore = data.score || 0;
-                    streak = data.streak || 0;
-                    document.getElementById('header-score').textContent = totalScore;
-                    document.getElementById('header-streak').textContent = streak;
-                }
-            } catch (e) {
-                console.log("Error loading user data:", e);
-            }
+    if (typeof db === 'undefined') return;
+    try {
+        const docRef = await db.collection('users').doc(uid).get();
+        if (docRef.exists) {
+            const data = docRef.data();
+            totalScore = data.score || 0;
+            streak = data.streak || 0;
+            
+            const headerScore = document.getElementById('header-score');
+            const headerStreak = document.getElementById('header-streak');
+            if (headerScore) headerScore.textContent = totalScore;
+            if (headerStreak) headerStreak.textContent = streak;
         }
+    } catch (e) {
+        console.error("Error loading user data:", e);
+    }
+}
+
 
         async function showLeaderboard() {
             const listContainer = document.getElementById('leaderboard-list');
