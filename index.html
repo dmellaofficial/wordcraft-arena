@@ -46,6 +46,12 @@
 </head>
 <body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col items-center justify-between p-4 sm:p-6">
 
+    <!-- Loading Splash Overlay (Prevents flashing/looping view bugs on refresh) -->
+    <div id="app-loader" class="fixed inset-0 bg-slate-50 flex flex-col items-center justify-center z-50 space-y-3">
+        <div class="w-12 h-12 border-4 border-indigo-600 border-t-transparent rounded-full animate-spin"></div>
+        <p class="text-xs font-semibold text-slate-500 tracking-wide">Syncing WordCraft Arena...</p>
+    </div>
+
     <!-- Header / Navbar -->
     <header id="main-header" class="w-full max-w-2xl hidden items-center justify-between py-3 px-4 bg-white/90 backdrop-blur-md rounded-2xl border border-slate-200 shadow-sm">
         <div class="flex items-center space-x-3">
@@ -81,7 +87,7 @@
     <main class="w-full max-w-2xl my-auto py-4">
         
         <!-- SCREEN 0: AUTHENTICATION -->
-        <div id="screen-auth" class="slide-in space-y-6 max-w-md mx-auto bg-white border border-slate-200 p-6 sm:p-8 rounded-3xl shadow-xl">
+        <div id="screen-auth" class="slide-in hidden space-y-6 max-w-md mx-auto bg-white border border-slate-200 p-6 sm:p-8 rounded-3xl shadow-xl">
             <div class="text-center space-y-2">
                 <div class="w-14 h-14 bg-indigo-50 border border-indigo-100 text-indigo-600 rounded-2xl flex items-center justify-center text-2xl mx-auto shadow-inner mb-2">
                     🔐
@@ -247,13 +253,13 @@
     </footer>
 
     <!-- 1. LOAD SEPARATED QUESTION POOLS FIRST -->
-    <script src="basic-questions.js?v=4.0"></script>
-    <script src="teens-questions.js?v=4.0"></script>
-    <script src="advanced-questions.js?v=4.0"></script>
-    <script src="expert-questions.js?v=4.0"></script>
+    <script src="basic-questions.js?v=5.0"></script>
+    <script src="teens-questions.js?v=5.0"></script>
+    <script src="advanced-questions.js?v=5.0"></script>
+    <script src="expert-questions.js?v=5.0"></script>
 
     <!-- 2. MAIN GAME LOGIC SCRIPT SECOND -->
-    <script src="script.js?v=4.0"></script>
+    <script src="script.js?v=5.0"></script>
 
     <!-- 3. FIREBASE CONFIG & AUTH/UI HANDLERS LAST -->
     <script>
@@ -288,11 +294,15 @@
         let totalScore = 0;
         let streak = 0;
 
-                    // Track auth state securely without flashing screens
+        // Track auth state securely with loader dismissal to stop flickering/loops
         auth.onAuthStateChanged(async user => {
             const authScreen = document.getElementById('screen-auth');
             const levelScreen = document.getElementById('screen-levels');
             const mainHeader = document.getElementById('main-header');
+            const appLoader = document.getElementById('app-loader');
+
+            // Hide the splash loader instantly when Firebase responds
+            if (appLoader) appLoader.classList.add('hidden');
 
             if (user) {
                 currentUser = user;
@@ -302,7 +312,7 @@
                 mainHeader.classList.add('flex');
                 document.getElementById('user-display-email').textContent = user.email.split('@')[0];
                 
-                // Fetch the user's saved score from Firestore immediately
+                // Fetch the user's saved score and streak from Firestore immediately
                 await loadUserData(user.uid);
             } else {
                 currentUser = null;
@@ -354,24 +364,23 @@
         }
 
         async function loadUserData(uid) {
-    if (typeof db === 'undefined') return;
-    try {
-        const docRef = await db.collection('users').doc(uid).get();
-        if (docRef.exists) {
-            const data = docRef.data();
-            totalScore = data.score || 0;
-            streak = data.streak || 0;
-            
-            const headerScore = document.getElementById('header-score');
-            const headerStreak = document.getElementById('header-streak');
-            if (headerScore) headerScore.textContent = totalScore;
-            if (headerStreak) headerStreak.textContent = streak;
+            if (typeof db === 'undefined') return;
+            try {
+                const docRef = await db.collection('users').doc(uid).get();
+                if (docRef.exists) {
+                    const data = docRef.data();
+                    totalScore = data.score || 0;
+                    streak = data.streak || 0;
+                    
+                    const headerScore = document.getElementById('header-score');
+                    const headerStreak = document.getElementById('header-streak');
+                    if (headerScore) headerScore.textContent = totalScore;
+                    if (headerStreak) headerStreak.textContent = streak;
+                }
+            } catch (e) {
+                console.error("Error loading user data:", e);
+            }
         }
-    } catch (e) {
-        console.error("Error loading user data:", e);
-    }
-}
-
 
         async function showLeaderboard() {
             const listContainer = document.getElementById('leaderboard-list');
