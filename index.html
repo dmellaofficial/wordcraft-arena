@@ -288,7 +288,8 @@
         let totalScore = 0;
         let streak = 0;
 
-        auth.onAuthStateChanged(user => {
+                    // Track auth state securely without flashing screens
+        auth.onAuthStateChanged(async user => {
             const authScreen = document.getElementById('screen-auth');
             const levelScreen = document.getElementById('screen-levels');
             const mainHeader = document.getElementById('main-header');
@@ -300,7 +301,9 @@
                 mainHeader.classList.remove('hidden');
                 mainHeader.classList.add('flex');
                 document.getElementById('user-display-email').textContent = user.email.split('@')[0];
-                loadUserData(user.uid);
+                
+                // Fetch the user's saved score from Firestore immediately
+                await loadUserData(user.uid);
             } else {
                 currentUser = null;
                 mainHeader.classList.add('hidden');
