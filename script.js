@@ -196,7 +196,7 @@ function nextQuestion() {
 }
 
 /**
- * Displays final results, updates header stats, and saves scores to Firebase Firestore
+ * Displays final results, updates header stats, and saves cumulative scores to Firebase Firestore
  */
 async function showResults() {
     const quizView = document.getElementById('screen-quiz');
@@ -211,21 +211,23 @@ async function showResults() {
     if (finalScore) finalScore.textContent = score;
     if (finalCorrect) finalCorrect.textContent = `${score / 20}/${currentQuestions.length}`;
 
-    // Update local UI header counters
+    // Read current total from the header element safely
     const headerScoreEl = document.getElementById('header-score');
     const headerStreakEl = document.getElementById('header-streak');
 
     let currentTotalScore = parseInt(headerScoreEl ? headerScoreEl.textContent : 0) || 0;
     let currentStreak = parseInt(headerStreakEl ? headerStreakEl.textContent : 0) || 0;
 
+    // Add session score to cumulative total
     currentTotalScore += score;
     currentStreak += 1;
 
+    // Update UI immediately
     if (headerScoreEl) headerScoreEl.textContent = currentTotalScore;
     if (headerStreakEl) headerStreakEl.textContent = currentStreak;
 
-    // Save securely to Firebase Firestore cloud
-    if (typeof auth !== 'undefined' && auth.currentUser) {
+    // Push secure update to Firebase Firestore cloud database
+    if (typeof auth !== 'undefined' && auth.currentUser && typeof db !== 'undefined') {
         try {
             await db.collection('users').doc(auth.currentUser.uid).set({
                 email: auth.currentUser.email,
@@ -233,7 +235,7 @@ async function showResults() {
                 streak: currentStreak,
                 updatedAt: firebase.firestore.FieldValue.serverTimestamp()
             }, { merge: true });
-            console.log("Score successfully synced to cloud!");
+            console.log("Cumulative score successfully saved to cloud!");
         } catch (e) {
             console.error("Error saving score to cloud:", e);
         }
@@ -254,24 +256,4 @@ function goHome() {
     if (resultsView) resultsView.classList.add('hidden');
     if (quizView) quizView.classList.add('hidden');
     if (levelsView) levelsView.classList.remove('hidden');
-}
-/**
- * Loads user score and streak data from Firebase Firestore upon authentication
- */
-async function loadUserData(uid) {
-    if (typeof db === 'undefined') return;
-    try {
-        const docRef = await db.collection('users').doc(uid).get();
-        if (docRef.exists) {
-            const data = docRef.data();
-            const headerScore = document.getElementById('header-score');
-            const headerStreak = document.getElementById('header-streak');
-
-            if (headerScore) headerScore.textContent = data.score || 0;
-            if (headerStreak) headerStreak.textContent = data.streak || 0;
-            console.log("User data successfully loaded from cloud.");
-        }
-    } catch (e) {
-        console.error("Error loading user data:", e);
-    }
 }
