@@ -247,13 +247,13 @@
     </footer>
 
     <!-- 1. LOAD SEPARATED QUESTION POOLS FIRST -->
-    <script src="basic-questions.js?v=3.0"></script>
-    <script src="teens-questions.js?v=3.0"></script>
-    <script src="advanced-questions.js?v=3.0"></script>
-    <script src="expert-questions.js?v=3.0"></script>
+    <script src="basic-questions.js?v=4.0"></script>
+    <script src="teens-questions.js?v=4.0"></script>
+    <script src="advanced-questions.js?v=4.0"></script>
+    <script src="expert-questions.js?v=4.0"></script>
 
     <!-- 2. MAIN GAME LOGIC SCRIPT SECOND -->
-    <script src="script.js?v=3.0"></script>
+    <script src="script.js?v=4.0"></script>
 
     <!-- 3. FIREBASE CONFIG & AUTH/UI HANDLERS LAST -->
     <script>
@@ -285,12 +285,8 @@
 
         let currentUser = null;
         let isSignUpMode = false;
-        let currentLevel = 'basic';
-        let currentQuestions = [];
-        let currentIndex = 0;
-        let score = 0;
-        let streak = 0;
         let totalScore = 0;
+        let streak = 0;
 
         auth.onAuthStateChanged(user => {
             const authScreen = document.getElementById('screen-auth');
@@ -367,149 +363,6 @@
             } catch (e) {
                 console.log("Error loading user data:", e);
             }
-        }
-
-        async function saveUserDataToCloud() {
-            if (!currentUser) return;
-            try {
-                await db.collection('users').doc(currentUser.uid).set({
-                    email: currentUser.email,
-                    score: totalScore,
-                    streak: streak,
-                    updatedAt: firebase.firestore.FieldValue.serverTimestamp()
-                }, { merge: true });
-            } catch (e) {
-                console.error("Error saving data:", e);
-            }
-        }
-
-        function getRandomQuestions(array, count) {
-            let shuffled = [...array];
-            for (let i = shuffled.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
-            }
-            return shuffled.slice(0, count);
-        }
-
-        function selectLevel(level) {
-            currentLevel = level;
-            
-            if (level === 'basic') {
-                currentQuestions = getRandomQuestions(basicQuestions, 10);
-            } else if (level === 'teens') {
-                currentQuestions = getRandomQuestions(teensQuestions, 10);
-            } else if (level === 'advanced') {
-                currentQuestions = getRandomQuestions(advancedQuestions, 10);
-            } else if (level === 'expert') {
-                currentQuestions = getRandomQuestions(expertQuestions, 10);
-            }
-
-            currentIndex = 0;
-            score = 0;
-
-            document.getElementById('screen-levels').classList.add('hidden');
-            document.getElementById('screen-quiz').classList.remove('hidden');
-            
-            The badges = {
-                basic: "🌱 Basic (10 Qs)",
-                teens: "⚡ Intermediate (10 Qs)",
-                advanced: "🎓 Advanced Scholar (10 Qs)",
-                expert: "🔥 Expert (10 Qs)"
-            };
-            document.getElementById('quiz-level-badge').textContent = badges[level];
-
-            loadQuestion();
-        }
-
-        function loadQuestion() {
-            const q = currentQuestions[currentIndex];
-            const totalQ = currentQuestions.length;
-            document.getElementById('question-counter').textContent = `Question ${currentIndex + 1} of ${totalQ}`;
-            document.getElementById('progress-bar').style.width = `${((currentIndex + 1) / totalQ) * 100}%`;
-            document.getElementById('question-text').textContent = q.q;
-
-            const optionsContainer = document.getElementById('options-container');
-            optionsContainer.innerHTML = '';
-
-            q.options.forEach((opt, index) => {
-                const btn = document.createElement('button');
-                btn.className = "w-full p-4 rounded-xl bg-slate-50 hover:bg-slate-100 border border-slate-200 text-left font-medium text-slate-800 transition flex items-center justify-between";
-                btn.innerHTML = `<span>${opt}</span> <span class="w-6 h-6 rounded-lg bg-white border border-slate-300 flex items-center justify-center text-xs text-slate-500">${String.fromCharCode(65 + index)}</span>`;
-                btn.onclick = () => selectAnswer(index, btn);
-                optionsContainer.appendChild(btn);
-            });
-
-            document.getElementById('explanation-box').classList.add('hidden');
-            document.getElementById('next-btn').classList.add('hidden');
-        }
-
-        function selectAnswer(selectedIndex, selectedBtn) {
-            const q = currentQuestions[currentIndex];
-            const options = document.getElementById('options-container').children;
-
-            for (let btn of options) {
-                btn.disabled = true;
-                btn.classList.add('opacity-75', 'cursor-not-allowed');
-            }
-
-            const explanationBox = document.getElementById('explanation-box');
-            explanationBox.classList.remove('hidden');
-
-            if (selectedIndex === q.answer) {
-                selectedBtn.classList.remove('bg-slate-50', 'border-slate-200');
-                selectedBtn.classList.add('bg-emerald-50', 'border-emerald-300', 'text-emerald-800');
-                explanationBox.className = "p-4 rounded-xl text-sm border bg-emerald-50 border-emerald-200 text-emerald-800 slide-in";
-                explanationBox.innerHTML = `<strong>Correct!</strong> ${q.explanation}`;
-                score += 20;
-            } else {
-                selectedBtn.classList.remove('bg-slate-50', 'border-slate-200');
-                selectedBtn.classList.add('bg-rose-50', 'border-rose-300', 'text-rose-800');
-                options[q.answer].classList.remove('bg-slate-50', 'border-slate-200');
-                options[q.answer].classList.add('bg-emerald-50', 'border-emerald-300', 'text-emerald-800');
-                explanationBox.className = "p-4 rounded-xl text-sm border bg-rose-50 border-rose-200 text-rose-800 slide-in";
-                explanationBox.innerHTML = `<strong>Incorrect.</strong> The correct answer is: ${q.explanation}`;
-            }
-
-            document.getElementById('next-btn').classList.remove('hidden');
-        }
-
-        function nextQuestion() {
-            currentIndex++;
-            if (currentIndex < currentQuestions.length) {
-                loadQuestion();
-            } else {
-                showResults();
-            }
-        }
-
-        function showResults() {
-            document.getElementById('screen-quiz').classList.add('hidden');
-            document.getElementById('screen-results').classList.remove('hidden');
-
-            const totalQ = currentQuestions.length;
-            document.getElementById('final-score').textContent = score;
-            document.getElementById('final-correct').textContent = `${score / 20}/${totalQ}`;
-
-            totalScore += score;
-            streak += 1;
-
-            document.getElementById('header-score').textContent = totalScore;
-            document.getElementById('header-streak').textContent = streak;
-
-            saveUserDataToCloud();
-        }
-
-        function restartQuiz() {
-            selectLevel(currentLevel);
-            document.getElementById('screen-results').classList.add('hidden');
-            document.getElementById('screen-quiz').classList.remove('hidden');
-        }
-
-        function goHome() {
-            document.getElementById('screen-results').classList.add('hidden');
-            document.getElementById('screen-quiz').classList.add('hidden');
-            document.getElementById('screen-levels').classList.remove('hidden');
         }
 
         async function showLeaderboard() {
