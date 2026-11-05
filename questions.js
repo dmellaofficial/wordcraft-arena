@@ -323,7 +323,7 @@ const questionBank = {
         { q: "What is an 'apocope'?", options: ["Dropping the final sound or syllable", "Adding extra letters to a root", "Capitalizing all major words", "Splitting syllables across lines"], answer: 0, explanation: "Apocope is the dropping of the final sound or syllable of a word (e.g., 'photo' from 'photograph')." },
         { q: "What is 'paralipsis' in rhetoric?", options: ["Pretending to omit a topic while highlighting it", "A complete silence during performance", "A formal logical contradiction", "A complex metaphorical comparison"], answer: 0, explanation: "Paralipsis highlights a topic by professing that it will not be mentioned." },
         { q: "What does the term 'diacope' describe?", options: ["Repeating a word with intervening terms", "A sudden pause in poetic meter", "A regional spelling variation", "An incorrect verb agreement"], answer: 0, explanation: "Diacope repeats a word broken up by intervening terms (e.g., 'Put out the light, then put out the light')." },
-        { q: "What is 'antanaclasis'?", options: ["Repeating a word with two distinct meanings", "A grammatical failure in syntax", "A structural stylistic contrast", "An obsolete punctuation mark"], answer: 0, explanation: "Antantanaclasis puns by reusing the exact same word in two distinct contexts." },
+        { q: "What is 'antanaclasis'?", options: ["Repeating a word with two distinct meanings", "A grammatical failure in syntax", "A structural stylistic contrast", "An obsolete punctuation mark"], answer: 0, explanation: "Antanaclasis puns by reusing the exact same word in two distinct contexts." },
         { q: "What does 'asterismos' refer to?", options: ["An introductory focalizing exclamation", "A zodiac constellation reference", "A typographical asterisk printing error", "An incomplete sentence fragment"], answer: 0, explanation: "Asterismos is a rhetorical device using a focalizing word to command focus." },
         { q: "What is 'aporia' in classical debate?", options: ["Expressing simulated doubt or bewilderment", "A definitive closing summary", "A recognized logical fallacy", "A direct personal insult"], answer: 0, explanation: "Aporia stages simulated uncertainty to engage the audience or opponent." },
         { q: "What does 'periphrasis' mean?", options: ["Using roundabout, wordy language", "Speaking with extreme brevity", "Issuing a direct military command", "Providing a literal translation"], answer: 0, explanation: "Periphrasis circumlocutes or talks around a concept." },
@@ -360,13 +360,36 @@ const questionBank = {
         { q: "What is 'gradatio'?", options: ["Ascending ideas chaining terms together", "A descending priority list", "A random conceptual sequence", "A structural text break"], answer: 0, explanation: "Gradatio chains logical steps tightly together in escalation." },
         { q: "What does 'traductio' repeat?", options: ["Repeating a key root in variations", "Only exact matching words", "Foreign loan words", "Verb phrases exclusively"], answer: 0, explanation: "Traductio plays fluid variations across repeating roots." },
         { q: "What is 'ecphrasis'?", options: ["A vivid verbal description of art", "A clinical medical diagnosis", "A quiet whispered aside", "A technical manual guide"], answer: 0, explanation: "Ecphrasis paints word-pictures of visual pieces." },
-        { q: "What does 'enigma' pose?", options: ["An obscure, riddle-like statement", "A clear, factual statement", "A simple math equation", "A direct instruction"], answer: 0, explanation: "Enigmas veil meaning behind riddling syntax." },
-        // ... [Remaining expert questions to complete 100 fully articulated items]
-        ...Array.from({ length: 40 }, (_, i) => ({
-            q: `Expert Master-Tier Classical Challenge #${i + 61}: Identify the precise rhetorical or etymological rule.`,
-            options: ["Classical Rhetorical Definition", "Colloquial Misinterpretation", "Archaic Solecism", "Syntax Exception"],
-            answer: 0,
-            explanation: "Master-tier linguistic evaluation confirms Option 1 aligns precisely with classical standards."
-        }))
+        { q: "What does 'enigma' pose?", options: ["An obscure, riddle-like statement", "A clear, factual statement", "A simple math equation", "A direct instruction"], answer: 0, explanation: "Enigmas veil meaning behind riddling syntax." }
     ]
 };
+
+// ==========================================
+// AUTOMATIC RUNTIME SHUFFLING HELPER
+// ==========================================
+// This function shuffles the options of every question array dynamically 
+// and fixes the 'answer' pointer index so the correct answer is ALWAYS randomized 
+// between A, B, C, and D every single time the user launches a test!
+function getShuffledQuestions(categoryKey) {
+    const questions = questionBank[categoryKey] || [];
+    return questions.map(item => {
+        // Copy options with their original index mapping
+        const indexedOptions = item.options.map((opt, idx) => ({ text: opt, originalIdx: idx }));
+        
+        // Shuffle the options array randomly
+        for (let i = indexedOptions.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [indexedOptions[i], indexedOptions[j]] = [indexedOptions[j], indexedOptions[i]];
+        }
+        
+        // Find where the correct answer ended up after shuffling
+        const newAnswerIndex = indexedOptions.findIndex(opt => opt.originalIdx === item.answer);
+
+        return {
+            q: item.q,
+            options: indexedOptions.map(opt => opt.text),
+            answer: newAnswerIndex,
+            explanation: item.explanation
+        };
+    });
+}
