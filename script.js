@@ -196,7 +196,7 @@ function nextQuestion() {
 }
 
 /**
- * Displays final results, updates header stats, and saves cumulative scores to Firebase Firestore
+ * Displays final results, updates header stats, and securely syncs to Firestore
  */
 async function showResults() {
     const quizView = document.getElementById('screen-quiz');
@@ -211,25 +211,26 @@ async function showResults() {
     if (finalScore) finalScore.textContent = score;
     if (finalCorrect) finalCorrect.textContent = `${score / 20}/${currentQuestions.length}`;
 
-    // Read current total from the header element safely
+    // Read current total from header elements safely
     const headerScoreEl = document.getElementById('header-score');
     const headerStreakEl = document.getElementById('header-streak');
 
     let currentTotalScore = parseInt(headerScoreEl ? headerScoreEl.textContent : 0) || 0;
     let currentStreak = parseInt(headerStreakEl ? headerStreakEl.textContent : 0) || 0;
 
-    // Add session score to cumulative total
+    // Add session score to cumulative totals
     currentTotalScore += score;
     currentStreak += 1;
 
-    // Update UI immediately
+    // Update UI headers immediately
     if (headerScoreEl) headerScoreEl.textContent = currentTotalScore;
     if (headerStreakEl) headerStreakEl.textContent = currentStreak;
 
-    // Push secure update to Firebase Firestore cloud database
+    // Push secure update to Firebase Firestore
     if (typeof auth !== 'undefined' && auth.currentUser && typeof db !== 'undefined') {
         try {
-            await db.collection('users').doc(auth.currentUser.uid).set({
+            const userRef = db.collection('users').doc(auth.currentUser.uid);
+            await userRef.set({
                 email: auth.currentUser.email,
                 score: currentTotalScore,
                 streak: currentStreak,
@@ -239,6 +240,41 @@ async function showResults() {
         } catch (e) {
             console.error("Error saving score to cloud:", e);
         }
+    }
+}
+
+/**
+ * Loads user data safely from Firestore on login or refresh
+ */
+async function loadUserData(uid) {
+    if (typeof db === 'undefined') return;
+    try {
+        const docRef = db.collection('users').doc(uid);
+        const docSnap = await docRef.get();
+        
+        const headerScore = document.getElementById('header-score');
+        const headerStreak = document.getElementById('header-streak');
+
+        if (docSnap.exists) {
+            const data = docSnap.data();
+            const totalScore = data.score || 0;
+            const streak = data.streak || 0;
+            
+            if (headerScore) headerScore.textContent = totalScore;
+            if (headerStreak) headerStreak.textContent = streak;
+        } else {
+            // Initialize document if it doesn't exist yet
+            await docRef.set({
+                email: auth.currentUser ? auth.currentUser.email : '',
+                score: 0,
+                streak: 0,
+                updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+            });
+            if (headerScore) headerScore.textContent = 0;
+            if (headerStreak) headerStreak.textContent = 0;
+        }
+    } catch (e) {
+        console.error("Error loading user data:", e);
     }
 }
 
