@@ -127,16 +127,16 @@
             </div>
 
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
-                <!-- Kids Explorer -->
-                <button onclick="selectLevel('kids')" class="group p-5 bg-white hover:bg-slate-50 border border-slate-200 hover:border-emerald-400 rounded-2xl text-left transition shadow-sm flex items-start space-x-4">
-                    <div class="w-12 h-12 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-2xl group-hover:scale-110 transition">🧸</div>
+                <!-- Basic -->
+                <button onclick="selectLevel('basic')" class="group p-5 bg-white hover:bg-slate-50 border border-slate-200 hover:border-emerald-400 rounded-2xl text-left transition shadow-sm flex items-start space-x-4">
+                    <div class="w-12 h-12 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-2xl group-hover:scale-110 transition">🌱</div>
                     <div>
-                        <h3 class="font-bold text-base text-slate-900 group-hover:text-emerald-600 transition">Kids Explorer</h3>
-                        <p class="text-xs text-slate-500 mt-0.5">Basic words, animals & simple spelling.</p>
+                        <h3 class="font-bold text-base text-slate-900 group-hover:text-emerald-600 transition">Basic</h3>
+                        <p class="text-xs text-slate-500 mt-0.5">Synonyms, antonyms, homonyms, spelling & basic error corrections.</p>
                     </div>
                 </button>
 
-                <!-- Intermediate (Teens pool) -->
+                <!-- Intermediate -->
                 <button onclick="selectLevel('teens')" class="group p-5 bg-white hover:bg-slate-50 border border-slate-200 hover:border-indigo-400 rounded-2xl text-left transition shadow-sm flex items-start space-x-4">
                     <div class="w-12 h-12 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center text-2xl group-hover:scale-110 transition">⚡</div>
                     <div>
@@ -279,7 +279,7 @@
 
         let currentUser = null;
         let isSignUpMode = false;
-        let currentLevel = 'kids';
+        let currentLevel = 'basic';
         let currentQuestions = [];
         let currentIndex = 0;
         let score = 0;
@@ -389,10 +389,10 @@
         function selectLevel(level) {
             currentLevel = level;
             
-            if (level === 'teens') {
+            if (level === 'basic') {
+                currentQuestions = getRandomQuestions(questionBank.basic, 10);
+            } else if (level === 'teens') {
                 currentQuestions = getRandomQuestions(questionBank.teens, 10);
-            } else if (level === 'kids') {
-                currentQuestions = getRandomQuestions(questionBank.kids, 5);
             } else if (level === 'advanced') {
                 currentQuestions = getRandomQuestions(questionBank.advanced, 10);
             } else if (level === 'expert') {
@@ -406,7 +406,7 @@
             document.getElementById('screen-quiz').classList.remove('hidden');
             
             const badges = {
-                kids: "🧸 Kids Explorer (5 Qs)",
+                basic: "🌱 Basic (10 Qs)",
                 teens: "⚡ Intermediate (10 Qs)",
                 advanced: "🎓 Advanced Scholar (10 Qs)",
                 expert: "🔥 Expert (10 Qs)"
