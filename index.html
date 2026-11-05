@@ -246,19 +246,16 @@
         WordCraft & Grammar Arena • Cloud-Synced Learning Hub
     </footer>
 
-    <!-- SEPARATED QUESTION FILES -->
-    <script src="basic-questions.js?v=2.0"></script>
-    <script src="teens-questions.js?v=2.0"></script>
-    <script src="advanced-questions.js?v=2.0"></script>
-    <script src="expert-questions.js?v=2.0"></script>
-    <script src="script.js?v=2.0"></script>
+    <!-- 1. LOAD SEPARATED QUESTION POOLS FIRST -->
+    <script src="basic-questions.js?v=3.0"></script>
+    <script src="teens-questions.js?v=3.0"></script>
+    <script src="advanced-questions.js?v=3.0"></script>
+    <script src="expert-questions.js?v=3.0"></script>
 
+    <!-- 2. MAIN GAME LOGIC SCRIPT SECOND -->
+    <script src="script.js?v=3.0"></script>
 
-
-    <!-- MAIN GAME LOGIC & FIREBASE SCRIPT -->
-    <script src="script.js ?v=2.0"></script>
-
-    <!-- Firebase Configuration & App Logic -->
+    <!-- 3. FIREBASE CONFIG & AUTH/UI HANDLERS LAST -->
     <script>
         const firebaseConfig = {
             apiKey: "AIzaSyA11KQplnkpLiG2bkSyiTD4gJdiI6EhBHg",
@@ -414,7 +411,7 @@
             document.getElementById('screen-levels').classList.add('hidden');
             document.getElementById('screen-quiz').classList.remove('hidden');
             
-            const badges = {
+            The badges = {
                 basic: "🌱 Basic (10 Qs)",
                 teens: "⚡ Intermediate (10 Qs)",
                 advanced: "🎓 Advanced Scholar (10 Qs)",
@@ -559,14 +556,5 @@
             document.getElementById('modal-leaderboard').classList.add('hidden');
         }
     </script>
-        <!-- SEPARATED QUESTION FILES -->
-    <script src="basic-questions.js?v=2.0"></script>
-    <script src="teens-questions.js?v=2.0"></script>
-    <script src="advanced-questions.js?v=2.0"></script>
-    <script src="expert-questions.js?v=2.0"></script>
-
-    <!-- MAIN GAME LOGIC & FIREBASE SCRIPT -->
-    <script src="script.js?v=2.0"></script>
-
 </body>
 </html>
