@@ -221,3 +221,7 @@ function goHome() {
     if (quizView) quizView.classList.add('hidden');
     if (levelsView) levelsView.classList.remove('hidden');
 }
+// Add this bridge function into your script.js file
+function selectLevel(levelKey) {
+    startQuiz(levelKey);
+}
