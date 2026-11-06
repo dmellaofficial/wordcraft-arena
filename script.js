@@ -14,16 +14,12 @@ let timeTrialCount = 10;
 let timeTrialStartTime = 0;
 let timeTrialTimerInterval = null;
 let elapsedTimeSeconds = 0;
-let timeTrialPenaltySeconds = 0; // +1s penalty for each wrong answer
+let timeTrialPenaltySeconds = 0;
 
-// Initialize App State on DOM Load
 document.addEventListener('DOMContentLoaded', () => {
     console.log("WordCraft & Grammar Arena initialized successfully.");
 });
 
-/**
- * Shuffles an array of questions and randomizes answer positions (A, B, C, D)
- */
 function getShuffledSessionQuestions(rawPool, count = 10) {
     let recentIds = JSON.parse(localStorage.getItem('wordcraft_recent_q') || '[]');
     
@@ -66,9 +62,6 @@ function selectLevel(categoryKey) {
     startQuiz(categoryKey);
 }
 
-/**
- * Initiates Time Trial Challenge setup from modal selection
- */
 function startTimedChallenge(questionCount) {
     closeTimeTrialModal();
     
@@ -84,7 +77,7 @@ function startTimedChallenge(questionCount) {
 
     isTimeTrial = true;
     timeTrialCount = questionCount;
-    timeTrialPenaltySeconds = 0; // Reset penalty counter
+    timeTrialPenaltySeconds = 0;
     currentCategory = `Time Trial (${questionCount} Qs)`;
     currentQuestions = getShuffledSessionQuestions(combinedPool, questionCount);
     currentQuestionIndex = 0;
@@ -143,7 +136,7 @@ function runCountdown(onComplete) {
 
 function updateTimeTrialTimer() {
     const rawElapsed = (Date.now() - timeTrialStartTime) / 1000;
-    elapsedTimeSeconds = rawElapsed + timeTrialPenaltySeconds; // Include accumulated penalties
+    elapsedTimeSeconds = rawElapsed + timeTrialPenaltySeconds;
 
     const timerDisplay = document.getElementById('tt-timer-display');
     if (timerDisplay) {
@@ -151,9 +144,6 @@ function updateTimeTrialTimer() {
     }
 }
 
-/**
- * Starts a quiz session for a regular difficulty tier.
- */
 function startQuiz(categoryKey) {
     let rawPool = [];
 
@@ -190,9 +180,6 @@ function startQuiz(categoryKey) {
     loadQuestion();
 }
 
-/**
- * Loads the current question and populates multiple-choice options
- */
 function loadQuestion() {
     if (currentQuestionIndex >= currentQuestions.length) {
         if (isTimeTrial && timeTrialTimerInterval) {
@@ -245,9 +232,6 @@ function loadQuestion() {
     if (nextBtn) nextBtn.classList.add('hidden');
 }
 
-/**
- * Handles user answer selection and evaluates correctness
- */
 function selectAnswer(selectedIndex, selectedBtn) {
     const qData = currentQuestions[currentQuestionIndex];
     const optionsContainer = document.getElementById('options-container');
@@ -285,7 +269,6 @@ function selectAnswer(selectedIndex, selectedBtn) {
             explanationBox.innerHTML = `<strong>Incorrect (+1s penalty).</strong> The correct answer is: ${qData.explanation}`;
         }
 
-        // Apply +1 second penalty for wrong answer in Time Trial mode
         if (isTimeTrial) {
             timeTrialPenaltySeconds += 1;
         }
@@ -308,9 +291,6 @@ function nextQuestion() {
     loadQuestion();
 }
 
-/**
- * Displays final results, updates header stats, and securely syncs to Firestore with personal best protection
- */
 async function showResults() {
     const quizView = document.getElementById('screen-quiz');
     const resultsView = document.getElementById('screen-results');
@@ -329,7 +309,6 @@ async function showResults() {
         if (finalScore) finalScore.textContent = formatHHMMSS(elapsedTimeSeconds);
         if (finalCorrect) finalCorrect.textContent = `${currentQuestions.length}/${currentQuestions.length}`;
 
-        // Save Time Trial record with Personal Best protection
         if (typeof auth !== 'undefined' && auth.currentUser && typeof db !== 'undefined') {
             try {
                 const userId = auth.currentUser.uid;
@@ -339,7 +318,6 @@ async function showResults() {
                 const finalTimeRounded = parseFloat(elapsedTimeSeconds.toFixed(1));
                 const challengeTypeLabel = `${timeTrialCount} Questions`;
 
-                // Check existing record for this user & challenge type
                 const existingQuery = await db.collection('timetrials')
                     .where('userId', '==', userId)
                     .where('challengeType', '==', challengeTypeLabel)
@@ -351,7 +329,6 @@ async function showResults() {
                 if (!existingQuery.empty) {
                     const existingData = existingQuery.docs[0].data();
                     existingDocId = existingQuery.docs[0].id;
-                    // Only update if new time is strictly faster than previous best
                     if (finalTimeRounded >= existingData.timeSeconds) {
                         shouldSave = false;
                         console.log("New time did not surpass personal best. Existing record kept.");
@@ -360,7 +337,6 @@ async function showResults() {
 
                 if (shouldSave) {
                     if (existingDocId) {
-                        // Overwrite existing personal best document
                         await db.collection('timetrials').doc(existingDocId).set({
                             userId: userId,
                             username: username,
@@ -369,7 +345,6 @@ async function showResults() {
                             timestamp: firebase.firestore.FieldValue.serverTimestamp()
                         });
                     } else {
-                        // Create new record
                         await db.collection('timetrials').add({
                             userId: userId,
                             username: username,
@@ -381,7 +356,7 @@ async function showResults() {
                     console.log("Time trial personal best updated successfully!");
                 }
 
-                loadTimeTrialLeaderboard();
+                loadTimeTrialLeaderboards();
             } catch (e) {
                 console.error("Error saving time trial record:", e);
             }
@@ -440,12 +415,9 @@ function goHome() {
     if (quizView) quizView.classList.add('hidden');
     if (levelsView) levelsView.classList.remove('hidden');
     
-    loadTimeTrialLeaderboard();
+    loadTimeTrialLeaderboards();
 }
 
-/**
- * Utility to format seconds into HH:MM:SS
- */
 function formatHHMMSS(totalSeconds) {
     const hrs = Math.floor(totalSeconds / 3600);
     const mins = Math.floor((totalSeconds % 3600) / 60);
