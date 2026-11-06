@@ -11,7 +11,7 @@
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
     <!-- Google reCAPTCHA Enterprise Script -->
-    <script src="https://www.google.com/recaptcha/enterprise.js?render=6Ldk_RMuAAAAAHTwodx1de02-em5PRbexK1001YU"></script>
+    <script src="https://www.google.com/recaptcha/enterprise.js?render=6Ldk_RMuAAAAAHtWodx1de02-em5PRbexK1OO1YU"></script>
     
     <script>
         tailwind.config = {
@@ -673,7 +673,7 @@
 
                 grecaptcha.enterprise.ready(async function() {
                     try {
-                        const token = await grecaptcha.enterprise.execute('6Ldk_RMuAAAAAHTwodx1de02-em5PRbexK1001YU', {action: 'signup'});
+                        const token = await grecaptcha.enterprise.execute('6Ldk_RMuAAAAAHtWodx1de02-em5PRbexK1OO1YU', {action: 'signup'});
                         if (!token) {
                             errBox.textContent = "Security verification failed. Please try again.";
                             errBox.classList.remove('hidden');
@@ -914,7 +914,7 @@
             
             grecaptcha.enterprise.ready(async function() {
                 try {
-                    const token = await grecaptcha.enterprise.execute('6Ldk_RMuAAAAAHTwodx1de02-em5PRbexK1001YU', {action: 'feedback'});
+                    const token = await grecaptcha.enterprise.execute('6Ldk_RMuAAAAAHtWodx1de02-em5PRbexK1OO1YU', {action: 'feedback'});
                     if (!token) {
                         alert("Security verification failed. Please try again.");
                         return;
