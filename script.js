@@ -140,7 +140,7 @@ function updateTimeTrialTimer() {
 
     const timerDisplay = document.getElementById('tt-timer-display');
     if (timerDisplay) {
-        timerDisplay.textContent = formatCleanTime(elapsedTimeSeconds);
+        timerDisplay.textContent = formatHHMMSS(elapsedTimeSeconds);
     }
 }
 
@@ -304,9 +304,9 @@ async function showResults() {
     const stat2Label = document.getElementById('res-stat-2-label');
 
     if (isTimeTrial) {
-        if (stat1Label) stat1Label.textContent = "Final Time";
+        if (stat1Label) stat1Label.textContent = "Final Time (HH:MM:SS)";
         if (stat2Label) stat2Label.textContent = "Questions Solved";
-        if (finalScore) finalScore.textContent = formatCleanTime(elapsedTimeSeconds);
+        if (finalScore) finalScore.textContent = formatHHMMSS(elapsedTimeSeconds);
         if (finalCorrect) finalCorrect.textContent = `${currentQuestions.length}/${currentQuestions.length}`;
 
         if (typeof auth !== 'undefined' && auth.currentUser && typeof db !== 'undefined') {
@@ -418,7 +418,6 @@ function goHome() {
     loadTimeTrialLeaderboards();
 }
 
-// Fixed Leaderboard Loader avoiding compound index errors by sorting client-side
 async function loadTimeTrialLeaderboards() {
     await populateTTList('20 Questions', 'tt-leaderboard-list-A', 'emerald');
     await populateTTList('50 Questions', 'tt-leaderboard-list-B', 'purple');
@@ -428,7 +427,7 @@ async function populateTTList(challengeType, containerId, colorTheme) {
     const container = document.getElementById(containerId);
     if (!container) return;
 
-    container.innerHTML = '<p class="text-center text-slate-400 py-4">Loading times...</p>';
+    container.innerHTML = '<p class="text-center text-slate-400 py-4 text-[11px]">Loading...</p>';
 
     try {
         const snapshot = await db.collection('timetrials')
@@ -438,7 +437,7 @@ async function populateTTList(challengeType, containerId, colorTheme) {
         container.innerHTML = '';
 
         if (snapshot.empty) {
-            container.innerHTML = '<p class="text-center text-slate-400 py-4">No records yet.</p>';
+            container.innerHTML = '<p class="text-center text-slate-400 py-4 text-[11px]">No records yet.</p>';
             return;
         }
 
@@ -447,15 +446,20 @@ async function populateTTList(challengeType, containerId, colorTheme) {
             records.push({ id: doc.id, ...doc.data() });
         });
 
-        // Sort ascending by time (fastest first)
         records.sort((a, b) => a.timeSeconds - b.timeSeconds);
-        records = records.slice(0, 10); // Keep top 10
+        records = records.slice(0, 10);
 
         let rank = 1;
         records.forEach(data => {
             const playerName = data.username || 'Anonymous';
             const isYou = currentUser && data.userId === currentUser.uid;
-            const formattedTime = formatCleanTime(data.timeSeconds);
+            const formattedTime = formatHHMMSS(data.timeSeconds);
+
+            let rankDisplay = '';
+            if (rank === 1) rankDisplay = '🥇';
+            else if (rank === 2) rankDisplay = '🥈';
+            else if (rank === 3) rankDisplay = '🥉';
+            else rankDisplay = `#${rank}`;
 
             const bgStyle = isYou 
                 ? (colorTheme === 'emerald' ? 'bg-emerald-50 border-emerald-200' : 'bg-purple-50 border-purple-200')
@@ -466,35 +470,30 @@ async function populateTTList(challengeType, containerId, colorTheme) {
                 : 'text-purple-600 bg-purple-100';
 
             const row = document.createElement('div');
-            row.className = `flex items-center justify-between p-2.5 rounded-xl border ${bgStyle}`;
+            row.className = `flex items-center justify-between p-2 rounded-xl border ${bgStyle}`;
             row.innerHTML = `
                 <div class="flex items-center space-x-2 truncate">
-                    <span class="font-bold text-amber-500">#${rank}</span>
+                    <span class="font-bold text-sm w-6 text-center">${rankDisplay}</span>
                     <span class="font-semibold text-slate-800 truncate">${playerName} ${isYou ? '(You)' : ''}</span>
                 </div>
-                <span class="font-bold ${badgeStyle} px-2 py-0.5 rounded-md shrink-0 font-mono">${formattedTime}</span>
+                <span class="font-bold ${badgeStyle} px-1.5 py-0.5 rounded-md shrink-0 font-mono text-[11px]">${formattedTime}</span>
             `;
             container.appendChild(row);
             rank++;
         });
     } catch (e) {
         console.error(`Error loading time trial leaderboard for ${challengeType}:`, e);
-        container.innerHTML = '<p class="text-center text-rose-500 py-4">Error loading times.</p>';
+        container.innerHTML = '<p class="text-center text-rose-500 py-4 text-[11px]">Error loading times.</p>';
     }
 }
 
-// Formats total seconds into HH:MM:SS or MM:SS (hiding hours if 0, omitting decimal seconds)
-function formatCleanTime(totalSeconds) {
+// Strict HH:MM:SS format (00:00:00) without decimals
+function formatHHMMSS(totalSeconds) {
     const totalSecInt = Math.floor(totalSeconds);
     const hrs = Math.floor(totalSecInt / 3600);
     const mins = Math.floor((totalSecInt % 3600) / 60);
     const secs = totalSecInt % 60;
 
     const pad = (num) => String(num).padStart(2, '0');
-
-    if (hrs > 0) {
-        return `${pad(hrs)}:${pad(mins)}:${pad(secs)}`;
-    } else {
-        return `${pad(mins)}:${pad(secs)}`;
-    }
+    return `${pad(hrs)}:${pad(mins)}:${pad(secs)}`;
 }
