@@ -142,7 +142,7 @@
         <!-- SCREEN 1: LEVEL SELECTION & TIME TRIAL LEADERBOARD SIDE-BY-SIDE -->
         <div id="screen-levels" class="slide-in hidden grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
             
-            <!-- Left Side: Challenges (Span 2 columns) -->
+            <!-- Left Side: Challenges -->
             <div class="lg:col-span-2 space-y-4">
                 <div class="text-center space-y-1 mb-4">
                     <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900">Choose Your Challenge</h2>
@@ -224,8 +224,8 @@
                 <!-- Timer Bar for Time Trial Mode -->
                 <div id="tt-timer-wrapper" class="hidden space-y-1">
                     <div class="flex justify-between text-xs font-bold text-slate-600">
-                        <span id="tt-timer-label">Time Trial Challenge</span>
-                        <span id="tt-timer-display" class="text-emerald-600">0.0s</span>
+                        <span id="tt-timer-label">Time Trial Challenge (+1s penalty per wrong answer)</span>
+                        <span id="tt-timer-display" class="text-emerald-600 font-mono">00:00:00</span>
                     </div>
                     <div class="w-full bg-slate-200 h-2 rounded-full overflow-hidden border border-slate-300">
                         <div id="tt-timer-bar" class="bg-emerald-500 h-full w-full transition-all duration-100"></div>
@@ -306,8 +306,9 @@
                     <button onclick="closeTimeTrialModal()" class="text-slate-400 hover:text-slate-600 font-bold text-xl">&times;</button>
                 </div>
 
-                <div class="p-3 bg-amber-50 border border-amber-200 rounded-2xl text-amber-800 text-xs text-center font-semibold">
-                    ⚠️ Warning: Do not close or refresh browser. The challenge will not be recorded.
+                <div class="p-3.5 bg-amber-50 border border-amber-200 rounded-2xl text-amber-900 text-xs text-center font-semibold space-y-1">
+                    <div>⚠️ Warning: Do not close or refresh browser. The challenge will not be recorded.</div>
+                    <div class="text-rose-600 font-bold">⏱️ For every wrong answer, an additional +1 second penalty applies!</div>
                 </div>
 
                 <div class="space-y-3 text-center">
@@ -353,7 +354,7 @@
                     <h3 class="font-bold text-slate-800 text-base">Key Features</h3>
                     <ul class="list-disc pl-5 space-y-1">
                         <li><strong>Multi-Tiered Challenges:</strong> Progress from Basic to Expert difficulty tiers.</li>
-                        <li><strong>Time Trial Mode:</strong> Race against the clock in Challenge A (20 Qs) and Challenge B (50 Qs).</li>
+                        <li><strong>Time Trial Mode:</strong> Race against the clock with +1s penalties per wrong answer.</li>
                         <li><strong>Global Leaderboard:</strong> Compete with players worldwide and track your cumulative score and streak.</li>
                     </ul>
 
@@ -506,7 +507,6 @@
         let totalScore = 0;
         let streak = 0;
 
-        // Track auth state securely with loader dismissal
         auth.onAuthStateChanged(async user => {
             const authScreen = document.getElementById('screen-auth');
             const levelScreen = document.getElementById('screen-levels');
@@ -685,7 +685,6 @@
             document.getElementById('modal-leaderboard').classList.add('hidden');
         }
 
-        // --- TIME TRIAL LEADERBOARD LOADER ---
         async function loadTimeTrialLeaderboard() {
             const listContainer = document.getElementById('tt-leaderboard-list');
             if (!listContainer) return;
@@ -707,6 +706,9 @@
                     const playerName = data.username || 'Anonymous';
                     const isYou = currentUser && data.userId === currentUser.uid;
 
+                    // Format stored seconds into HH:MM:SS format for leaderboard
+                    const formattedTime = formatHHMMSS(data.timeSeconds);
+
                     const row = document.createElement('div');
                     row.className = `flex items-center justify-between p-2.5 rounded-xl border ${isYou ? 'bg-emerald-50 border-emerald-200' : 'bg-slate-50 border-slate-200'}`;
                     row.innerHTML = `
@@ -714,7 +716,7 @@
                             <span class="font-bold text-amber-500">#${rank}</span>
                             <span class="font-semibold text-slate-800 truncate">${playerName} ${isYou ? '(You)' : ''}</span>
                         </div>
-                        <span class="font-bold text-emerald-600 bg-emerald-100 px-2 py-0.5 rounded-md shrink-0">${data.timeSeconds.toFixed(1)}s</span>
+                        <span class="font-bold text-emerald-600 bg-emerald-100 px-2 py-0.5 rounded-md shrink-0 font-mono">${formattedTime}</span>
                     `;
                     listContainer.appendChild(row);
                     rank++;
@@ -725,7 +727,6 @@
             }
         }
 
-        // --- TIME TRIAL MODAL HANDLERS ---
         function openTimeTrialModal() {
             document.getElementById('modal-timetrial-setup').classList.remove('hidden');
             document.getElementById('modal-timetrial-setup').classList.add('flex');
@@ -736,7 +737,6 @@
             document.getElementById('modal-timetrial-setup').classList.add('hidden');
         }
 
-        // --- ABOUT, FEEDBACK & PRIVACY MODAL HANDLERS ---
         function openAboutModal() {
             document.getElementById('screen-about').classList.remove('hidden');
             document.getElementById('screen-about').classList.add('flex');
@@ -802,6 +802,25 @@
                     alert("Security verification error. Please try again.");
                 }
             });
+        }
+
+        // Helper for formatting seconds into HH:MM:SS
+        function formatHHMMSS(totalSeconds) {
+            const hrs = Math.floor(totalSeconds / 3600);
+            const mins = Math.floor((totalSeconds % 3600) / 60);
+            const secs = totalSeconds % 60;
+
+            const pad = (num) => String(Math.floor(num)).padStart(2, '0');
+            const padSecs = (num) => {
+                const s = num.toFixed(1);
+                return s < 10 ? '0' + s : s;
+            };
+
+            if (hrs > 0) {
+                return `${pad(hrs)}:${pad(mins)}:${padSecs(secs)}`;
+            } else {
+                return `00:${pad(mins)}:${padSecs(secs)}`;
+            }
         }
     </script>
 </body>
