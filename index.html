@@ -139,7 +139,7 @@
             </div>
         </div>
 
-        <!-- SCREEN 1: LEVEL SELECTION & TIME TRIAL LEADERBOARD SIDE-BY-SIDE -->
+        <!-- SCREEN 1: LEVEL SELECTION & SEPARATED TIME TRIAL LEADERBOARDS -->
         <div id="screen-levels" class="slide-in hidden grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
             
             <!-- Left Side: Challenges -->
@@ -199,7 +199,7 @@
                 </button>
             </div>
 
-            <!-- Right Side: Time Trial Leaderboard Panel -->
+            <!-- Right Side: Separated Time Trial Leaderboards (Challenge A & Challenge B) -->
             <div class="bg-white border border-slate-200 rounded-3xl p-5 shadow-sm space-y-4">
                 <div class="flex items-center justify-between border-b border-slate-100 pb-3">
                     <div class="flex items-center space-x-2">
@@ -207,7 +207,22 @@
                         <h3 class="font-bold text-slate-900 text-sm">Time Trial Leaderboard</h3>
                     </div>
                 </div>
-                <div id="tt-leaderboard-list" class="space-y-2 max-h-80 overflow-y-auto pr-1 text-xs">
+
+                <!-- Tab Buttons for Challenge A vs Challenge B -->
+                <div class="grid grid-cols-2 gap-2">
+                    <button onclick="switchTTTab('A')" id="btn-tab-a" class="py-1.5 px-3 rounded-xl text-xs font-bold bg-emerald-600 text-white shadow-sm transition">
+                        Challenge A (20Q)
+                    </button>
+                    <button onclick="switchTTTab('B')" id="btn-tab-b" class="py-1.5 px-3 rounded-xl text-xs font-bold bg-slate-100 text-slate-600 hover:bg-slate-200 transition">
+                        Challenge B (50Q)
+                    </button>
+                </div>
+
+                <!-- Leaderboard List Containers -->
+                <div id="tt-leaderboard-list-A" class="space-y-2 max-h-72 overflow-y-auto pr-1 text-xs">
+                    <p class="text-center text-slate-400 py-6">Loading times...</p>
+                </div>
+                <div id="tt-leaderboard-list-B" class="space-y-2 max-h-72 overflow-y-auto pr-1 text-xs hidden">
                     <p class="text-center text-slate-400 py-6">Loading times...</p>
                 </div>
             </div>
@@ -523,7 +538,7 @@
                 mainHeader.classList.add('flex');
                 
                 await loadUserData(user.uid);
-                loadTimeTrialLeaderboard();
+                loadTimeTrialLeaderboards();
             } else {
                 currentUser = null;
                 mainHeader.classList.add('hidden');
@@ -643,7 +658,7 @@
 
         async function showLeaderboard() {
             const listContainer = document.getElementById('leaderboard-list');
-            listContainer.innerHTML = '<p class="text-center text-xs text-slate-500 py-4">Loading top players...</p>';
+            listContainer.innerHTML = '<p class="text-center text-xs text-slate-500 py-4">Loading scores...</p>';
             
             document.getElementById('modal-leaderboard').classList.remove('hidden');
             document.getElementById('modal-leaderboard').classList.add('flex');
@@ -685,18 +700,48 @@
             document.getElementById('modal-leaderboard').classList.add('hidden');
         }
 
-        async function loadTimeTrialLeaderboard() {
-            const listContainer = document.getElementById('tt-leaderboard-list');
-            if (!listContainer) return;
-            
-            listContainer.innerHTML = '<p class="text-center text-slate-400 py-4">Loading times...</p>';
+        // --- TAB SWITCHER FOR TIME TRIAL LEADERBOARDS ---
+        function switchTTTab(tab) {
+            const btnA = document.getElementById('btn-tab-a');
+            const btnB = document.getElementById('btn-tab-b');
+            const listA = document.getElementById('tt-leaderboard-list-A');
+            const listB = document.getElementById('tt-leaderboard-list-B');
+
+            if (tab === 'A') {
+                btnA.className = "py-1.5 px-3 rounded-xl text-xs font-bold bg-emerald-600 text-white shadow-sm transition";
+                btnB.className = "py-1.5 px-3 rounded-xl text-xs font-bold bg-slate-100 text-slate-600 hover:bg-slate-200 transition";
+                listA.classList.remove('hidden');
+                listB.classList.add('hidden');
+            } else {
+                btnB.className = "py-1.5 px-3 rounded-xl text-xs font-bold bg-purple-600 text-white shadow-sm transition";
+                btnA.className = "py-1.5 px-3 rounded-xl text-xs font-bold bg-slate-100 text-slate-600 hover:bg-slate-200 transition";
+                listB.classList.remove('hidden');
+                listA.classList.add('hidden');
+            }
+        }
+
+        async function loadTimeTrialLeaderboards() {
+            await populateTTList('20 Questions', 'tt-leaderboard-list-A', 'emerald');
+            await populateTTList('50 Questions', 'tt-leaderboard-list-B', 'purple');
+        }
+
+        async function populateTTList(challengeType, containerId, colorTheme) {
+            const container = document.getElementById(containerId);
+            if (!container) return;
+
+            container.innerHTML = '<p class="text-center text-slate-400 py-4">Loading times...</p>';
 
             try {
-                const snapshot = await db.collection('timetrials').orderBy('timeSeconds', 'asc').limit(10).get();
-                listContainer.innerHTML = '';
+                const snapshot = await db.collection('timetrials')
+                    .where('challengeType', '==', challengeType)
+                    .orderBy('timeSeconds', 'asc')
+                    .limit(10)
+                    .get();
+
+                container.innerHTML = '';
 
                 if (snapshot.empty) {
-                    listContainer.innerHTML = '<p class="text-center text-slate-400 py-4">No time trials recorded yet.</p>';
+                    container.innerHTML = '<p class="text-center text-slate-400 py-4">No records yet.</p>';
                     return;
                 }
 
@@ -705,25 +750,31 @@
                     const data = doc.data();
                     const playerName = data.username || 'Anonymous';
                     const isYou = currentUser && data.userId === currentUser.uid;
-
-                    // Format stored seconds into HH:MM:SS format for leaderboard
                     const formattedTime = formatHHMMSS(data.timeSeconds);
 
+                    const bgStyle = isYou 
+                        ? (colorTheme === 'emerald' ? 'bg-emerald-50 border-emerald-200' : 'bg-purple-50 border-purple-200')
+                        : 'bg-slate-50 border-slate-200';
+                    
+                    const badgeStyle = colorTheme === 'emerald'
+                        ? 'text-emerald-600 bg-emerald-100'
+                        : 'text-purple-600 bg-purple-100';
+
                     const row = document.createElement('div');
-                    row.className = `flex items-center justify-between p-2.5 rounded-xl border ${isYou ? 'bg-emerald-50 border-emerald-200' : 'bg-slate-50 border-slate-200'}`;
+                    row.className = `flex items-center justify-between p-2.5 rounded-xl border ${bgStyle}`;
                     row.innerHTML = `
                         <div class="flex items-center space-x-2 truncate">
                             <span class="font-bold text-amber-500">#${rank}</span>
                             <span class="font-semibold text-slate-800 truncate">${playerName} ${isYou ? '(You)' : ''}</span>
                         </div>
-                        <span class="font-bold text-emerald-600 bg-emerald-100 px-2 py-0.5 rounded-md shrink-0 font-mono">${formattedTime}</span>
+                        <span class="font-bold ${badgeStyle} px-2 py-0.5 rounded-md shrink-0 font-mono">${formattedTime}</span>
                     `;
-                    listContainer.appendChild(row);
+                    container.appendChild(row);
                     rank++;
                 });
             } catch (e) {
-                console.error("Error loading time trial leaderboard:", e);
-                listContainer.innerHTML = '<p class="text-center text-rose-500 py-4">Error loading times.</p>';
+                console.error(`Error loading time trial leaderboard for ${challengeType}:`, e);
+                container.innerHTML = '<p class="text-center text-rose-500 py-4">Error loading times.</p>';
             }
         }
 
@@ -804,7 +855,6 @@
             });
         }
 
-        // Helper for formatting seconds into HH:MM:SS
         function formatHHMMSS(totalSeconds) {
             const hrs = Math.floor(totalSeconds / 3600);
             const mins = Math.floor((totalSeconds % 3600) / 60);
