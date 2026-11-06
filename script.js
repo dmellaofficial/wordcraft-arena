@@ -14,6 +14,7 @@ let timeTrialCount = 10;
 let timeTrialStartTime = 0;
 let timeTrialTimerInterval = null;
 let elapsedTimeSeconds = 0;
+let timeTrialPenaltySeconds = 0; // +1s penalty for each wrong answer
 
 // Initialize App State on DOM Load
 document.addEventListener('DOMContentLoaded', () => {
@@ -24,22 +25,18 @@ document.addEventListener('DOMContentLoaded', () => {
  * Shuffles an array of questions and randomizes answer positions (A, B, C, D)
  */
 function getShuffledSessionQuestions(rawPool, count = 10) {
-    // Anti-repetition check: load recent session question keys from localStorage
     let recentIds = JSON.parse(localStorage.getItem('wordcraft_recent_q') || '[]');
     
-    // Filter out questions used in the last 5 sessions if possible
     let availablePool = rawPool.filter(item => !recentIds.includes(item.q));
     if (availablePool.length < count) {
-        availablePool = [...rawPool]; // Reset if pool is exhausted
+        availablePool = [...rawPool];
     }
 
     const shuffledPool = [...availablePool].sort(() => Math.random() - 0.5);
     const selected = shuffledPool.slice(0, count);
 
-    // Save current selected question texts to recent history
     const selectedIds = selected.map(item => item.q);
     recentIds.push(...selectedIds);
-    // Keep history trimmed to last (count * 5) questions to ensure 5-session separation
     if (recentIds.length > count * 5) {
         recentIds = recentIds.slice(-count * 5);
     }
@@ -75,7 +72,6 @@ function selectLevel(categoryKey) {
 function startTimedChallenge(questionCount) {
     closeTimeTrialModal();
     
-    // Combine Intermediate, Advanced, and Expert pools
     let combinedPool = [];
     if (typeof teensQuestions !== 'undefined') combinedPool.push(...teensQuestions);
     if (typeof advancedQuestions !== 'undefined') combinedPool.push(...advancedQuestions);
@@ -88,13 +84,13 @@ function startTimedChallenge(questionCount) {
 
     isTimeTrial = true;
     timeTrialCount = questionCount;
+    timeTrialPenaltySeconds = 0; // Reset penalty counter
     currentCategory = `Time Trial (${questionCount} Qs)`;
     currentQuestions = getShuffledSessionQuestions(combinedPool, questionCount);
     currentQuestionIndex = 0;
     score = 0;
     userAnswers = [];
 
-    // Show 3-second countdown before starting
     runCountdown(() => {
         const dashboard = document.getElementById('screen-levels');
         const quizView = document.getElementById('screen-quiz');
@@ -104,7 +100,6 @@ function startTimedChallenge(questionCount) {
         if (resultsView) resultsView.classList.add('hidden');
         if (quizView) quizView.classList.remove('hidden');
 
-        // Start Stopwatch
         elapsedTimeSeconds = 0;
         timeTrialStartTime = Date.now();
         const timerWrapper = document.getElementById('tt-timer-wrapper');
@@ -147,10 +142,12 @@ function runCountdown(onComplete) {
 }
 
 function updateTimeTrialTimer() {
-    elapsedTimeSeconds = (Date.now() - timeTrialStartTime) / 1000;
+    const rawElapsed = (Date.now() - timeTrialStartTime) / 1000;
+    elapsedTimeSeconds = rawElapsed + timeTrialPenaltySeconds; // Include accumulated penalties
+
     const timerDisplay = document.getElementById('tt-timer-display');
     if (timerDisplay) {
-        timerDisplay.textContent = `${elapsedTimeSeconds.toFixed(1)}s`;
+        timerDisplay.textContent = formatHHMMSS(elapsedTimeSeconds);
     }
 }
 
@@ -285,7 +282,12 @@ function selectAnswer(selectedIndex, selectedBtn) {
 
         if (explanationBox) {
             explanationBox.className = "p-4 rounded-xl text-sm border bg-rose-50 border-rose-200 text-rose-800 slide-in";
-            explanationBox.innerHTML = `<strong>Incorrect.</strong> The correct answer is: ${qData.explanation}`;
+            explanationBox.innerHTML = `<strong>Incorrect (+1s penalty).</strong> The correct answer is: ${qData.explanation}`;
+        }
+
+        // Apply +1 second penalty for wrong answer in Time Trial mode
+        if (isTimeTrial) {
+            timeTrialPenaltySeconds += 1;
         }
     }
 
@@ -307,7 +309,7 @@ function nextQuestion() {
 }
 
 /**
- * Displays final results, updates header stats, and securely syncs to Firestore
+ * Displays final results, updates header stats, and securely syncs to Firestore with personal best protection
  */
 async function showResults() {
     const quizView = document.getElementById('screen-quiz');
@@ -322,25 +324,63 @@ async function showResults() {
     const stat2Label = document.getElementById('res-stat-2-label');
 
     if (isTimeTrial) {
-        if (stat1Label) stat1Label.textContent = "Completion Time";
+        if (stat1Label) stat1Label.textContent = "Final Time (HH:MM:SS)";
         if (stat2Label) stat2Label.textContent = "Questions Solved";
-        if (finalScore) finalScore.textContent = `${elapsedTimeSeconds.toFixed(1)}s`;
+        if (finalScore) finalScore.textContent = formatHHMMSS(elapsedTimeSeconds);
         if (finalCorrect) finalCorrect.textContent = `${currentQuestions.length}/${currentQuestions.length}`;
 
-        // Save Time Trial record to separate 'timetrials' collection
+        // Save Time Trial record with Personal Best protection
         if (typeof auth !== 'undefined' && auth.currentUser && typeof db !== 'undefined') {
             try {
-                const userDoc = await db.collection('users').doc(auth.currentUser.uid).get();
+                const userId = auth.currentUser.uid;
+                const userDoc = await db.collection('users').doc(userId).get();
                 const username = userDoc.exists && userDoc.data().username ? userDoc.data().username : auth.currentUser.email.split('@')[0];
 
-                await db.collection('timetrials').add({
-                    userId: auth.currentUser.uid,
-                    username: username,
-                    timeSeconds: parseFloat(elapsedTimeSeconds.toFixed(1)),
-                    challengeType: `${timeTrialCount} Questions`,
-                    timestamp: firebase.firestore.FieldValue.serverTimestamp()
-                });
-                console.log("Time trial score recorded successfully!");
+                const finalTimeRounded = parseFloat(elapsedTimeSeconds.toFixed(1));
+                const challengeTypeLabel = `${timeTrialCount} Questions`;
+
+                // Check existing record for this user & challenge type
+                const existingQuery = await db.collection('timetrials')
+                    .where('userId', '==', userId)
+                    .where('challengeType', '==', challengeTypeLabel)
+                    .get();
+
+                let shouldSave = true;
+                let existingDocId = null;
+
+                if (!existingQuery.empty) {
+                    const existingData = existingQuery.docs[0].data();
+                    existingDocId = existingQuery.docs[0].id;
+                    // Only update if new time is strictly faster than previous best
+                    if (finalTimeRounded >= existingData.timeSeconds) {
+                        shouldSave = false;
+                        console.log("New time did not surpass personal best. Existing record kept.");
+                    }
+                }
+
+                if (shouldSave) {
+                    if (existingDocId) {
+                        // Overwrite existing personal best document
+                        await db.collection('timetrials').doc(existingDocId).set({
+                            userId: userId,
+                            username: username,
+                            timeSeconds: finalTimeRounded,
+                            challengeType: challengeTypeLabel,
+                            timestamp: firebase.firestore.FieldValue.serverTimestamp()
+                        });
+                    } else {
+                        // Create new record
+                        await db.collection('timetrials').add({
+                            userId: userId,
+                            username: username,
+                            timeSeconds: finalTimeRounded,
+                            challengeType: challengeTypeLabel,
+                            timestamp: firebase.firestore.FieldValue.serverTimestamp()
+                        });
+                    }
+                    console.log("Time trial personal best updated successfully!");
+                }
+
                 loadTimeTrialLeaderboard();
             } catch (e) {
                 console.error("Error saving time trial record:", e);
@@ -401,4 +441,25 @@ function goHome() {
     if (levelsView) levelsView.classList.remove('hidden');
     
     loadTimeTrialLeaderboard();
+}
+
+/**
+ * Utility to format seconds into HH:MM:SS
+ */
+function formatHHMMSS(totalSeconds) {
+    const hrs = Math.floor(totalSeconds / 3600);
+    const mins = Math.floor((totalSeconds % 3600) / 60);
+    const secs = totalSeconds % 60;
+
+    const pad = (num) => String(Math.floor(num)).padStart(2, '0');
+    const padSecs = (num) => {
+        const s = num.toFixed(1);
+        return s < 10 ? '0' + s : s;
+    };
+
+    if (hrs > 0) {
+        return `${pad(hrs)}:${pad(mins)}:${padSecs(secs)}`;
+    } else {
+        return `00:${pad(mins)}:${padSecs(secs)}`;
+    }
 }
