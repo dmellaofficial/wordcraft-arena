@@ -10,6 +10,8 @@
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    <!-- Google reCAPTCHA v3 Script -->
+    <script src="https://www.google.com/recaptcha/api.js?render=6LdhqxluAAAAAPfAk58SCKQL8q4NXSqlJQWh-cyO"></script>
     
     <script>
         tailwind.config = {
@@ -76,6 +78,9 @@
             <button onclick="showLeaderboard()" class="p-2 bg-indigo-50 hover:bg-indigo-100 text-indigo-600 rounded-xl border border-indigo-200 transition" title="Leaderboard">
                 🏆
             </button>
+            <button onclick="openFeedbackModal()" class="p-2 bg-purple-50 hover:bg-purple-100 text-purple-600 rounded-xl border border-purple-200 transition text-xs font-bold" title="Feedback">
+                💬
+            </button>
             <button onclick="logoutUser()" class="flex items-center space-x-1.5 px-3 py-2 bg-rose-50 hover:bg-rose-100 text-rose-600 rounded-xl border border-rose-200 transition text-xs font-bold" title="Log Out">
                 <span>🚪</span>
                 <span class="hidden sm:inline">Log Out</span>
@@ -125,7 +130,7 @@
             </div>
         </div>
 
-                        <!-- SCREEN 1: LEVEL SELECTION -->
+        <!-- SCREEN 1: LEVEL SELECTION -->
         <div id="screen-levels" class="slide-in hidden space-y-4">
             <div class="text-center space-y-2 mb-6">
                 <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900">Choose Your Challenge</h2>
@@ -251,11 +256,99 @@
             </div>
         </div>
 
+        <!-- PRIVACY POLICY MODAL -->
+        <div id="screen-privacy" class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm hidden items-center justify-center p-4 z-50">
+            <div class="bg-white border border-slate-200 w-full max-w-2xl rounded-3xl p-6 shadow-2xl space-y-6 slide-in">
+                <div class="border-b border-slate-100 pb-4 flex justify-between items-center">
+                    <h2 class="text-2xl font-extrabold text-slate-900">Privacy Policy</h2>
+                    <button onclick="closePrivacyPolicy()" class="text-slate-400 hover:text-slate-600 font-bold text-xl">&times;</button>
+                </div>
+                
+                <div class="space-y-4 text-sm text-slate-600 leading-relaxed max-h-96 overflow-y-auto pr-2">
+                    <p><strong>Effective Date:</strong> November 2026</p>
+                    
+                    <h3 class="font-bold text-slate-800 text-base">1. Introduction</h3>
+                    <p>Welcome to <strong>WordCraft & Grammar Arena</strong>. We respect your privacy and are committed to protecting any information you choose to share with us when you use our web application and submit feedback.</p>
+
+                    <h3 class="font-bold text-slate-800 text-base">2. Information We Collect</h3>
+                    <p>When you voluntarily submit feedback through our feedback form, we may collect:</p>
+                    <ul class="list-disc pl-5 space-y-1">
+                        <li>Your feedback comments, ratings, and user experience notes.</li>
+                        <li>Optional demographic details you provide, such as general location, age group/birthday, and gender, solely to help us understand our player community better.</li>
+                    </ul>
+
+                    <h3 class="font-bold text-slate-800 text-base">3. Use of Google reCAPTCHA v3</h3>
+                    <p>To protect our platform and feedback system from automated spam and abuse, this site is protected by Google reCAPTCHA v3. Your use of reCAPTCHA is subject to the <a href="https://policies.google.com/privacy" target="_blank" class="text-indigo-600 underline">Google Privacy Policy</a> and <a href="https://policies.google.com/terms" target="_blank" class="text-indigo-600 underline">Terms of Service</a>.</p>
+
+                    <h3 class="font-bold text-slate-800 text-base">4. How We Use Your Data</h3>
+                    <p>All data collected through the feedback form is used exclusively for evaluating player experiences, improving game features, and fixing bugs. <strong>We will never sell, trade, or rent your personal information to third parties.</strong></p>
+
+                    <h3 class="font-bold text-slate-800 text-base">5. Security</h3>
+                    <p>We implement secure database rules (via Firebase) and verification tools (like reCAPTCHA) to ensure that your submissions remain confidential and secure.</p>
+                </div>
+
+                <div class="pt-4 border-t border-slate-100 text-right">
+                    <button onclick="closePrivacyPolicy()" class="px-5 py-2.5 bg-indigo-600 text-white font-semibold rounded-xl hover:bg-indigo-700 transition">Got it</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- FEEDBACK MODAL -->
+        <div id="feedback-modal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm hidden items-center justify-center p-4 z-50">
+            <div class="bg-white rounded-2xl shadow-xl max-w-md w-full p-6 space-y-4 slide-in">
+                <div class="flex justify-between items-center border-b border-slate-100 pb-3">
+                    <h3 class="text-xl font-extrabold text-slate-900">Player Feedback</h3>
+                    <button onclick="closeFeedbackModal()" class="text-slate-400 hover:text-slate-600 font-bold text-xl">&times;</button>
+                </div>
+                
+                <form id="feedback-form" onsubmit="submitFeedback(event)" class="space-y-3">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Your Comments</label>
+                        <textarea id="fb-comments" rows="3" required class="w-full p-3 border border-slate-200 rounded-xl text-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none" placeholder="Tell us about your experience..."></textarea>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-2">
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Location (Optional)</label>
+                            <input type="text" id="fb-location" class="w-full p-2.5 border border-slate-200 rounded-xl text-sm" placeholder="e.g., Cavite, PH">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Birthday / Age Group (Optional)</label>
+                            <input type="text" id="fb-bday" class="w-full p-2.5 border border-slate-200 rounded-xl text-sm" placeholder="e.g., Month/Year">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Gender (Optional)</label>
+                        <select id="fb-gender" class="w-full p-2.5 border border-slate-200 rounded-xl text-sm bg-white">
+                            <option value="">Prefer not to say</option>
+                            <option value="Female">Female</option>
+                            <option value="Male">Male</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+
+                    <p class="text-xs text-slate-400">
+                        This site is protected by reCAPTCHA and the Google 
+                        <a href="#" onclick="openPrivacyPolicy(); return false;" class="text-indigo-600 underline">Privacy Policy</a> apply.
+                    </p>
+
+                    <div class="pt-2 flex justify-end space-x-2">
+                        <button type="button" onclick="closeFeedbackModal()" class="px-4 py-2 text-sm font-semibold text-slate-600 hover:bg-slate-100 rounded-xl">Cancel</button>
+                        <button type="submit" class="px-5 py-2 text-sm font-semibold text-white bg-indigo-600 hover:bg-indigo-700 rounded-xl shadow-sm transition">Submit Feedback</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
     </main>
 
     <!-- Footer Note -->
     <footer class="w-full max-w-2xl text-center py-3 text-xs text-slate-400">
         WordCraft & Grammar Arena • Cloud-Synced Learning Hub
+        <div class="mt-1">
+            <button onclick="openPrivacyPolicy()" class="text-indigo-600 hover:underline">Privacy Policy</button>
+        </div>
     </footer>
 
     <!-- 1. LOAD SEPARATED QUESTION POOLS FIRST -->
@@ -430,6 +523,61 @@
         function closeLeaderboard() {
             document.getElementById('modal-leaderboard').classList.remove('flex');
             document.getElementById('modal-leaderboard').classList.add('hidden');
+        }
+
+        // --- FEEDBACK & PRIVACY MODAL HANDLERS ---
+        function openFeedbackModal() {
+            document.getElementById('feedback-modal').classList.remove('hidden');
+            document.getElementById('feedback-modal').classList.add('flex');
+        }
+
+        function closeFeedbackModal() {
+            document.getElementById('feedback-modal').classList.remove('flex');
+            document.getElementById('feedback-modal').classList.add('hidden');
+        }
+
+        function openPrivacyPolicy() {
+            document.getElementById('screen-privacy').classList.remove('hidden');
+            document.getElementById('screen-privacy').classList.add('flex');
+        }
+
+        function closePrivacyPolicy() {
+            document.getElementById('screen-privacy').classList.remove('flex');
+            document.getElementById('screen-privacy').classList.add('hidden');
+        }
+
+        function submitFeedback(event) {
+            event.preventDefault();
+            
+            // Execute reCAPTCHA v3 with your public site key
+            grecaptcha.ready(function() {
+                grecaptcha.execute('6LdhqxluAAAAAPfAk58SCKQL8q4NXSqlJQWh-cyO', {action: 'feedback'}).then(function(token) {
+                    if (!token) {
+                        alert("Security verification failed. Please try again.");
+                        return;
+                    }
+
+                    const feedbackData = {
+                        comments: document.getElementById('fb-comments').value,
+                        location: document.getElementById('fb-location').value || 'Not specified',
+                        birthday: document.getElementById('fb-bday').value || 'Not specified',
+                        gender: document.getElementById('fb-gender').value || 'Not specified',
+                        timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+                        recaptchaToken: token
+                    };
+
+                    db.collection("feedback").add(feedbackData)
+                        .then(() => {
+                            alert("Thank you for your feedback!");
+                            document.getElementById('feedback-form').reset();
+                            closeFeedbackModal();
+                        })
+                        .catch((error) => {
+                            console.error("Error writing feedback: ", error);
+                            alert("There was an error submitting your feedback. Please try again.");
+                        });
+                });
+            });
         }
     </script>
 </body>
