@@ -155,6 +155,16 @@ function startQuiz(categoryKey) {
         rawPool = advancedQuestions;
     } else if (categoryKey === 'expert' && typeof expertQuestions !== 'undefined') {
         rawPool = expertQuestions;
+    } else if (categoryKey === 'idioms' && typeof idiomsQuestions !== 'undefined') {
+        rawPool = idiomsQuestions;
+    } else if (categoryKey === 'analogy' && typeof wordAnalogyQuestions !== 'undefined') {
+        rawPool = wordAnalogyQuestions;
+    } else if (categoryKey === 'reading' && typeof readingCompQuestions !== 'undefined') {
+        rawPool = readingCompQuestions;
+    } else if (categoryKey === 'errors' && typeof identifyingErrorsQuestions !== 'undefined') {
+        rawPool = identifyingErrorsQuestions;
+    } else if (categoryKey === 'vocab' && typeof vocabularyQuestions !== 'undefined') {
+        rawPool = vocabularyQuestions;
     } else {
         console.error("Error: Question pool not found for category:", categoryKey);
         alert("Error loading questions. Please check your script file connections.");
@@ -302,12 +312,14 @@ async function showResults() {
     const finalCorrect = document.getElementById('final-correct');
     const stat1Label = document.getElementById('res-stat-1-label');
     const stat2Label = document.getElementById('res-stat-2-label');
+    const resultMessage = document.getElementById('result-message');
 
     if (isTimeTrial) {
         if (stat1Label) stat1Label.textContent = "Final Time (HH:MM:SS)";
         if (stat2Label) stat2Label.textContent = "Questions Solved";
         if (finalScore) finalScore.textContent = formatHHMMSS(elapsedTimeSeconds);
         if (finalCorrect) finalCorrect.textContent = `${currentQuestions.length}/${currentQuestions.length}`;
+        if (resultMessage) resultMessage.textContent = "Time trial record saved successfully!";
 
         if (typeof auth !== 'undefined' && auth.currentUser && typeof db !== 'undefined') {
             try {
@@ -362,36 +374,57 @@ async function showResults() {
             }
         }
     } else {
-        if (stat1Label) stat1Label.textContent = "Final Score";
-        if (stat2Label) stat2Label.textContent = "Correct Answers";
-        if (finalScore) finalScore.textContent = score;
-        if (finalCorrect) finalCorrect.textContent = `${score / 20}/${currentQuestions.length}`;
+        const coreTiers = ['basic', 'teens', 'advanced', 'expert'];
+        const isCoreTier = coreTiers.includes(currentCategory);
 
-        const headerScoreEl = document.getElementById('header-score');
-        const headerStreakEl = document.getElementById('header-streak');
+        const correctCount = userAnswers.filter(a => a.isCorrect).length;
+        const mistakeCount = currentQuestions.length - correctCount;
+        const percentage = Math.round((correctCount / currentQuestions.length) * 100);
 
-        let currentTotalScore = parseInt(headerScoreEl ? headerScoreEl.textContent : 0) || 0;
-        let currentStreak = parseInt(headerStreakEl ? headerStreakEl.textContent : 0) || 0;
+        if (stat1Label) stat1Label.textContent = "Percentage Score";
+        if (stat2Label) stat2Label.textContent = "Correct / Mistakes";
+        if (finalScore) finalScore.textContent = `${percentage}%`;
+        if (finalCorrect) finalCorrect.textContent = `${correctCount} Correct / ${mistakeCount} Mistakes`;
 
-        currentTotalScore += score;
-        currentStreak += 1;
+        // School grading feedback: 65% Failure, 80% Well Done, 100% Perfect
+        if (percentage === 100) {
+            if (resultMessage) resultMessage.innerHTML = "🎯 <span class='font-bold text-emerald-600'>Perfect!</span> Flawless performance.";
+        } else if (percentage >= 80) {
+            if (resultMessage) resultMessage.innerHTML = "🌟 <span class='font-bold text-indigo-600'>Well Done!</span> Great mastery of the topic.";
+        } else {
+            if (resultMessage) resultMessage.innerHTML = "⚠️ <span class='font-bold text-rose-600'>Failure.</span> Keep practicing to improve your score!";
+        }
 
-        if (headerScoreEl) headerScoreEl.textContent = currentTotalScore;
-        if (headerStreakEl) headerStreakEl.textContent = currentStreak;
+        // Update score & streak ONLY for core difficulty tiers (Basic, Teens, Advanced, Expert)
+        if (isCoreTier) {
+            const headerScoreEl = document.getElementById('header-score');
+            const headerStreakEl = document.getElementById('header-streak');
 
-        if (typeof auth !== 'undefined' && auth.currentUser && typeof db !== 'undefined') {
-            try {
-                const userRef = db.collection('users').doc(auth.currentUser.uid);
-                await userRef.set({
-                    email: auth.currentUser.email,
-                    score: currentTotalScore,
-                    streak: currentStreak,
-                    updatedAt: firebase.firestore.FieldValue.serverTimestamp()
-                }, { merge: true });
-                console.log("Cumulative score successfully saved to cloud!");
-            } catch (e) {
-                console.error("Error saving score to cloud:", e);
+            let currentTotalScore = parseInt(headerScoreEl ? headerScoreEl.textContent : 0) || 0;
+            let currentStreak = parseInt(headerStreakEl ? headerStreakEl.textContent : 0) || 0;
+
+            currentTotalScore += score;
+            currentStreak += 1;
+
+            if (headerScoreEl) headerScoreEl.textContent = currentTotalScore;
+            if (headerStreakEl) headerStreakEl.textContent = currentStreak;
+
+            if (typeof auth !== 'undefined' && auth.currentUser && typeof db !== 'undefined') {
+                try {
+                    const userRef = db.collection('users').doc(auth.currentUser.uid);
+                    await userRef.set({
+                        email: auth.currentUser.email,
+                        score: currentTotalScore,
+                        streak: currentStreak,
+                        updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+                    }, { merge: true });
+                    console.log("Cumulative score successfully saved to cloud!");
+                } catch (e) {
+                    console.error("Error saving score to cloud:", e);
+                }
             }
+        } else {
+            console.log("Practice category completed. Excluded from global leaderboard stats.");
         }
     }
 }
