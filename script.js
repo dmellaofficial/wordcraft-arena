@@ -140,7 +140,7 @@ function updateTimeTrialTimer() {
 
     const timerDisplay = document.getElementById('tt-timer-display');
     if (timerDisplay) {
-        timerDisplay.textContent = formatHHMMSS(elapsedTimeSeconds);
+        timerDisplay.textContent = formatCleanTime(elapsedTimeSeconds);
     }
 }
 
@@ -304,9 +304,9 @@ async function showResults() {
     const stat2Label = document.getElementById('res-stat-2-label');
 
     if (isTimeTrial) {
-        if (stat1Label) stat1Label.textContent = "Final Time (HH:MM:SS)";
+        if (stat1Label) stat1Label.textContent = "Final Time";
         if (stat2Label) stat2Label.textContent = "Questions Solved";
-        if (finalScore) finalScore.textContent = formatHHMMSS(elapsedTimeSeconds);
+        if (finalScore) finalScore.textContent = formatCleanTime(elapsedTimeSeconds);
         if (finalCorrect) finalCorrect.textContent = `${currentQuestions.length}/${currentQuestions.length}`;
 
         if (typeof auth !== 'undefined' && auth.currentUser && typeof db !== 'undefined') {
@@ -315,7 +315,7 @@ async function showResults() {
                 const userDoc = await db.collection('users').doc(userId).get();
                 const username = userDoc.exists && userDoc.data().username ? userDoc.data().username : auth.currentUser.email.split('@')[0];
 
-                const finalTimeRounded = parseFloat(elapsedTimeSeconds.toFixed(1));
+                const finalTimeRounded = Math.round(elapsedTimeSeconds);
                 const challengeTypeLabel = `${timeTrialCount} Questions`;
 
                 const existingQuery = await db.collection('timetrials')
@@ -418,20 +418,83 @@ function goHome() {
     loadTimeTrialLeaderboards();
 }
 
-function formatHHMMSS(totalSeconds) {
-    const hrs = Math.floor(totalSeconds / 3600);
-    const mins = Math.floor((totalSeconds % 3600) / 60);
-    const secs = totalSeconds % 60;
+// Fixed Leaderboard Loader avoiding compound index errors by sorting client-side
+async function loadTimeTrialLeaderboards() {
+    await populateTTList('20 Questions', 'tt-leaderboard-list-A', 'emerald');
+    await populateTTList('50 Questions', 'tt-leaderboard-list-B', 'purple');
+}
 
-    const pad = (num) => String(Math.floor(num)).padStart(2, '0');
-    const padSecs = (num) => {
-        const s = num.toFixed(1);
-        return s < 10 ? '0' + s : s;
-    };
+async function populateTTList(challengeType, containerId, colorTheme) {
+    const container = document.getElementById(containerId);
+    if (!container) return;
+
+    container.innerHTML = '<p class="text-center text-slate-400 py-4">Loading times...</p>';
+
+    try {
+        const snapshot = await db.collection('timetrials')
+            .where('challengeType', '==', challengeType)
+            .get();
+
+        container.innerHTML = '';
+
+        if (snapshot.empty) {
+            container.innerHTML = '<p class="text-center text-slate-400 py-4">No records yet.</p>';
+            return;
+        }
+
+        let records = [];
+        snapshot.forEach(doc => {
+            records.push({ id: doc.id, ...doc.data() });
+        });
+
+        // Sort ascending by time (fastest first)
+        records.sort((a, b) => a.timeSeconds - b.timeSeconds);
+        records = records.slice(0, 10); // Keep top 10
+
+        let rank = 1;
+        records.forEach(data => {
+            const playerName = data.username || 'Anonymous';
+            const isYou = currentUser && data.userId === currentUser.uid;
+            const formattedTime = formatCleanTime(data.timeSeconds);
+
+            const bgStyle = isYou 
+                ? (colorTheme === 'emerald' ? 'bg-emerald-50 border-emerald-200' : 'bg-purple-50 border-purple-200')
+                : 'bg-slate-50 border-slate-200';
+            
+            const badgeStyle = colorTheme === 'emerald'
+                ? 'text-emerald-600 bg-emerald-100'
+                : 'text-purple-600 bg-purple-100';
+
+            const row = document.createElement('div');
+            row.className = `flex items-center justify-between p-2.5 rounded-xl border ${bgStyle}`;
+            row.innerHTML = `
+                <div class="flex items-center space-x-2 truncate">
+                    <span class="font-bold text-amber-500">#${rank}</span>
+                    <span class="font-semibold text-slate-800 truncate">${playerName} ${isYou ? '(You)' : ''}</span>
+                </div>
+                <span class="font-bold ${badgeStyle} px-2 py-0.5 rounded-md shrink-0 font-mono">${formattedTime}</span>
+            `;
+            container.appendChild(row);
+            rank++;
+        });
+    } catch (e) {
+        console.error(`Error loading time trial leaderboard for ${challengeType}:`, e);
+        container.innerHTML = '<p class="text-center text-rose-500 py-4">Error loading times.</p>';
+    }
+}
+
+// Formats total seconds into HH:MM:SS or MM:SS (hiding hours if 0, omitting decimal seconds)
+function formatCleanTime(totalSeconds) {
+    const totalSecInt = Math.floor(totalSeconds);
+    const hrs = Math.floor(totalSecInt / 3600);
+    const mins = Math.floor((totalSecInt % 3600) / 60);
+    const secs = totalSecInt % 60;
+
+    const pad = (num) => String(num).padStart(2, '0');
 
     if (hrs > 0) {
-        return `${pad(hrs)}:${pad(mins)}:${padSecs(secs)}`;
+        return `${pad(hrs)}:${pad(mins)}:${pad(secs)}`;
     } else {
-        return `00:${pad(mins)}:${padSecs(secs)}`;
+        return `${pad(mins)}:${pad(secs)}`;
     }
 }
