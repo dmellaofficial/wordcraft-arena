@@ -55,7 +55,7 @@
     </div>
 
     <!-- Header / Navbar -->
-    <header id="main-header" class="w-full max-w-5xl hidden items-center justify-between py-3 px-5 bg-white/90 backdrop-blur-md rounded-2xl border border-slate-200 shadow-sm">
+    <header id="main-header" class="w-full max-w-6xl hidden items-center justify-between py-3 px-5 bg-white/90 backdrop-blur-md rounded-2xl border border-slate-200 shadow-sm">
         <div class="flex items-center space-x-3">
             <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-500 to-purple-500 text-white flex items-center justify-center shadow-md font-extrabold text-xl">
                 W
@@ -93,7 +93,7 @@
     </header>
 
     <!-- Main Container Card -->
-    <main class="w-full max-w-5xl my-auto py-4">
+    <main class="w-full max-w-6xl my-auto py-4">
         
         <!-- SCREEN 0: AUTHENTICATION -->
         <div id="screen-auth" class="slide-in hidden space-y-6 max-w-md mx-auto bg-white border border-slate-200 p-6 sm:p-8 rounded-3xl shadow-xl">
@@ -139,7 +139,7 @@
             </div>
         </div>
 
-        <!-- SCREEN 1: LEVEL SELECTION & SEPARATED TIME TRIAL LEADERBOARDS -->
+        <!-- SCREEN 1: LEVEL SELECTION & SIDE-BY-SIDE TIME TRIAL LEADERBOARDS -->
         <div id="screen-levels" class="slide-in hidden grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
             
             <!-- Left Side: Challenges -->
@@ -199,7 +199,7 @@
                 </button>
             </div>
 
-            <!-- Right Side: Separated Time Trial Leaderboards (Challenge A & Challenge B) -->
+            <!-- Right Side: Side-by-Side Time Trial Leaderboards (Challenge A & Challenge B) -->
             <div class="bg-white border border-slate-200 rounded-3xl p-5 shadow-sm space-y-4">
                 <div class="flex items-center justify-between border-b border-slate-100 pb-3">
                     <div class="flex items-center space-x-2">
@@ -208,22 +208,27 @@
                     </div>
                 </div>
 
-                <!-- Tab Buttons for Challenge A vs Challenge B -->
-                <div class="grid grid-cols-2 gap-2">
-                    <button onclick="switchTTTab('A')" id="btn-tab-a" class="py-1.5 px-3 rounded-xl text-xs font-bold bg-emerald-600 text-white shadow-sm transition">
-                        Challenge A (20Q)
-                    </button>
-                    <button onclick="switchTTTab('B')" id="btn-tab-b" class="py-1.5 px-3 rounded-xl text-xs font-bold bg-slate-100 text-slate-600 hover:bg-slate-200 transition">
-                        Challenge B (50Q)
-                    </button>
-                </div>
+                <!-- Challenge A & Challenge B Side-by-Side Columns -->
+                <div class="grid grid-cols-1 xl:grid-cols-2 gap-3">
+                    <!-- Challenge A List -->
+                    <div class="space-y-2">
+                        <div class="py-1 px-2 rounded-xl text-[11px] font-extrabold bg-emerald-600 text-white text-center shadow-xs">
+                            Challenge A (20Q)
+                        </div>
+                        <div id="tt-leaderboard-list-A" class="space-y-1.5 max-h-72 overflow-y-auto pr-1 text-xs">
+                            <p class="text-center text-slate-400 py-4 text-[11px]">Loading...</p>
+                        </div>
+                    </div>
 
-                <!-- Leaderboard List Containers -->
-                <div id="tt-leaderboard-list-A" class="space-y-2 max-h-72 overflow-y-auto pr-1 text-xs">
-                    <p class="text-center text-slate-400 py-6">Loading times...</p>
-                </div>
-                <div id="tt-leaderboard-list-B" class="space-y-2 max-h-72 overflow-y-auto pr-1 text-xs hidden">
-                    <p class="text-center text-slate-400 py-6">Loading times...</p>
+                    <!-- Challenge B List -->
+                    <div class="space-y-2">
+                        <div class="py-1 px-2 rounded-xl text-[11px] font-extrabold bg-purple-600 text-white text-center shadow-xs">
+                            Challenge B (50Q)
+                        </div>
+                        <div id="tt-leaderboard-list-B" class="space-y-1.5 max-h-72 overflow-y-auto pr-1 text-xs">
+                            <p class="text-center text-slate-400 py-4 text-[11px]">Loading...</p>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -471,7 +476,7 @@
     </main>
 
     <!-- Footer Note -->
-    <footer class="w-full max-w-5xl text-center py-3 text-xs text-slate-400">
+    <footer class="w-full max-w-6xl text-center py-3 text-xs text-slate-400">
         WordCraft & Grammar Arena • Cloud-Synced Learning Hub
         <div class="mt-1 space-x-3">
             <button onclick="openAboutModal()" class="text-indigo-600 hover:underline">About</button>
@@ -700,26 +705,6 @@
             document.getElementById('modal-leaderboard').classList.add('hidden');
         }
 
-        // --- TAB SWITCHER FOR TIME TRIAL LEADERBOARDS ---
-        function switchTTTab(tab) {
-            const btnA = document.getElementById('btn-tab-a');
-            const btnB = document.getElementById('btn-tab-b');
-            const listA = document.getElementById('tt-leaderboard-list-A');
-            const listB = document.getElementById('tt-leaderboard-list-B');
-
-            if (tab === 'A') {
-                btnA.className = "py-1.5 px-3 rounded-xl text-xs font-bold bg-emerald-600 text-white shadow-sm transition";
-                btnB.className = "py-1.5 px-3 rounded-xl text-xs font-bold bg-slate-100 text-slate-600 hover:bg-slate-200 transition";
-                listA.classList.remove('hidden');
-                listB.classList.add('hidden');
-            } else {
-                btnB.className = "py-1.5 px-3 rounded-xl text-xs font-bold bg-purple-600 text-white shadow-sm transition";
-                btnA.className = "py-1.5 px-3 rounded-xl text-xs font-bold bg-slate-100 text-slate-600 hover:bg-slate-200 transition";
-                listB.classList.remove('hidden');
-                listA.classList.add('hidden');
-            }
-        }
-
         async function loadTimeTrialLeaderboards() {
             await populateTTList('20 Questions', 'tt-leaderboard-list-A', 'emerald');
             await populateTTList('50 Questions', 'tt-leaderboard-list-B', 'purple');
@@ -734,23 +719,34 @@
             try {
                 const snapshot = await db.collection('timetrials')
                     .where('challengeType', '==', challengeType)
-                    .orderBy('timeSeconds', 'asc')
-                    .limit(10)
                     .get();
 
                 container.innerHTML = '';
 
                 if (snapshot.empty) {
-                    container.innerHTML = '<p class="text-center text-slate-400 py-4">No records yet.</p>';
+                    container.innerHTML = '<p class="text-center text-slate-400 py-4 text-[11px]">No records yet.</p>';
                     return;
                 }
 
-                let rank = 1;
+                let records = [];
                 snapshot.forEach(doc => {
-                    const data = doc.data();
+                    records.push({ id: doc.id, ...doc.data() });
+                });
+
+                records.sort((a, b) => a.timeSeconds - b.timeSeconds);
+                records = records.slice(0, 10);
+
+                let rank = 1;
+                records.forEach(data => {
                     const playerName = data.username || 'Anonymous';
                     const isYou = currentUser && data.userId === currentUser.uid;
                     const formattedTime = formatHHMMSS(data.timeSeconds);
+
+                    let rankDisplay = '';
+                    if (rank === 1) rankDisplay = '🥇';
+                    else if (rank === 2) rankDisplay = '🥈';
+                    else if (rank === 3) rankDisplay = '🥉';
+                    else rankDisplay = `#${rank}`;
 
                     const bgStyle = isYou 
                         ? (colorTheme === 'emerald' ? 'bg-emerald-50 border-emerald-200' : 'bg-purple-50 border-purple-200')
@@ -761,20 +757,20 @@
                         : 'text-purple-600 bg-purple-100';
 
                     const row = document.createElement('div');
-                    row.className = `flex items-center justify-between p-2.5 rounded-xl border ${bgStyle}`;
+                    row.className = `flex items-center justify-between p-2 rounded-xl border ${bgStyle}`;
                     row.innerHTML = `
                         <div class="flex items-center space-x-2 truncate">
-                            <span class="font-bold text-amber-500">#${rank}</span>
+                            <span class="font-bold text-sm w-6 text-center">${rankDisplay}</span>
                             <span class="font-semibold text-slate-800 truncate">${playerName} ${isYou ? '(You)' : ''}</span>
                         </div>
-                        <span class="font-bold ${badgeStyle} px-2 py-0.5 rounded-md shrink-0 font-mono">${formattedTime}</span>
+                        <span class="font-bold ${badgeStyle} px-1.5 py-0.5 rounded-md shrink-0 font-mono text-[11px]">${formattedTime}</span>
                     `;
                     container.appendChild(row);
                     rank++;
                 });
             } catch (e) {
                 console.error(`Error loading time trial leaderboard for ${challengeType}:`, e);
-                container.innerHTML = '<p class="text-center text-rose-500 py-4">Error loading times.</p>';
+                container.innerHTML = '<p class="text-center text-rose-500 py-4 text-[11px]">Error loading times.</p>';
             }
         }
 
@@ -856,21 +852,13 @@
         }
 
         function formatHHMMSS(totalSeconds) {
-            const hrs = Math.floor(totalSeconds / 3600);
-            const mins = Math.floor((totalSeconds % 3600) / 60);
-            const secs = totalSeconds % 60;
+            const totalSecInt = Math.floor(totalSeconds);
+            const hrs = Math.floor(totalSecInt / 3600);
+            const mins = Math.floor((totalSecInt % 3600) / 60);
+            const secs = totalSecInt % 60;
 
-            const pad = (num) => String(Math.floor(num)).padStart(2, '0');
-            const padSecs = (num) => {
-                const s = num.toFixed(1);
-                return s < 10 ? '0' + s : s;
-            };
-
-            if (hrs > 0) {
-                return `${pad(hrs)}:${pad(mins)}:${padSecs(secs)}`;
-            } else {
-                return `00:${pad(mins)}:${padSecs(secs)}`;
-            }
+            const pad = (num) => String(num).padStart(2, '0');
+            return `${pad(hrs)}:${pad(mins)}:${pad(secs)}`;
         }
     </script>
 </body>
