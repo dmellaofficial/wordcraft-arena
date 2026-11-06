@@ -197,6 +197,28 @@
                 <button onclick="openTimeTrialModal()" class="w-full p-4 bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold rounded-2xl shadow-md transition flex items-center justify-center space-x-2 text-lg">
                     <span>⚡ Time Trial Challenge</span>
                 </button>
+
+                <!-- Skill Practice Categories -->
+                <div class="space-y-2.5 pt-2">
+                    <h3 class="font-bold text-slate-800 text-sm px-1">Skill Practice Categories (10 Qs per session, shuffled)</h3>
+                    <div class="grid grid-cols-2 sm:grid-cols-3 gap-2.5">
+                        <button onclick="selectLevel('idioms')" class="p-3 bg-white hover:bg-slate-50 border border-slate-200 hover:border-indigo-400 rounded-xl text-center transition shadow-xs text-xs font-bold text-slate-700">
+                            💬 Idioms
+                        </button>
+                        <button onclick="selectLevel('analogy')" class="p-3 bg-white hover:bg-slate-50 border border-slate-200 hover:border-indigo-400 rounded-xl text-center transition shadow-xs text-xs font-bold text-slate-700">
+                            🔄 Word Analogy
+                        </button>
+                        <button onclick="selectLevel('reading')" class="p-3 bg-white hover:bg-slate-50 border border-slate-200 hover:border-indigo-400 rounded-xl text-center transition shadow-xs text-xs font-bold text-slate-700">
+                            📖 Reading Comp
+                        </button>
+                        <button onclick="selectLevel('errors')" class="p-3 bg-white hover:bg-slate-50 border border-slate-200 hover:border-indigo-400 rounded-xl text-center transition shadow-xs text-xs font-bold text-slate-700">
+                            ⚠️ Identifying Errors
+                        </button>
+                        <button onclick="selectLevel('vocab')" class="p-3 bg-white hover:bg-slate-50 border border-slate-200 hover:border-indigo-400 rounded-xl text-center transition shadow-xs text-xs font-bold text-slate-700">
+                            📚 Vocabulary
+                        </button>
+                    </div>
+                </div>
             </div>
 
             <!-- Right Side: Side-by-Side Time Trial Leaderboards (Challenge A & Challenge B) -->
@@ -529,6 +551,7 @@
     <script src="teens-questions.js?v=5.0"></script>
     <script src="advanced-questions.js?v=5.0"></script>
     <script src="expert-questions.js?v=5.0"></script>
+    <script src="extra-questions.js?v=5.0"></script>
 
     <!-- 2. MAIN GAME LOGIC SCRIPT SECOND -->
     <script src="script.js?v=5.0"></script>
@@ -914,7 +937,7 @@
         }
     </script>
 
-        <!-- Cookie Consent Script -->
+    <!-- Cookie Consent Script -->
     <script src="cookie-banner.js?v=1.0"></script>
 </body>
 </html>
