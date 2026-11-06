@@ -198,24 +198,44 @@
                     <span>⚡ Time Trial Challenge</span>
                 </button>
 
-                <!-- Skill Practice Categories -->
-                <div class="space-y-2.5 pt-2">
+                <!-- Bigger Full-Width Skill Practice Categories -->
+                <div class="space-y-3 pt-2">
                     <h3 class="font-bold text-slate-800 text-sm px-1">Skill Practice Categories (10 Qs per session, shuffled)</h3>
-                    <div class="grid grid-cols-2 sm:grid-cols-3 gap-2.5">
-                        <button onclick="selectLevel('idioms')" class="p-3 bg-white hover:bg-slate-50 border border-slate-200 hover:border-indigo-400 rounded-xl text-center transition shadow-xs text-xs font-bold text-slate-700">
-                            💬 Idioms
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <button onclick="selectLevel('idioms')" class="p-4 bg-white hover:bg-slate-50 border border-slate-200 hover:border-indigo-400 rounded-2xl text-left transition shadow-sm flex items-center space-x-3.5 group">
+                            <span class="text-2xl p-2 bg-indigo-50 rounded-xl group-hover:scale-110 transition">💬</span>
+                            <div>
+                                <h4 class="font-black text-slate-900 group-hover:text-indigo-600 text-base">Idioms</h4>
+                                <p class="text-xs text-slate-500">Master common phrases & meanings</p>
+                            </div>
                         </button>
-                        <button onclick="selectLevel('analogy')" class="p-3 bg-white hover:bg-slate-50 border border-slate-200 hover:border-indigo-400 rounded-xl text-center transition shadow-xs text-xs font-bold text-slate-700">
-                            🔄 Word Analogy
+                        <button onclick="selectLevel('analogy')" class="p-4 bg-white hover:bg-slate-50 border border-slate-200 hover:border-indigo-400 rounded-2xl text-left transition shadow-sm flex items-center space-x-3.5 group">
+                            <span class="text-2xl p-2 bg-indigo-50 rounded-xl group-hover:scale-110 transition">🔄</span>
+                            <div>
+                                <h4 class="font-black text-slate-900 group-hover:text-indigo-600 text-base">Word Analogy</h4>
+                                <p class="text-xs text-slate-500">Sharpen logical connections</p>
+                            </div>
                         </button>
-                        <button onclick="selectLevel('reading')" class="p-3 bg-white hover:bg-slate-50 border border-slate-200 hover:border-indigo-400 rounded-xl text-center transition shadow-xs text-xs font-bold text-slate-700">
-                            📖 Reading Comp
+                        <button onclick="selectLevel('reading')" class="p-4 bg-white hover:bg-slate-50 border border-slate-200 hover:border-indigo-400 rounded-2xl text-left transition shadow-sm flex items-center space-x-3.5 group">
+                            <span class="text-2xl p-2 bg-indigo-50 rounded-xl group-hover:scale-110 transition">📖</span>
+                            <div>
+                                <h4 class="font-black text-slate-900 group-hover:text-indigo-600 text-base">Reading Comprehension</h4>
+                                <p class="text-xs text-slate-500">Analyze passages & details</p>
+                            </div>
                         </button>
-                        <button onclick="selectLevel('errors')" class="p-3 bg-white hover:bg-slate-50 border border-slate-200 hover:border-indigo-400 rounded-xl text-center transition shadow-xs text-xs font-bold text-slate-700">
-                            ⚠️ Identifying Errors
+                        <button onclick="selectLevel('errors')" class="p-4 bg-white hover:bg-slate-50 border border-slate-200 hover:border-indigo-400 rounded-2xl text-left transition shadow-sm flex items-center space-x-3.5 group">
+                            <span class="text-2xl p-2 bg-indigo-50 rounded-xl group-hover:scale-110 transition">⚠️</span>
+                            <div>
+                                <h4 class="font-black text-slate-900 group-hover:text-indigo-600 text-base">Identifying Errors</h4>
+                                <p class="text-xs text-slate-500">Spot grammar & syntax mistakes</p>
+                            </div>
                         </button>
-                        <button onclick="selectLevel('vocab')" class="p-3 bg-white hover:bg-slate-50 border border-slate-200 hover:border-indigo-400 rounded-xl text-center transition shadow-xs text-xs font-bold text-slate-700">
-                            📚 Vocabulary
+                        <button onclick="selectLevel('vocab')" class="p-4 bg-white hover:bg-slate-50 border border-slate-200 hover:border-indigo-400 rounded-2xl text-left transition shadow-sm flex items-center space-x-3.5 group sm:col-span-2">
+                            <span class="text-2xl p-2 bg-indigo-50 rounded-xl group-hover:scale-110 transition">📚</span>
+                            <div>
+                                <h4 class="font-black text-slate-900 group-hover:text-indigo-600 text-base">Vocabulary</h4>
+                                <p class="text-xs text-slate-500">Expand your advanced word bank</p>
+                            </div>
                         </button>
                     </div>
                 </div>
