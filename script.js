@@ -8,22 +8,46 @@ let currentQuestionIndex = 0;
 let score = 0;
 let userAnswers = [];
 
+// Time Trial specific state
+let isTimeTrial = false;
+let timeTrialCount = 10;
+let timeTrialStartTime = 0;
+let timeTrialTimerInterval = null;
+let elapsedTimeSeconds = 0;
+
 // Initialize App State on DOM Load
 document.addEventListener('DOMContentLoaded', () => {
     console.log("WordCraft & Grammar Arena initialized successfully.");
 });
 
 /**
- * Shuffles an array of questions and randomizes the answer positions (A, B, C, D)
+ * Shuffles an array of questions and randomizes answer positions (A, B, C, D)
  */
 function getShuffledSessionQuestions(rawPool, count = 10) {
-    const shuffledPool = [...rawPool].sort(() => Math.random() - 0.5);
+    // Anti-repetition check: load recent session question keys from localStorage
+    let recentIds = JSON.parse(localStorage.getItem('wordcraft_recent_q') || '[]');
+    
+    // Filter out questions used in the last 5 sessions if possible
+    let availablePool = rawPool.filter(item => !recentIds.includes(item.q));
+    if (availablePool.length < count) {
+        availablePool = [...rawPool]; // Reset if pool is exhausted
+    }
+
+    const shuffledPool = [...availablePool].sort(() => Math.random() - 0.5);
     const selected = shuffledPool.slice(0, count);
+
+    // Save current selected question texts to recent history
+    const selectedIds = selected.map(item => item.q);
+    recentIds.push(...selectedIds);
+    // Keep history trimmed to last (count * 5) questions to ensure 5-session separation
+    if (recentIds.length > count * 5) {
+        recentIds = recentIds.slice(-count * 5);
+    }
+    localStorage.setItem('wordcraft_recent_q', JSON.stringify(recentIds));
 
     return selected.map(item => {
         const indexedOptions = item.options.map((opt, idx) => ({ text: opt, originalIdx: idx }));
         
-        // Fisher-Yates shuffle on the options
         for (let i = indexedOptions.length - 1; i > 0; i--) {
             const j = Math.floor(Math.random() * (i + 1));
             [indexedOptions[i], indexedOptions[j]] = [indexedOptions[j], indexedOptions[i]];
@@ -40,15 +64,98 @@ function getShuffledSessionQuestions(rawPool, count = 10) {
     });
 }
 
-/**
- * Bridge function matching the HTML button call
- */
 function selectLevel(categoryKey) {
+    isTimeTrial = false;
     startQuiz(categoryKey);
 }
 
 /**
- * Starts a quiz session for a selected difficulty tier using the separated question pools.
+ * Initiates Time Trial Challenge setup from modal selection
+ */
+function startTimedChallenge(questionCount) {
+    closeTimeTrialModal();
+    
+    // Combine Intermediate, Advanced, and Expert pools
+    let combinedPool = [];
+    if (typeof teensQuestions !== 'undefined') combinedPool.push(...teensQuestions);
+    if (typeof advancedQuestions !== 'undefined') combinedPool.push(...advancedQuestions);
+    if (typeof expertQuestions !== 'undefined') combinedPool.push(...expertQuestions);
+
+    if (combinedPool.length === 0) {
+        alert("Question pools for Time Trial are not loaded.");
+        return;
+    }
+
+    isTimeTrial = true;
+    timeTrialCount = questionCount;
+    currentCategory = `Time Trial (${questionCount} Qs)`;
+    currentQuestions = getShuffledSessionQuestions(combinedPool, questionCount);
+    currentQuestionIndex = 0;
+    score = 0;
+    userAnswers = [];
+
+    // Show 3-second countdown before starting
+    runCountdown(() => {
+        const dashboard = document.getElementById('screen-levels');
+        const quizView = document.getElementById('screen-quiz');
+        const resultsView = document.getElementById('screen-results');
+
+        if (dashboard) dashboard.classList.add('hidden');
+        if (resultsView) resultsView.classList.add('hidden');
+        if (quizView) quizView.classList.remove('hidden');
+
+        // Start Stopwatch
+        elapsedTimeSeconds = 0;
+        timeTrialStartTime = Date.now();
+        const timerWrapper = document.getElementById('tt-timer-wrapper');
+        if (timerWrapper) timerWrapper.classList.remove('hidden');
+
+        if (timeTrialTimerInterval) clearInterval(timeTrialTimerInterval);
+        timeTrialTimerInterval = setInterval(updateTimeTrialTimer, 100);
+
+        loadQuestion();
+    });
+}
+
+function runCountdown(onComplete) {
+    const countdownModal = document.getElementById('modal-countdown');
+    const numberEl = document.getElementById('countdown-number');
+    if (!countdownModal || !numberEl) {
+        onComplete();
+        return;
+    }
+
+    countdownModal.classList.remove('hidden');
+    countdownModal.classList.add('flex');
+    
+    let count = 3;
+    numberEl.textContent = count;
+
+    const timer = setInterval(() => {
+        count--;
+        if (count > 0) {
+            numberEl.textContent = count;
+        } else if (count === 0) {
+            numberEl.textContent = "GO!";
+        } else {
+            clearInterval(timer);
+            countdownModal.classList.remove('flex');
+            countdownModal.classList.add('hidden');
+            onComplete();
+        }
+    }, 1000);
+}
+
+function updateTimeTrialTimer() {
+    elapsedTimeSeconds = (Date.now() - timeTrialStartTime) / 1000;
+    const timerDisplay = document.getElementById('tt-timer-display');
+    if (timerDisplay) {
+        timerDisplay.textContent = `${elapsedTimeSeconds.toFixed(1)}s`;
+    }
+}
+
+/**
+ * Starts a quiz session for a regular difficulty tier.
  */
 function startQuiz(categoryKey) {
     let rawPool = [];
@@ -73,11 +180,12 @@ function startQuiz(categoryKey) {
     score = 0;
     userAnswers = [];
 
-    // Switch UI Views
     const dashboard = document.getElementById('screen-levels');
     const quizView = document.getElementById('screen-quiz');
     const resultsView = document.getElementById('screen-results');
+    const timerWrapper = document.getElementById('tt-timer-wrapper');
 
+    if (timerWrapper) timerWrapper.classList.add('hidden');
     if (dashboard) dashboard.classList.add('hidden');
     if (resultsView) resultsView.classList.add('hidden');
     if (quizView) quizView.classList.remove('hidden');
@@ -90,6 +198,9 @@ function startQuiz(categoryKey) {
  */
 function loadQuestion() {
     if (currentQuestionIndex >= currentQuestions.length) {
+        if (isTimeTrial && timeTrialTimerInterval) {
+            clearInterval(timeTrialTimerInterval);
+        }
         showResults();
         return;
     }
@@ -100,7 +211,7 @@ function loadQuestion() {
     const questionCounter = document.getElementById('question-counter');
     const progressBar = document.getElementById('progress-bar');
 
-    if (categoryTitle) categoryTitle.innerText = `${currentCategory.toUpperCase()} Tier (10 Qs)`;
+    if (categoryTitle) categoryTitle.innerText = isTimeTrial ? currentCategory.toUpperCase() : `${currentCategory.toUpperCase()} Tier (10 Qs)`;
     if (questionCounter) questionCounter.innerText = `Question ${currentQuestionIndex + 1} of ${currentQuestions.length}`;
     
     if (progressBar) {
@@ -207,79 +318,75 @@ async function showResults() {
 
     const finalScore = document.getElementById('final-score');
     const finalCorrect = document.getElementById('final-correct');
+    const stat1Label = document.getElementById('res-stat-1-label');
+    const stat2Label = document.getElementById('res-stat-2-label');
 
-    if (finalScore) finalScore.textContent = score;
-    if (finalCorrect) finalCorrect.textContent = `${score / 20}/${currentQuestions.length}`;
+    if (isTimeTrial) {
+        if (stat1Label) stat1Label.textContent = "Completion Time";
+        if (stat2Label) stat2Label.textContent = "Questions Solved";
+        if (finalScore) finalScore.textContent = `${elapsedTimeSeconds.toFixed(1)}s`;
+        if (finalCorrect) finalCorrect.textContent = `${currentQuestions.length}/${currentQuestions.length}`;
 
-    // Read current total from header elements safely
-    const headerScoreEl = document.getElementById('header-score');
-    const headerStreakEl = document.getElementById('header-streak');
+        // Save Time Trial record to separate 'timetrials' collection
+        if (typeof auth !== 'undefined' && auth.currentUser && typeof db !== 'undefined') {
+            try {
+                const userDoc = await db.collection('users').doc(auth.currentUser.uid).get();
+                const username = userDoc.exists && userDoc.data().username ? userDoc.data().username : auth.currentUser.email.split('@')[0];
 
-    let currentTotalScore = parseInt(headerScoreEl ? headerScoreEl.textContent : 0) || 0;
-    let currentStreak = parseInt(headerStreakEl ? headerStreakEl.textContent : 0) || 0;
-
-    // Add session score to cumulative totals
-    currentTotalScore += score;
-    currentStreak += 1;
-
-    // Update UI headers immediately
-    if (headerScoreEl) headerScoreEl.textContent = currentTotalScore;
-    if (headerStreakEl) headerStreakEl.textContent = currentStreak;
-
-    // Push secure update to Firebase Firestore
-    if (typeof auth !== 'undefined' && auth.currentUser && typeof db !== 'undefined') {
-        try {
-            const userRef = db.collection('users').doc(auth.currentUser.uid);
-            await userRef.set({
-                email: auth.currentUser.email,
-                score: currentTotalScore,
-                streak: currentStreak,
-                updatedAt: firebase.firestore.FieldValue.serverTimestamp()
-            }, { merge: true });
-            console.log("Cumulative score successfully saved to cloud!");
-        } catch (e) {
-            console.error("Error saving score to cloud:", e);
+                await db.collection('timetrials').add({
+                    userId: auth.currentUser.uid,
+                    username: username,
+                    timeSeconds: parseFloat(elapsedTimeSeconds.toFixed(1)),
+                    challengeType: `${timeTrialCount} Questions`,
+                    timestamp: firebase.firestore.FieldValue.serverTimestamp()
+                });
+                console.log("Time trial score recorded successfully!");
+                loadTimeTrialLeaderboard();
+            } catch (e) {
+                console.error("Error saving time trial record:", e);
+            }
         }
-    }
-}
+    } else {
+        if (stat1Label) stat1Label.textContent = "Final Score";
+        if (stat2Label) stat2Label.textContent = "Correct Answers";
+        if (finalScore) finalScore.textContent = score;
+        if (finalCorrect) finalCorrect.textContent = `${score / 20}/${currentQuestions.length}`;
 
-/**
- * Loads user data safely from Firestore on login or refresh
- */
-async function loadUserData(uid) {
-    if (typeof db === 'undefined') return;
-    try {
-        const docRef = db.collection('users').doc(uid);
-        const docSnap = await docRef.get();
-        
-        const headerScore = document.getElementById('header-score');
-        const headerStreak = document.getElementById('header-streak');
+        const headerScoreEl = document.getElementById('header-score');
+        const headerStreakEl = document.getElementById('header-streak');
 
-        if (docSnap.exists) {
-            const data = docSnap.data();
-            const totalScore = data.score || 0;
-            const streak = data.streak || 0;
-            
-            if (headerScore) headerScore.textContent = totalScore;
-            if (headerStreak) headerStreak.textContent = streak;
-        } else {
-            // Initialize document if it doesn't exist yet
-            await docRef.set({
-                email: auth.currentUser ? auth.currentUser.email : '',
-                score: 0,
-                streak: 0,
-                updatedAt: firebase.firestore.FieldValue.serverTimestamp()
-            });
-            if (headerScore) headerScore.textContent = 0;
-            if (headerStreak) headerStreak.textContent = 0;
+        let currentTotalScore = parseInt(headerScoreEl ? headerScoreEl.textContent : 0) || 0;
+        let currentStreak = parseInt(headerStreakEl ? headerStreakEl.textContent : 0) || 0;
+
+        currentTotalScore += score;
+        currentStreak += 1;
+
+        if (headerScoreEl) headerScoreEl.textContent = currentTotalScore;
+        if (headerStreakEl) headerStreakEl.textContent = currentStreak;
+
+        if (typeof auth !== 'undefined' && auth.currentUser && typeof db !== 'undefined') {
+            try {
+                const userRef = db.collection('users').doc(auth.currentUser.uid);
+                await userRef.set({
+                    email: auth.currentUser.email,
+                    score: currentTotalScore,
+                    streak: currentStreak,
+                    updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+                }, { merge: true });
+                console.log("Cumulative score successfully saved to cloud!");
+            } catch (e) {
+                console.error("Error saving score to cloud:", e);
+            }
         }
-    } catch (e) {
-        console.error("Error loading user data:", e);
     }
 }
 
 function restartQuiz() {
-    startQuiz(currentCategory);
+    if (isTimeTrial) {
+        startTimedChallenge(timeTrialCount);
+    } else {
+        startQuiz(currentCategory);
+    }
     const resultsView = document.getElementById('screen-results');
     if (resultsView) resultsView.classList.add('hidden');
 }
@@ -292,4 +399,6 @@ function goHome() {
     if (resultsView) resultsView.classList.add('hidden');
     if (quizView) quizView.classList.add('hidden');
     if (levelsView) levelsView.classList.remove('hidden');
+    
+    loadTimeTrialLeaderboard();
 }
