@@ -104,6 +104,12 @@
             <div id="auth-error" class="hidden p-3 rounded-xl bg-rose-50 border border-rose-200 text-rose-600 text-xs text-center"></div>
 
             <form id="auth-form" onsubmit="handleAuth(event)" class="space-y-4">
+                <!-- USERNAME FIELD (Only shown during Sign Up) -->
+                <div id="username-field-container" class="space-y-1 hidden">
+                    <label class="text-xs font-semibold text-slate-700">Display Username</label>
+                    <input type="text" id="auth-username" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 text-sm focus:outline-none focus:border-indigo-500 focus:bg-white" placeholder="Choose a cool gamer handle">
+                </div>
+
                 <div class="space-y-1">
                     <label class="text-xs font-semibold text-slate-700">Email Address</label>
                     <input type="email" id="auth-email" required class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 text-sm focus:outline-none focus:border-indigo-500 focus:bg-white" placeholder="your.email@example.com">
@@ -409,9 +415,8 @@
                 levelScreen.classList.remove('hidden');
                 mainHeader.classList.remove('hidden');
                 mainHeader.classList.add('flex');
-                document.getElementById('user-display-email').textContent = user.email.split('@')[0];
                 
-                // Fetch the user's saved score and streak from Firestore immediately
+                // Fetch the user's saved username, score, and streak from Firestore immediately
                 await loadUserData(user.uid);
             } else {
                 currentUser = null;
@@ -426,11 +431,21 @@
 
         function toggleAuthMode() {
             isSignUpMode = !isSignUpMode;
+            const usernameContainer = document.getElementById('username-field-container');
+            
             document.getElementById('auth-title').textContent = isSignUpMode ? "Create Account" : "Welcome to WordCraft";
             document.getElementById('auth-submit-btn').textContent = isSignUpMode ? "Sign Up" : "Sign In";
             document.getElementById('auth-toggle-text').textContent = isSignUpMode ? "Already have an account?" : "Don't have an account?";
             document.getElementById('auth-toggle-btn').textContent = isSignUpMode ? "Sign in" : "Create one";
             document.getElementById('auth-error').classList.add('hidden');
+
+            if (isSignUpMode) {
+                usernameContainer.classList.remove('hidden');
+                document.getElementById('auth-username').required = true;
+            } else {
+                usernameContainer.classList.add('hidden');
+                document.getElementById('auth-username').required = false;
+            }
         }
 
         async function handleAuth(event) {
@@ -440,21 +455,46 @@
             const errBox = document.getElementById('auth-error');
             errBox.classList.add('hidden');
 
-            try {
-                if (isSignUpMode) {
-                    const cred = await auth.createUserWithEmailAndPassword(email, password);
-                    await db.collection('users').doc(cred.user.uid).set({
-                        email: email,
-                        score: 0,
-                        streak: 0,
-                        updatedAt: firebase.firestore.FieldValue.serverTimestamp()
-                    });
-                } else {
-                    await auth.signInWithEmailAndPassword(email, password);
+            if (isSignUpMode) {
+                const username = document.getElementById('auth-username').value.trim();
+                if (!username) {
+                    errBox.textContent = "Please choose a display username.";
+                    errBox.classList.remove('hidden');
+                    return;
                 }
-            } catch (error) {
-                errBox.textContent = error.message;
-                errBox.classList.remove('hidden');
+
+                // Execute reCAPTCHA v3 verification for bot protection on signup
+                grecaptcha.ready(function() {
+                    grecaptcha.execute('6LdhqxluAAAAAPfAk58SCKQL8q4NXSqlJQWh-cyO', {action: 'signup'}).then(async function(token) {
+                        if (!token) {
+                            errBox.textContent = "Security verification failed. Please try again.";
+                            errBox.classList.remove('hidden');
+                            return;
+                        }
+
+                        try {
+                            const cred = await auth.createUserWithEmailAndPassword(email, password);
+                            await db.collection('users').doc(cred.user.uid).set({
+                                email: email,
+                                username: username,
+                                score: 0,
+                                streak: 0,
+                                recaptchaToken: token,
+                                updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+                            });
+                        } catch (error) {
+                            errBox.textContent = error.message;
+                            errBox.classList.remove('hidden');
+                        }
+                    });
+                });
+            } else {
+                try {
+                    await auth.signInWithEmailAndPassword(email, password);
+                } catch (error) {
+                    errBox.textContent = error.message;
+                    errBox.classList.remove('hidden');
+                }
             }
         }
 
@@ -465,16 +505,33 @@
         async function loadUserData(uid) {
             if (typeof db === 'undefined') return;
             try {
-                const docRef = await db.collection('users').doc(uid).get();
-                if (docRef.exists) {
-                    const data = docRef.data();
+                const docRef = db.collection('users').doc(uid);
+                const docSnap = await docRef.get();
+                
+                const headerScore = document.getElementById('header-score');
+                const headerStreak = document.getElementById('header-streak');
+                const displayLabel = document.getElementById('user-display-email');
+
+                if (docSnap.exists) {
+                    const data = docSnap.data();
                     totalScore = data.score || 0;
                     streak = data.streak || 0;
+                    const customName = data.username || (currentUser && currentUser.email ? currentUser.email.split('@')[0] : 'Player');
                     
-                    const headerScore = document.getElementById('header-score');
-                    const headerStreak = document.getElementById('header-streak');
                     if (headerScore) headerScore.textContent = totalScore;
                     if (headerStreak) headerStreak.textContent = streak;
+                    if (displayLabel) displayLabel.textContent = customName;
+                } else {
+                    // Fallback initialization if user doc doesn't exist yet
+                    const defaultName = currentUser && currentUser.email ? currentUser.email.split('@')[0] : 'Player';
+                    await docRef.set({
+                        email: currentUser ? currentUser.email : '',
+                        username: defaultName,
+                        score: 0,
+                        streak: 0,
+                        updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+                    });
+                    if (displayLabel) displayLabel.textContent = defaultName;
                 }
             } catch (e) {
                 console.error("Error loading user data:", e);
@@ -500,7 +557,7 @@
                 let rank = 1;
                 snapshot.forEach(doc => {
                     const data = doc.data();
-                    const emailName = data.email ? data.email.split('@')[0] : 'Anonymous';
+                    const playerName = data.username || (data.email ? data.email.split('@')[0] : 'Anonymous');
                     const isYou = currentUser && doc.id === currentUser.uid;
 
                     const row = document.createElement('div');
@@ -508,7 +565,7 @@
                     row.innerHTML = `
                         <div class="flex items-center space-x-3">
                             <span class="font-bold text-amber-500">${rank}</span>
-                            <span class="font-semibold text-sm text-slate-800">${emailName} ${isYou ? '(You)' : ''}</span>
+                            <span class="font-semibold text-sm text-slate-800">${playerName} ${isYou ? '(You)' : ''}</span>
                         </div>
                         <span class="text-xs font-bold text-indigo-600 bg-indigo-100 px-2.5 py-1 rounded-lg">${data.score || 0} pts</span>
                     `;
