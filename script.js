@@ -419,11 +419,24 @@ function goHome() {
 }
 
 async function loadTimeTrialLeaderboards() {
-    await populateTTList('20 Questions', 'tt-leaderboard-list-A', 'emerald');
-    await populateTTList('50 Questions', 'tt-leaderboard-list-B', 'purple');
+    await populateTTList('20 Questions', 'tt-leaderboard-list-A', 'emerald', 5);
+    await populateTTList('50 Questions', 'tt-leaderboard-list-B', 'purple', 5);
 }
 
-async function populateTTList(challengeType, containerId, colorTheme) {
+async function openFullTimeTrialModal() {
+    document.getElementById('modal-full-timetrial').classList.remove('hidden');
+    document.getElementById('modal-full-timetrial').classList.add('flex');
+
+    await populateTTList('20 Questions', 'modal-tt-list-A', 'emerald', 50);
+    await populateTTList('50 Questions', 'modal-tt-list-B', 'purple', 50);
+}
+
+function closeFullTimeTrialModal() {
+    document.getElementById('modal-full-timetrial').classList.remove('flex');
+    document.getElementById('modal-full-timetrial').classList.add('hidden');
+}
+
+async function populateTTList(challengeType, containerId, colorTheme, limitCount) {
     const container = document.getElementById(containerId);
     if (!container) return;
 
@@ -447,7 +460,7 @@ async function populateTTList(challengeType, containerId, colorTheme) {
         });
 
         records.sort((a, b) => a.timeSeconds - b.timeSeconds);
-        records = records.slice(0, 10);
+        records = records.slice(0, limitCount);
 
         let rank = 1;
         records.forEach(data => {
