@@ -274,13 +274,17 @@ function selectAnswer(selectedIndex, selectedBtn) {
             options[qData.answer].classList.add('bg-emerald-50', 'border-emerald-300', 'text-emerald-800');
         }
 
-        if (explanationBox) {
-            explanationBox.className = "p-4 rounded-xl text-sm border bg-rose-50 border-rose-200 text-rose-800 slide-in";
-            explanationBox.innerHTML = `<strong>Incorrect (+1s penalty).</strong> The correct answer is: ${qData.explanation}`;
-        }
-
         if (isTimeTrial) {
             timeTrialPenaltySeconds += 1;
+            if (explanationBox) {
+                explanationBox.className = "p-4 rounded-xl text-sm border bg-rose-50 border-rose-200 text-rose-800 slide-in";
+                explanationBox.innerHTML = `<strong>Incorrect (+1s penalty).</strong> The correct answer is: ${qData.explanation}`;
+            }
+        } else {
+            if (explanationBox) {
+                explanationBox.className = "p-4 rounded-xl text-sm border bg-rose-50 border-rose-200 text-rose-800 slide-in";
+                explanationBox.innerHTML = `<strong>Incorrect.</strong> The correct answer is: ${qData.explanation}`;
+            }
         }
     }
 
