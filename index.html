@@ -142,7 +142,7 @@
         <!-- SCREEN 1: LEVEL SELECTION & SIDE-BY-SIDE TIME TRIAL LEADERBOARDS -->
         <div id="screen-levels" class="slide-in hidden grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
             
-            <!-- Left Side: Challenges -->
+            <!-- Left Side: Challenges & Practice Categories (Occupies 2 Columns) -->
             <div class="lg:col-span-2 space-y-4">
                 <div class="text-center space-y-1 mb-4">
                     <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900">Choose Your Challenge</h2>
@@ -198,7 +198,7 @@
                     <span>⚡ Time Trial Challenge</span>
                 </button>
 
-                <!-- Full-Width Single Line Skill Practice Categories -->
+                <!-- Skill Practice Categories (Properly Contained Inside Left Column) -->
                 <div class="space-y-3 pt-2">
                     <h3 class="font-bold text-slate-800 text-sm px-1">Skill Practice Categories (10 Qs per session, shuffled)</h3>
                     <div class="grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-5 gap-2">
@@ -226,7 +226,7 @@
                 </div>
             </div>
 
-            <!-- Right Side: Side-by-Side Time Trial Leaderboards (Challenge A & Challenge B) -->
+            <!-- Right Side: Time Trial Leaderboard (Occupies 1 Column) -->
             <div class="bg-white border border-slate-200 rounded-3xl p-5 shadow-sm space-y-4">
                 <div class="flex items-center justify-between border-b border-slate-100 pb-3">
                     <div class="flex items-center space-x-2">
@@ -922,10 +922,10 @@
                         })
                         .catch((error) => {
                             console.error("Error writing feedback: ", error);
-                            alert("There was an error submitting your feedback. Please try again.");
+                            alert("Error submitting feedback. Please try again.");
                         });
                 } catch (error) {
-                    console.error("reCAPTCHA Enterprise execution error:", error);
+                    console.error("reCAPTCHA execution error:", error);
                     alert("Security verification error. Please try again.");
                 }
             });
