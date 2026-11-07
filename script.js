@@ -408,9 +408,28 @@ async function showResults() {
                     console.error("Error saving score to cloud:", e);
                 }
             }
+
+            // Core Tiers: Show Score and Correct Answers count (Draft 1)
+            if (quizView) quizView.classList.add('hidden');
+            if (resultsView) resultsView.classList.remove('hidden');
+
+            const finalScore = document.getElementById('final-score');
+            const finalCorrect = document.getElementById('final-correct');
+            const stat1Label = document.getElementById('res-stat-1-label');
+            const stat2Label = document.getElementById('res-stat-2-label');
+            const resultMessage = document.getElementById('result-message');
+
+            const correctCount = userAnswers.filter(a => a.isCorrect).length;
+
+            if (stat1Label) stat1Label.textContent = "Score";
+            if (stat2Label) stat2Label.textContent = "Correct Answers";
+            if (finalScore) finalScore.textContent = `${score} Score`;
+            if (finalCorrect) finalCorrect.textContent = `${correctCount} out of ${currentQuestions.length}`;
+            if (resultMessage) resultMessage.textContent = "Score saved securely to the cloud.";
+            return;
         }
 
-        // Show Results Screen matching your draft layout for Basic, Intermediate, Advanced, and Expert
+        // Skill Practice Categories: Show Percentage Score and Correct Answers count without the subtitle text (Draft 2)
         if (quizView) quizView.classList.add('hidden');
         if (resultsView) resultsView.classList.remove('hidden');
 
@@ -421,12 +440,13 @@ async function showResults() {
         const resultMessage = document.getElementById('result-message');
 
         const correctCount = userAnswers.filter(a => a.isCorrect).length;
+        const percentage = Math.round((correctCount / currentQuestions.length) * 100);
 
-        if (stat1Label) stat1Label.textContent = "Score";
+        if (stat1Label) stat1Label.textContent = "Percentage Score";
         if (stat2Label) stat2Label.textContent = "Correct Answers";
-        if (finalScore) finalScore.textContent = `${score} Score`;
+        if (finalScore) finalScore.textContent = `${percentage}%`;
         if (finalCorrect) finalCorrect.textContent = `${correctCount} out of ${currentQuestions.length}`;
-        if (resultMessage) resultMessage.textContent = "Score saved securely to the cloud.";
+        if (resultMessage) resultMessage.textContent = ""; // Clears the subtitle text completely!
     }
 }
 
