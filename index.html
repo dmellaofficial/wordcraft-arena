@@ -454,6 +454,44 @@
             </div>
         </div>
 
+        <!-- RULES & SCORING MODAL -->
+        <div id="screen-rules" class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm hidden items-center justify-center p-4 z-50">
+            <div class="bg-white border border-slate-200 w-full max-w-2xl rounded-3xl p-6 shadow-2xl space-y-6 slide-in">
+                <div class="border-b border-slate-100 pb-4 flex justify-between items-center">
+                    <h2 class="text-2xl font-extrabold text-slate-900">Rules & Scoring Guide</h2>
+                    <button onclick="closeRulesModal()" class="text-slate-400 hover:text-slate-600 font-bold text-xl">&times;</button>
+                </div>
+                
+                <div class="space-y-4 text-sm text-slate-600 leading-relaxed max-h-96 overflow-y-auto pr-2">
+                    <p>Welcome to <strong>WordCraft & Grammar Arena</strong>! Here is a quick breakdown of how our challenges, scoring, and streaks work:</p>
+
+                    <h3 class="font-bold text-slate-800 text-base">1. Core Difficulty Tiers (Basic, Intermediate, Advanced, Expert)</h3>
+                    <ul class="list-disc pl-5 space-y-1">
+                        <li><strong>Session Length:</strong> 10 randomized questions per session.</li>
+                        <li><strong>Scoring:</strong> Earn +20 points for every correct answer.</li>
+                        <li><strong>Streak & Cloud Sync:</strong> Successfully finishing any core tier session increments your streak counter by +1 and records your cumulative score to your profile and the global leaderboard.</li>
+                        <li><strong>No Penalties:</strong> Regular difficulty tiers do not feature any time penalties.</li>
+                    </ul>
+
+                    <h3 class="font-bold text-slate-800 text-base">2. Skill Practice Categories (Idioms, Analogies, Reading Comp, etc.)</h3>
+                    <ul class="list-disc pl-5 space-y-1">
+                        <li>Designed for focused training on specific linguistic skills with 10 shuffled questions per session. Great for practice without affecting global leaderboard stats.</li>
+                    </ul>
+
+                    <h3 class="font-bold text-slate-800 text-base">3. Time Trial Challenge (Challenge A & Challenge B)</h3>
+                    <ul class="list-disc pl-5 space-y-1">
+                        <li><strong>Formats:</strong> Challenge A (20 Questions) and Challenge B (50 Questions)[span_0](start_span)[span_0](end_span).</li>
+                        <li><strong>The Penalty Rule:</strong> Every wrong answer adds a **+1 second time penalty** to your overall stopwatch timer[span_1](start_span)[span_1](end_span).</li>
+                        <li><strong>Leaderboard:</strong> Your personal best completion times are ranked on the Time Trial Leaderboards.</li>
+                    </ul>
+                </div>
+
+                <div class="pt-4 border-t border-slate-100 text-right">
+                    <button onclick="closeRulesModal()" class="px-5 py-2.5 bg-indigo-600 text-white font-semibold rounded-xl hover:bg-indigo-700 transition">Got it</button>
+                </div>
+            </div>
+        </div>
+
         <!-- PRIVACY POLICY MODAL -->
         <div id="screen-privacy" class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm hidden items-center justify-center p-4 z-50">
             <div class="bg-white border border-slate-200 w-full max-w-2xl rounded-3xl p-6 shadow-2xl space-y-6 slide-in">
@@ -546,6 +584,8 @@
         WordCraft & Grammar Arena • Cloud-Synced Learning Hub
         <div class="mt-1 space-x-3">
             <button onclick="openAboutModal()" class="text-indigo-600 hover:underline">About</button>
+            <span class="text-slate-300">•</span>
+            <button onclick="openRulesModal()" class="text-indigo-600 hover:underline">Rules & Scoring</button>
             <span class="text-slate-300">•</span>
             <button onclick="openPrivacyPolicy()" class="text-indigo-600 hover:underline">Privacy Policy</button>
         </div>
@@ -872,6 +912,16 @@
         function closeAboutModal() {
             document.getElementById('screen-about').classList.remove('flex');
             document.getElementById('screen-about').classList.add('hidden');
+        }
+
+        function openRulesModal() {
+            document.getElementById('screen-rules').classList.remove('hidden');
+            document.getElementById('screen-rules').classList.add('flex');
+        }
+
+        function closeRulesModal() {
+            document.getElementById('screen-rules').classList.remove('flex');
+            document.getElementById('screen-rules').classList.add('hidden');
         }
 
         function openFeedbackModal() {
