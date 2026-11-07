@@ -297,12 +297,18 @@ function selectAnswer(selectedIndex, selectedBtn) {
     });
 
     const nextBtn = document.getElementById('next-btn');
-    if (nextBtn) nextBtn.classList.remove('hidden');
+    if (nextBtn) {
+        nextBtn.classList.remove('hidden');
+        // Automatically scroll smoothly to the Next button so the user never has to scroll manually!
+        nextBtn.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
 }
 
 function nextQuestion() {
     currentQuestionIndex++;
     loadQuestion();
+    // Scroll back up to the top of the question container for the next item
+    window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 async function showResults() {
