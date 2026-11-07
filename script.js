@@ -299,7 +299,6 @@ function selectAnswer(selectedIndex, selectedBtn) {
     const nextBtn = document.getElementById('next-btn');
     if (nextBtn) {
         nextBtn.classList.remove('hidden');
-        // Automatically scroll smoothly to the Next button so the user never has to scroll manually!
         nextBtn.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     }
 }
@@ -307,24 +306,23 @@ function selectAnswer(selectedIndex, selectedBtn) {
 function nextQuestion() {
     currentQuestionIndex++;
     loadQuestion();
-    // Scroll back up to the top of the question container for the next item
     window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 async function showResults() {
     const quizView = document.getElementById('screen-quiz');
     const resultsView = document.getElementById('screen-results');
-    
-    if (quizView) quizView.classList.add('hidden');
-    if (resultsView) resultsView.classList.remove('hidden');
-
-    const finalScore = document.getElementById('final-score');
-    const finalCorrect = document.getElementById('final-correct');
-    const stat1Label = document.getElementById('res-stat-1-label');
-    const stat2Label = document.getElementById('res-stat-2-label');
-    const resultMessage = document.getElementById('result-message');
 
     if (isTimeTrial) {
+        if (quizView) quizView.classList.add('hidden');
+        if (resultsView) resultsView.classList.remove('hidden');
+
+        const finalScore = document.getElementById('final-score');
+        const finalCorrect = document.getElementById('final-correct');
+        const stat1Label = document.getElementById('res-stat-1-label');
+        const stat2Label = document.getElementById('res-stat-2-label');
+        const resultMessage = document.getElementById('result-message');
+
         if (stat1Label) stat1Label.textContent = "Final Time (HH:MM:SS)";
         if (stat2Label) stat2Label.textContent = "Questions Solved";
         if (finalScore) finalScore.textContent = formatHHMMSS(elapsedTimeSeconds);
@@ -353,7 +351,6 @@ async function showResults() {
                     existingDocId = existingQuery.docs[0].id;
                     if (finalTimeRounded >= existingData.timeSeconds) {
                         shouldSave = false;
-                        console.log("New time did not surpass personal best. Existing record kept.");
                     }
                 }
 
@@ -375,9 +372,7 @@ async function showResults() {
                             timestamp: firebase.firestore.FieldValue.serverTimestamp()
                         });
                     }
-                    console.log("Time trial personal best updated successfully!");
                 }
-
                 loadTimeTrialLeaderboards();
             } catch (e) {
                 console.error("Error saving time trial record:", e);
@@ -387,25 +382,7 @@ async function showResults() {
         const coreTiers = ['basic', 'teens', 'advanced', 'expert'];
         const isCoreTier = coreTiers.includes(currentCategory);
 
-        const correctCount = userAnswers.filter(a => a.isCorrect).length;
-        const mistakeCount = currentQuestions.length - correctCount;
-        const percentage = Math.round((correctCount / currentQuestions.length) * 100);
-
-        if (stat1Label) stat1Label.textContent = "Percentage Score";
-        if (stat2Label) stat2Label.textContent = "Correct / Mistakes";
-        if (finalScore) finalScore.textContent = `${percentage}%`;
-        if (finalCorrect) finalCorrect.textContent = `${correctCount} Correct / ${mistakeCount} Mistakes`;
-
-        // School grading feedback: 65% Failure, 80% Well Done, 100% Perfect
-        if (percentage === 100) {
-            if (resultMessage) resultMessage.innerHTML = "🎯 <span class='font-bold text-emerald-600'>Perfect!</span> Flawless performance.";
-        } else if (percentage >= 80) {
-            if (resultMessage) resultMessage.innerHTML = "🌟 <span class='font-bold text-indigo-600'>Well Done!</span> Great mastery of the topic.";
-        } else {
-            if (resultMessage) resultMessage.innerHTML = "⚠️ <span class='font-bold text-rose-600'>Failure.</span> Keep practicing to improve your score!";
-        }
-
-        // Update score & streak ONLY for core difficulty tiers (Basic, Teens, Advanced, Expert)
+        // Update score & streak ONLY for core difficulty tiers and bypass results screen directly back home
         if (isCoreTier) {
             const headerScoreEl = document.getElementById('header-score');
             const headerStreakEl = document.getElementById('header-streak');
@@ -428,13 +405,41 @@ async function showResults() {
                         streak: currentStreak,
                         updatedAt: firebase.firestore.FieldValue.serverTimestamp()
                     }, { merge: true });
-                    console.log("Cumulative score successfully saved to cloud!");
                 } catch (e) {
                     console.error("Error saving score to cloud:", e);
                 }
             }
+
+            // Instantly go back home without showing percentage/mistake cards for core tiers!
+            goHome();
+            return;
+        }
+
+        // For non-core practice categories, keep standard results screen view
+        if (quizView) quizView.classList.add('hidden');
+        if (resultsView) resultsView.classList.remove('hidden');
+
+        const finalScore = document.getElementById('final-score');
+        const finalCorrect = document.getElementById('final-correct');
+        const stat1Label = document.getElementById('res-stat-1-label');
+        const stat2Label = document.getElementById('res-stat-2-label');
+        const resultMessage = document.getElementById('result-message');
+
+        const correctCount = userAnswers.filter(a => a.isCorrect).length;
+        const mistakeCount = currentQuestions.length - correctCount;
+        const percentage = Math.round((correctCount / currentQuestions.length) * 100);
+
+        if (stat1Label) stat1Label.textContent = "Percentage Score";
+        if (stat2Label) stat2Label.textContent = "Correct / Mistakes";
+        if (finalScore) finalScore.textContent = `${percentage}%`;
+        if (finalCorrect) finalCorrect.textContent = `${correctCount} Correct / ${mistakeCount} Mistakes`;
+
+        if (percentage === 100) {
+            if (resultMessage) resultMessage.innerHTML = "🎯 <span class='font-bold text-emerald-600'>Perfect!</span> Flawless performance.";
+        } else if (percentage >= 80) {
+            if (resultMessage) resultMessage.innerHTML = "🌟 <span class='font-bold text-indigo-600'>Well Done!</span> Great mastery of the topic.";
         } else {
-            console.log("Practice category completed. Excluded from global leaderboard stats.");
+            if (resultMessage) resultMessage.innerHTML = "⚠️ <span class='font-bold text-rose-600'>Failure.</span> Keep practicing to improve your score!";
         }
     }
 }
