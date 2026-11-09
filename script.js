@@ -264,7 +264,8 @@ function selectAnswer(selectedIndex, selectedBtn) {
             explanationBox.className = "p-4 rounded-xl text-sm border bg-emerald-50 border-emerald-200 text-emerald-800 slide-in";
             explanationBox.innerHTML = `<strong>Correct!</strong> ${qData.explanation}`;
         }
-        score += 20;
+        // NEW SCORING: +5 points for each correct answer
+        score += 5;
     } else {
         selectedBtn.classList.remove('bg-slate-50', 'border-slate-200');
         selectedBtn.classList.add('bg-rose-50', 'border-rose-300', 'text-rose-800');
@@ -382,6 +383,14 @@ async function showResults() {
         const coreTiers = ['basic', 'teens', 'advanced', 'expert'];
         const isCoreTier = coreTiers.includes(currentCategory);
 
+        const correctCount = userAnswers.filter(a => a.isCorrect).length;
+        const mistakeCount = currentQuestions.length - correctCount;
+
+        // NEW SCORING: Apply +20 Flawless Bonus if 0 mistakes were made!
+        if (mistakeCount === 0 && isCoreTier) {
+            score += 20;
+        }
+
         if (isCoreTier) {
             const headerScoreEl = document.getElementById('header-score');
             const headerStreakEl = document.getElementById('header-streak');
@@ -409,7 +418,7 @@ async function showResults() {
                 }
             }
 
-            // Core Tiers: Show Score and Correct Answers count (Draft 1)
+            // Core Tiers: Show Score and Correct Answers count (Draft 1 format)
             if (quizView) quizView.classList.add('hidden');
             if (resultsView) resultsView.classList.remove('hidden');
 
@@ -419,17 +428,15 @@ async function showResults() {
             const stat2Label = document.getElementById('res-stat-2-label');
             const resultMessage = document.getElementById('result-message');
 
-            const correctCount = userAnswers.filter(a => a.isCorrect).length;
-
             if (stat1Label) stat1Label.textContent = "Score";
             if (stat2Label) stat2Label.textContent = "Correct Answers";
-            if (finalScore) finalScore.textContent = `${score} Score`;
+            if (finalScore) finalScore.textContent = `${score} Score${mistakeCount === 0 ? ' (Flawless +20!)' : ''}`;
             if (finalCorrect) finalCorrect.textContent = `${correctCount} out of ${currentQuestions.length}`;
-            if (resultMessage) resultMessage.textContent = "Score saved securely to the cloud.";
+            if (resultMessage) resultMessage.textContent = mistakeCount === 0 ? "🎯 Flawless run! +20 Bonus awarded!" : "Score saved securely to the cloud.";
             return;
         }
 
-        // Skill Practice Categories: Show Percentage Score and Correct Answers count without the subtitle text (Draft 2)
+        // Skill Practice Categories: Show Percentage Score and Correct Answers count (Draft 2 format)
         if (quizView) quizView.classList.add('hidden');
         if (resultsView) resultsView.classList.remove('hidden');
 
@@ -439,14 +446,13 @@ async function showResults() {
         const stat2Label = document.getElementById('res-stat-2-label');
         const resultMessage = document.getElementById('result-message');
 
-        const correctCount = userAnswers.filter(a => a.isCorrect).length;
         const percentage = Math.round((correctCount / currentQuestions.length) * 100);
 
         if (stat1Label) stat1Label.textContent = "Percentage Score";
         if (stat2Label) stat2Label.textContent = "Correct Answers";
         if (finalScore) finalScore.textContent = `${percentage}%`;
         if (finalCorrect) finalCorrect.textContent = `${correctCount} out of ${currentQuestions.length}`;
-        if (resultMessage) resultMessage.textContent = ""; // Clears the subtitle text completely!
+        if (resultMessage) resultMessage.textContent = ""; 
     }
 }
 
