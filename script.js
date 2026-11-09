@@ -264,7 +264,6 @@ function selectAnswer(selectedIndex, selectedBtn) {
             explanationBox.className = "p-4 rounded-xl text-sm border bg-emerald-50 border-emerald-200 text-emerald-800 slide-in";
             explanationBox.innerHTML = `<strong>Correct!</strong> ${qData.explanation}`;
         }
-        // NEW SCORING: +5 points for each correct answer
         score += 5;
     } else {
         selectedBtn.classList.remove('bg-slate-50', 'border-slate-200');
@@ -314,6 +313,9 @@ async function showResults() {
     const quizView = document.getElementById('screen-quiz');
     const resultsView = document.getElementById('screen-results');
 
+    const correctCount = userAnswers.filter(a => a.isCorrect).length;
+    const mistakeCount = currentQuestions.length - correctCount;
+
     if (isTimeTrial) {
         if (quizView) quizView.classList.add('hidden');
         if (resultsView) resultsView.classList.remove('hidden');
@@ -325,9 +327,9 @@ async function showResults() {
         const resultMessage = document.getElementById('result-message');
 
         if (stat1Label) stat1Label.textContent = "Final Time (HH:MM:SS)";
-        if (stat2Label) stat2Label.textContent = "Questions Solved";
+        if (stat2Label) stat2Label.innerHTML = `No. of Correct: <span class="text-emerald-600 font-bold">${correctCount}</span><br>No. of Mistakes: <span class="text-rose-600 font-bold">${mistakeCount}</span>`;
         if (finalScore) finalScore.textContent = formatHHMMSS(elapsedTimeSeconds);
-        if (finalCorrect) finalCorrect.textContent = `${currentQuestions.length}/${currentQuestions.length}`;
+        if (finalCorrect) finalCorrect.textContent = ""; // Handled cleanly via stat2Label HTML layout
         if (resultMessage) resultMessage.textContent = "Time trial record saved successfully!";
 
         if (typeof auth !== 'undefined' && auth.currentUser && typeof db !== 'undefined') {
@@ -383,10 +385,6 @@ async function showResults() {
         const coreTiers = ['basic', 'teens', 'advanced', 'expert'];
         const isCoreTier = coreTiers.includes(currentCategory);
 
-        const correctCount = userAnswers.filter(a => a.isCorrect).length;
-        const mistakeCount = currentQuestions.length - correctCount;
-
-        // NEW SCORING: Apply +20 Flawless Bonus if 0 mistakes were made!
         if (mistakeCount === 0 && isCoreTier) {
             score += 20;
         }
@@ -418,7 +416,6 @@ async function showResults() {
                 }
             }
 
-            // Core Tiers: Show Score and Correct Answers count (Draft 1 format)
             if (quizView) quizView.classList.add('hidden');
             if (resultsView) resultsView.classList.remove('hidden');
 
@@ -436,7 +433,6 @@ async function showResults() {
             return;
         }
 
-        // Skill Practice Categories: Show Percentage Score and Correct Answers count (Draft 2 format)
         if (quizView) quizView.classList.add('hidden');
         if (resultsView) resultsView.classList.remove('hidden');
 
@@ -560,7 +556,6 @@ async function populateTTList(challengeType, containerId, colorTheme, limitCount
     }
 }
 
-// Strict HH:MM:SS format (00:00:00) without decimals
 function formatHHMMSS(totalSeconds) {
     const totalSecInt = Math.floor(totalSeconds);
     const hrs = Math.floor(totalSecInt / 3600);
