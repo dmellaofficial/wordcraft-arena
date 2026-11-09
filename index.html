@@ -314,9 +314,9 @@
                     <p class="text-xs text-slate-500" id="res-stat-1-label">Final Score</p>
                     <p id="final-score" class="text-2xl font-black text-indigo-600 mt-1">0</p>
                 </div>
-                <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200">
-                    <p class="text-xs text-slate-500" id="res-stat-2-label">Correct Answers</p>
-                    <p id="final-correct" class="text-2xl font-black text-emerald-600 mt-1">0/10</p>
+                <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200 flex flex-col justify-center">
+                    <p class="text-xs text-slate-500 mb-1" id="res-stat-2-label">Correct Answers</p>
+                    <p id="final-correct" class="text-sm font-bold text-slate-800 leading-tight">0/10</p>
                 </div>
             </div>
 
@@ -457,7 +457,7 @@
             </div>
         </div>
 
-        <!-- RULES & SCORING MODAL (UPDATED WITH NEW SCORING RULES) -->
+        <!-- RULES & SCORING MODAL -->
         <div id="screen-rules" class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm hidden items-center justify-center p-4 z-50">
             <div class="bg-white border border-slate-200 w-full max-w-2xl rounded-3xl p-6 shadow-2xl space-y-6 slide-in">
                 <div class="border-b border-slate-100 pb-4 flex justify-between items-center">
@@ -594,7 +594,7 @@
         </div>
     </footer>
 
-    <!-- 1. LOAD SEPARATED QUESTION POOLS FIRST (INCLUDING IDIOMS) -->
+    <!-- 1. LOAD SEPARATED QUESTION POOLS FIRST -->
     <script src="basic-questions.js?v=5.0"></script>
     <script src="teens-questions.js?v=5.0"></script>
     <script src="advanced-questions.js?v=5.0"></script>
@@ -728,7 +728,7 @@
                     await auth.signInWithEmailAndPassword(email, password);
                 } catch (error) {
                     errBox.textContent = error.message;
-                    errBox.classList.remove('hidden');
+                    errBox.classList.add('hidden');
                 }
             }
         }
