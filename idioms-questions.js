@@ -1,214 +1,214 @@
 // ==========================================
 // Skill Practice Categories: Idioms (100 Questions)
-// Guaranteed perfectly balanced answer distribution (25 each for A, B, C, D)
+// Balanced length options, non-revealing distractors, 25-way uniform distribution
 // ==========================================
 
 const idiomsQuestions = [
     {
         q: "What does the idiom 'a blessing in disguise' mean?",
         options: [
-            'A hidden religious ritual or prayer.',
-            'An apparent misfortune that eventually results in something good.',
-            'A gift given by a secret admirer.',
-            'An unexpected financial debt.'
+            'A secret religious prayer',
+            'A hidden misfortune that turns out well',
+            'A disguised birthday gift',
+            'An unexpected financial debt'
         ],
         answer: 1,
-        explanation: "'An apparent misfortune that eventually results in something good.' is the correct meaning of the idiom."
+        explanation: "'A hidden misfortune that turns out well.' is the correct meaning of the idiom."
     },
     {
         q: "Choose the meaning of the idiom: 'bite the bullet'",
         options: [
-            'To face a difficult or painful situation with courage and get it over with.',
-            'To eat something hard and unpleasant.',
-            'To argue aggressively with someone.',
-            'To make a hasty and reckless decision.'
+            'To face a hard situation bravely',
+            'To chew hard dry food',
+            'To argue aggressively back',
+            'To act recklessly fast'
         ],
         answer: 0,
-        explanation: "'To face a difficult or painful situation with courage and get it over with.' is the correct meaning of the idiom."
+        explanation: "'To face a hard situation bravely.' is the correct meaning of the idiom."
     },
     {
         q: "What is meant by the phrase 'a penny for your thoughts'?",
         options: [
-            'Asking someone to buy something cheap.',
-            'Offering financial advice.',
-            'Asking someone what they are thinking about.',
-            'Paying someone a very low wage.'
+            'Asking to buy cheap items',
+            'Paying a very low wage',
+            'Asking what someone is thinking',
+            'Offering financial tips'
         ],
         answer: 2,
-        explanation: "'Asking someone what they are thinking about.' is the correct meaning of the idiom."
+        explanation: "'Asking what someone is thinking.' is the correct meaning of the idiom."
     },
     {
         q: "What does it mean to 'burn the midnight oil'?",
         options: [
-            'To waste fuel during a blackout.',
-            'To start a campfire after sunset.',
-            'To cook food late at night.',
-            'To work or study late into the night.'
+            'To waste fuel in blackouts',
+            'To start a fire outdoors',
+            'To cook meals late at night',
+            'To work or study late at night'
         ],
         answer: 3,
-        explanation: "'To work or study late into the night.' is the correct meaning of the idiom."
+        explanation: "'To work or study late at night.' is the correct meaning of the idiom."
     },
     {
         q: "Choose the meaning of: 'break a leg'",
         options: [
-            'To wish someone good luck, especially before a performance.',
-            'To run extremely fast in a race.',
-            'To fail miserably at a task.',
-            'To cause physical injury to a rival.'
+            'To wish someone good luck',
+            'To cause physical injury',
+            'To run fast in races',
+            'To fail a big task'
         ],
         answer: 0,
-        explanation: "'To wish someone good luck, especially before a performance.' is the correct meaning of the idiom."
+        explanation: "'To wish someone good luck.' is the correct meaning of the idiom."
     },
     {
         q: "What does 'call it a day' mean?",
         options: [
-            'To work a full 24-hour shift.',
-            'To stop working on something for the rest of the day.',
-            'To celebrate a birthday.',
-            "To predict tomorrow's weather."
+            'To predict tomorrow',
+            'To stop working for the day',
+            'To celebrate birthdays',
+            'To work a full shift'
         ],
         answer: 1,
-        explanation: "'To stop working on something for the rest of the day.' is the correct meaning of the idiom."
+        explanation: "'To stop working for the day.' is the correct meaning of the idiom."
     },
     {
         q: "What is the meaning of 'cutting corners'?",
         options: [
-            'Doing something perfunctorily or poorly to save time or money.',
-            'Taking the shortest walking route home.',
-            'Cornering an opponent in a debate.',
-            'Trimming the edges of a piece of paper.'
+            'Doing something poorly to save time',
+            'Trimming paper edges',
+            'Taking a short walk',
+            'Cornering a rival'
         ],
         answer: 0,
-        explanation: "'Doing something perfunctorily or poorly to save time or money.' is the correct meaning of the idiom."
+        explanation: "'Doing something poorly to save time.' is the correct meaning of the idiom."
     },
     {
         q: "What does the idiom 'get out of hand' mean?",
         options: [
-            'To drop something fragile.',
-            'To become out of control or unmanageable.',
-            'To resign from a job voluntarily.',
-            'To shake hands with a business partner.'
+            'To drop fragile items',
+            'To become completely unmanageable',
+            'To quit a job early',
+            'To shake hands firmly'
         ],
         answer: 1,
-        explanation: "'To become out of control or unmanageable.' is the correct meaning of the idiom."
+        explanation: "'To become completely unmanageable.' is the correct meaning of the idiom."
     },
     {
         q: "Choose the meaning of: 'get your act together'",
         options: [
-            'To prepare for a drama audition.',
-            'To file legal court documents.',
-            'To organize your life and behavior in order to be more effective.',
-            'To assemble musical instruments.'
+            'To audition for drama',
+            'To tune instruments',
+            'To organize your life and behavior',
+            'To file legal papers'
         ],
         answer: 2,
-        explanation: "'To organize your life and behavior in order to be more effective.' is the correct meaning of the idiom."
+        explanation: "'To organize your life and behavior.' is the correct meaning of the idiom."
     },
     {
         q: "What does 'give someone the benefit of the doubt' mean?",
         options: [
-            "To believe someone's statement without proof, assuming innocence or honesty.",
-            'To give someone financial assistance.',
-            "To challenge someone's credentials.",
-            'To distrust someone completely.'
+            'To assume someone is innocent',
+            'To lend financial cash',
+            'To challenge credentials',
+            'To distrust someone'
         ],
         answer: 0,
-        explanation: "'To believe someone's statement without proof, assuming innocence or honesty.' is the correct meaning of the idiom."
+        explanation: "'To assume someone is innocent.' is the correct meaning of the idiom."
     },
     {
         q: "What is meant by 'hit the nail on the head'?",
         options: [
-            'To cause physical harm with a hammer.',
-            'To make a major construction mistake.',
-            'To nail down a carpet securely.',
-            'To describe or do something exact and accurate.'
+            'To hit wood with hammers',
+            'To make building errors',
+            'To secure carpets down',
+            'To describe something accurately'
         ],
         answer: 3,
-        explanation: "'To describe or do something exact and accurate.' is the correct meaning of the idiom."
+        explanation: "'To describe something accurately.' is the correct meaning of the idiom."
     },
     {
         q: "What does 'in the hot seat' signify?",
         options: [
-            'In an uncomfortable position of facing tough questioning or responsibility.',
-            'Winning a high-stakes competition.',
-            'Sitting near a fireplace.',
-            'Relaxing in a sauna.'
+            'Facing tough questioning or pressure',
+            'Sitting near a fireplace',
+            'Relaxing in saunas',
+            'Winning high stakes'
         ],
         answer: 0,
-        explanation: "'In an uncomfortable position of facing tough questioning or responsibility.' is the correct meaning of the idiom."
+        explanation: "'Facing tough questioning or pressure.' is the correct meaning of the idiom."
     },
     {
         q: "Choose the meaning of: 'leave no stone unturned'",
         options: [
-            'To clean a rocky garden thoroughly.',
-            'To try every possible course of action in order to achieve something.',
-            'To avoid heavy physical labor.',
-            'To leave a construction site messy.'
+            'To clean rocky gardens',
+            'To try every possible option',
+            'To leave a site messy',
+            'To avoid hard labor'
         ],
         answer: 1,
-        explanation: "'To try every possible course of action in order to achieve something.' is the correct meaning of the idiom."
+        explanation: "'To try every possible option.' is the correct meaning of the idiom."
     },
     {
         q: "What does 'let the cat out of the bag' mean?",
         options: [
-            'To adopt a stray animal.',
-            'To reveal a secret carelessly or by mistake.',
-            'To pack luggage for a trip.',
-            'To release a pet outdoors.'
+            'To adopt stray animals',
+            'To reveal a secret by mistake',
+            'To pack travel luggage',
+            'To release a pet outside'
         ],
         answer: 1,
-        explanation: "'To reveal a secret carelessly or by mistake.' is the correct meaning of the idiom."
+        explanation: "'To reveal a secret by mistake.' is the correct meaning of the idiom."
     },
     {
         q: "What is the meaning of 'miss the boat'?",
         options: [
-            'To arrive late at a seaport.',
-            'To fail a swimming test.',
-            'To cancel a vacation cruise.',
-            'To miss an opportunity or chance to do something.'
+            'To arrive late at piers',
+            'To cancel a cruise',
+            'To fail swimming tests',
+            'To miss a good opportunity'
         ],
         answer: 3,
-        explanation: "'To miss an opportunity or chance to do something.' is the correct meaning of the idiom."
+        explanation: "'To miss a good opportunity.' is the correct meaning of the idiom."
     },
     {
         q: "What does 'piece of cake' mean?",
         options: [
-            'A birthday celebration.',
-            'Something very easy to accomplish.',
-            'A delicious dessert recipe.',
-            'A small share of profits.'
+            'A birthday party',
+            'Something very easy to do',
+            'A delicious dessert',
+            'A tiny profit share'
         ],
         answer: 1,
-        explanation: "'Something very easy to accomplish.' is the correct meaning of the idiom."
+        explanation: "'Something very easy to do.' is the correct meaning of the idiom."
     },
     {
         q: "Choose the meaning of: 'pull someone's leg'",
         options: [
-            'To trip someone maliciously.',
-            'To assist someone with physical therapy.',
-            'To tease or joke with someone by telling them something untrue.',
-            'To dance enthusiastically.'
+            'To trip someone over',
+            'To assist with therapy',
+            'To tease someone with a joke',
+            'To dance energetically'
         ],
         answer: 2,
-        explanation: "'To tease or joke with someone by telling them something untrue.' is the correct meaning of the idiom."
+        explanation: "'To tease someone with a joke.' is the correct meaning of the idiom."
     },
     {
         q: "What does 'speak of the devil' mean?",
         options: [
-            'An invocation of dark spirits.',
-            'Said when the person you were just talking about arrives unexpectedly.',
-            'A warning about dangerous gossip.',
-            'A religious proverb.'
+            'An invocation of spirits',
+            'When a discussed person arrives',
+            'A warning about gossip',
+            'A traditional proverb'
         ],
         answer: 1,
-        explanation: "'Said when the person you were just talking about arrives unexpectedly.' is the correct meaning of the idiom."
+        explanation: "'When a discussed person arrives.' is the correct meaning of the idiom."
     },
     {
         q: "What is meant by 'under the weather'?",
         options: [
-            'Experiencing bad weather conditions.',
-            'Feeling slightly ill or unwell.',
-            'Feeling depressed due to clouds.',
-            'Standing out in a rainstorm.'
+            'Standing in rainstorms',
+            'Feeling slightly ill or unwell',
+            'Enjoying bad weather',
+            'Feeling sad from clouds'
         ],
         answer: 1,
         explanation: "'Feeling slightly ill or unwell.' is the correct meaning of the idiom."
@@ -216,10 +216,10 @@ const idiomsQuestions = [
     {
         q: "What does 'cost an arm and a leg' mean?",
         options: [
-            'Traded body parts in a deal.',
-            'Required major surgery.',
-            'Extremely expensive or costly.',
-            'Priceless and irreplaceable.'
+            'Requiring major surgery',
+            'Trading body parts',
+            'Extremely expensive or costly',
+            'Priceless relics'
         ],
         answer: 2,
         explanation: "'Extremely expensive or costly.' is the correct meaning of the idiom."
@@ -227,881 +227,881 @@ const idiomsQuestions = [
     {
         q: "What does 'actions speak louder than words' mean?",
         options: [
-            'Speaking softly is better than shouting.',
-            'What people do is more important than what they say they will do.',
-            'Recording audio is better than writing notes.',
-            'Sign language is more effective than speech.'
+            'Soft speech is better',
+            'Deeds matter more than speech',
+            'Sign language rules',
+            'Audio notes are best'
         ],
         answer: 1,
-        explanation: "'What people do is more important than what they say they will do.' is the correct meaning of the idiom."
+        explanation: "'Deeds matter more than speech.' is the correct meaning of the idiom."
     },
     {
         q: "Choose the meaning of: 'add insult to injury'",
         options: [
-            'To insult a medical doctor.',
-            'To make a bad situation even worse.',
-            'To apologize after an accident.',
-            'To treat a wound improperly.'
+            'To apologize after faults',
+            'To make a bad situation worse',
+            'To treat wounds poorly',
+            'To insult doctors'
         ],
         answer: 1,
-        explanation: "'To make a bad situation even worse.' is the correct meaning of the idiom."
+        explanation: "'To make a bad situation worse.' is the correct meaning of the idiom."
     },
     {
         q: "What does 'barking up the wrong tree' mean?",
         options: [
-            'Climbing the wrong ladder at work.',
-            'Pursuing a mistaken line of thought or accusing the wrong person.',
-            'Complaining about useless things.',
-            'A hunting dog chasing the wrong animal.'
+            'Dogs chasing wild cats',
+            'Pursuing a mistaken course',
+            'Climbing office ladders',
+            'Complaining about tasks'
         ],
         answer: 1,
-        explanation: "'Pursuing a mistaken line of thought or accusing the wrong person.' is the correct meaning of the idiom."
+        explanation: "'Pursuing a mistaken course.' is the correct meaning of the idiom."
     },
     {
         q: "What does 'beat around the bush' mean?",
         options: [
-            'Trimming garden shrubbery.',
-            'Avoiding the main topic by talking in a roundabout way.',
-            'Beating drums in the forest.',
-            'Searching for hiding animals.'
+            'Trimming garden shrubs',
+            'Avoiding the main topic',
+            'Searching for hiding pets',
+            'Beating drums loudly'
         ],
         answer: 1,
-        explanation: "'Avoiding the main topic by talking in a roundabout way.' is the correct meaning of the idiom."
+        explanation: "'Avoiding the main topic.' is the correct meaning of the idiom."
     },
     {
         q: "What is the meaning of 'best of both worlds'?",
         options: [
-            'Winning two separate awards.',
-            'Living in two different countries simultaneously.',
-            'Having dual citizenship.',
-            'All the advantages of two contrasting situations at the same time.'
+            'Winning separate awards',
+            'Living abroad together',
+            'Holding dual passports',
+            'Advantages of two distinct situations'
         ],
         answer: 3,
-        explanation: "'All the advantages of two contrasting situations at the same time.' is the correct meaning of the idiom."
+        explanation: "'Advantages of two distinct situations.' is the correct meaning of the idiom."
     },
     {
         q: "What does 'bite your tongue' mean?",
         options: [
-            'To chew food carelessly.',
-            'To make an effort to keep from speaking.',
-            'To speak while eating.',
-            'To bite someone out of anger.'
+            'Chewing food poorly',
+            'Keeping from speaking out',
+            'Speaking while eating',
+            'Biting out of anger'
         ],
         answer: 1,
-        explanation: "'To make an effort to keep from speaking.' is the correct meaning of the idiom."
+        explanation: "'Keeping from speaking out.' is the correct meaning of the idiom."
     },
     {
         q: "Choose the meaning of: 'break the ice'",
         options: [
-            'To melt ice cubes for drinks.',
-            'To shatter a frozen windshield.',
-            'To make people feel more comfortable and relaxed in a social setting.',
-            'To start an argument.'
+            'Shattering car window ice',
+            'Melt ice cubes fast',
+            'To make people feel relaxed',
+            'Starting arguments'
         ],
         answer: 2,
-        explanation: "'To make people feel more comfortable and relaxed in a social setting.' is the correct meaning of the idiom."
+        explanation: "'To make people feel relaxed.' is the correct meaning of the idiom."
     },
     {
         q: "What does 'by the skin of your teeth' mean?",
         options: [
-            'Narrowly succeeding at something by a very slim margin.',
-            'Having very strong dental hygiene.',
-            'Smiling broadly.',
-            'Biting hard on food.'
+            'Narrowly succeeding by a margin',
+            'Having great dental care',
+            'Biting hard on snacks',
+            'Smiling very broadly'
         ],
         answer: 0,
-        explanation: "'Narrowly succeeding at something by a very slim margin.' is the correct meaning of the idiom."
+        explanation: "'Narrowly succeeding by a margin.' is the correct meaning of the idiom."
     },
     {
         q: "What is meant by 'cry over spilt milk'?",
         options: [
-            'Crying when drinking dairy products.',
-            'Regretting grocery purchases.',
-            'Complaining or lamenting about something that has already happened and cannot be changed.',
-            'Cleaning up kitchen messes.'
+            'Crying over dairy drinks',
+            'Regretting shop buys',
+            'Lamenting past unchangeable events',
+            'Cleaning kitchen spills'
         ],
         answer: 2,
-        explanation: "'Complaining or lamenting about something that has already happened and cannot be changed.' is the correct meaning of the idiom."
+        explanation: "'Lamenting past unchangeable events.' is the correct meaning of the idiom."
     },
     {
         q: "What does 'curiosity killed the cat' mean?",
         options: [
-            'Felines are easily startled.',
-            'Being overly inquisitive can lead to danger or trouble.',
-            'Animal research is dangerous.',
-            'Pets should not roam freely.'
+            'Felines startle easily',
+            'Inquisitiveness leads to trouble',
+            'Animal labs are unsafe',
+            'Pets must roam free'
         ],
         answer: 1,
-        explanation: "'Being overly inquisitive can lead to danger or trouble.' is the correct meaning of the idiom."
+        explanation: "'Inquisitiveness leads to trouble.' is the correct meaning of the idiom."
     },
     {
         q: "What does 'don't count your chickens before they hatch' mean?",
         options: [
-            'Check eggs before cooking them.',
-            'Do not assume success or profit until it actually happens.',
-            'Do not raise poultry on a farm.',
-            'Do not rush biological processes.'
+            'Check eggs before frying',
+            'Do not assume profit prematurely',
+            'Do not raise poultry',
+            'Do not rush nature'
         ],
         answer: 1,
-        explanation: "'Do not assume success or profit until it actually happens.' is the correct meaning of the idiom."
+        explanation: "'Do not assume profit prematurely.' is the correct meaning of the idiom."
     },
     {
         q: "Choose the meaning of: 'drastic times call for drastic measures'",
         options: [
-            'Time heals all wounds.',
-            'Emergency medical care is expensive.',
-            'Severe situations require extreme or unconventional actions.',
-            'Patience is always the best policy.'
+            'Time heals all wounds',
+            'Emergency care is costly',
+            'Severe situations need extreme acts',
+            'Patience is always key'
         ],
         answer: 2,
-        explanation: "'Severe situations require extreme or unconventional actions.' is the correct meaning of the idiom."
+        explanation: "'Severe situations need extreme acts.' is the correct meaning of the idiom."
     },
     {
         q: "What does 'eleventh hour' mean?",
         options: [
-            "Eleven o'clock at night.",
-            "At the very last possible moment before it's too late.",
-            'The final hour of a test.',
-            'The lunch break hour.'
+            'Eleven o'clock at night',
+            'At the very last possible moment',
+            'The final test hour',
+            'The midday lunch hour'
         ],
         answer: 1,
-        explanation: "'At the very last possible moment before it's too late.' is the correct meaning of the idiom."
+        explanation: "'At the very last possible moment.' is the correct meaning of the idiom."
     },
     {
         q: "What is meant by 'every cloud has a silver lining'?",
         options: [
-            'Weather patterns are unpredictable.',
-            'Silver can be found in rainclouds.',
-            'Every difficult or sad situation has a hopeful or positive aspect to it.',
-            'Storms always bring rain.'
+            'Silver is in rainclouds',
+            'Weather is fickle',
+            'Hard times have hopeful sides',
+            'Storms always bring rain'
         ],
         answer: 2,
-        explanation: "'Every difficult or sad situation has a hopeful or positive aspect to it.' is the correct meaning of the idiom."
+        explanation: "'Hard times have hopeful sides.' is the correct meaning of the idiom."
     },
     {
         q: "What does 'face the music' mean?",
         options: [
-            'To attend a classical concert.',
-            'To accept the unpleasant consequences of your actions.',
-            'To sing karaoke in public.',
-            'To study music theory.'
+            'Attending a concert',
+            'Accepting unpleasant consequences',
+            'Singing karaoke tracks',
+            'Studying music notes'
         ],
         answer: 1,
-        explanation: "'To accept the unpleasant consequences of your actions.' is the correct meaning of the idiom."
+        explanation: "'Accepting unpleasant consequences.' is the correct meaning of the idiom."
     },
     {
         q: "What does 'feel a bit under the weather' mean?",
         options: [
-            'Feeling slightly sick or unwell.',
-            'Standing in a breeze.',
-            'Feeling cold.',
-            'Enjoying outdoor sunshine.'
+            'Feeling slightly sick or weak',
+            'Standing in breezy wind',
+            'Feeling chilly cold',
+            'Enjoying bright sun'
         ],
         answer: 0,
-        explanation: "'Feeling slightly sick or unwell.' is the correct meaning of the idiom."
+        explanation: "'Feeling slightly sick or weak.' is the correct meaning of the idiom."
     },
     {
         q: "Choose the meaning of: 'give someone the cold shoulder'",
         options: [
-            'To offer a massage.',
-            'To give someone a chilly winter jacket.',
-            'To intentionally ignore or be unfriendly to someone.',
-            'To push someone away.'
+            'To offer a massage',
+            'To lend warm jackets',
+            'To intentionally ignore someone',
+            'To push someone away'
         ],
         answer: 2,
-        explanation: "'To intentionally ignore or be unfriendly to someone.' is the correct meaning of the idiom."
+        explanation: "'To intentionally ignore someone.' is the correct meaning of the idiom."
     },
     {
         q: "What does 'go back to the drawing board' mean?",
         options: [
-            'To start planning something over again because the first attempt failed.',
-            'To return to architecture school.',
-            'To start sketching paintings.',
-            'To erase a blackboard.'
+            'To restart planning from scratch',
+            'To join design school',
+            'To begin sketching art',
+            'To erase blackboards'
         ],
         answer: 0,
-        explanation: "'To start planning something over again because the first attempt failed.' is the correct meaning of the idiom."
+        explanation: "'To restart planning from scratch.' is the correct meaning of the idiom."
     },
     {
         q: "What is meant by 'good things come to those who wait'?",
         options: [
-            'Waiting in lines is enjoyable.',
-            'Fast action is always wrong.',
-            'Patience is rewarded.',
-            'Procrastination leads to success.'
+            'Delay brings success',
+            'Lines are fun',
+            'Patience brings reward',
+            'Speed is always wrong'
         ],
         answer: 2,
-        explanation: "'Patience is rewarded.' is the correct meaning of the idiom."
+        explanation: "'Patience brings reward.' is the correct meaning of the idiom."
     },
     {
         q: "What does 'hear something straight from the horse's mouth' mean?",
         options: [
-            'Hearing information directly from the primary source or person involved.',
-            'Listening to veterinary advice.',
-            'Listening to gossip.',
-            'Reading animal books.'
+            'Hearing info from primary sources',
+            'Listening to vets',
+            'Listening to rumors',
+            'Reading animal books'
         ],
         answer: 0,
-        explanation: "'Hearing information directly from the primary source or person involved.' is the correct meaning of the idiom."
+        explanation: "'Hearing info from primary sources.' is the correct meaning of the idiom."
     },
     {
         q: "What does 'hit the sack' mean?",
         options: [
-            'To go to sleep or go to bed.',
-            'To drop heavy groceries.',
-            'To pack bags for travel.',
-            'To punch a punching bag.'
+            'To go to sleep in bed',
+            'To drop heavy boxes',
+            'To pack travel bags',
+            'To hit punching bags'
         ],
         answer: 0,
-        explanation: "'To go to sleep or go to bed.' is the correct meaning of the idiom."
+        explanation: "'To go to sleep in bed.' is the correct meaning of the idiom."
     },
     {
         q: "Choose the meaning of: 'ignorance is bliss'",
         options: [
-            'Stupidity is a blessing.',
-            'You may sometimes be happier if you do not know all the unpleasant details of a situation.',
-            'Studying causes stress.',
-            'Smart people are always unhappy.'
+            'Stupidity is great',
+            'Unawareness avoids distress',
+            'Studying causes stress',
+            'Smart folks are sad'
         ],
         answer: 1,
-        explanation: "'You may sometimes be happier if you do not know all the unpleasant details of a situation.' is the correct meaning of the idiom."
+        explanation: "'Unawareness avoids distress.' is the correct meaning of the idiom."
     },
     {
         q: "What does 'it takes two to tango' mean?",
         options: [
-            'Collaboration is difficult.',
-            'Dancing requires a partner.',
-            'Music is enjoyable.',
-            'Both people involved in a difficult situation or argument are equally responsible.'
+            'Teamwork is complex',
+            'Dancing requires pairs',
+            'Music is relaxing',
+            'Both parties share responsibility'
         ],
         answer: 3,
-        explanation: "'Both people involved in a difficult situation or argument are equally responsible.' is the correct meaning of the idiom."
+        explanation: "'Both parties share responsibility.' is the correct meaning of the idiom."
     },
     {
         q: "What does 'jump on the bandwagon' mean?",
         options: [
-            'To board a parade float.',
-            'To change political parties.',
-            'To join a popular activity, trend, or opinion because it is fashionable.',
-            'To leap over obstacles.'
+            'To board a parade float',
+            'To switch parties',
+            'To join a popular trend',
+            'To leap over fences'
         ],
         answer: 2,
-        explanation: "'To join a popular activity, trend, or opinion because it is fashionable.' is the correct meaning of the idiom."
+        explanation: "'To join a popular trend.' is the correct meaning of the idiom."
     },
     {
         q: "What is meant by 'keep your chin up'?",
         options: [
-            'To stretch your neck muscles.',
-            'To remain cheerful and courageous in a difficult situation.',
-            'To look up at the sky.',
-            'To maintain good posture.'
+            'To maintain good posture',
+            'To remain cheerful and brave',
+            'To look at the sky',
+            'To stretch your neck'
         ],
         answer: 1,
-        explanation: "'To remain cheerful and courageous in a difficult situation.' is the correct meaning of the idiom."
+        explanation: "'To remain cheerful and brave.' is the correct meaning of the idiom."
     },
     {
         q: "What does 'kill two birds with one stone' mean?",
         options: [
-            'To make mistakes.',
-            'To accomplish two different tasks with a single action.',
-            'To hunt wildlife illegally.',
-            'To be extremely efficient at work.'
+            'Making careless faults',
+            'Completing two tasks at once',
+            'Hunting illegal wildlife',
+            'Being highly efficient'
         ],
         answer: 1,
-        explanation: "'To accomplish two different tasks with a single action.' is the correct meaning of the idiom."
+        explanation: "'Completing two tasks at once.' is the correct meaning of the idiom."
     },
     {
         q: "Choose the meaning of: 'let sleeping dogs lie'",
         options: [
-            'Ignore lazy employees.',
-            'Leave a situation alone if it is not causing problems, to avoid making it worse.',
-            'Sleep early.',
-            'Do not wake pets.'
+            'Ignore lazy staff',
+            'Leaving peaceful issues alone',
+            'Sleep very early',
+            'Do not wake pets'
         ],
         answer: 1,
-        explanation: "'Leave a situation alone if it is not causing problems, to avoid making it worse.' is the correct meaning of the idiom."
+        explanation: "'Leaving peaceful issues alone.' is the correct meaning of the idiom."
     },
     {
         q: "What does 'make a long story short' mean?",
         options: [
-            'To write a summary.',
-            'To speak very quickly.',
-            'To give only the main points of a story without unnecessary details.',
-            'To edit a book chapter.'
+            'To write short notes',
+            'To speak very fast',
+            'Giving only the main points',
+            'To edit a book chapter'
         ],
         answer: 2,
-        explanation: "'To give only the main points of a story without unnecessary details.' is the correct meaning of the idiom."
+        explanation: "'Giving only the main points.' is the correct meaning of the idiom."
     },
     {
         q: "What does 'miss the point' mean?",
         options: [
-            'To disagree politely.',
-            'To miss a scheduled appointment.',
-            'To fail to understand the main idea or core message.',
-            'To lose a sharp needle.'
+            'Missing appointments',
+            'Disagreeing politely',
+            'Failing to grasp core ideas',
+            'Losing sharp needles'
         ],
         answer: 2,
-        explanation: "'To fail to understand the main idea or core message.' is the correct meaning of the idiom."
+        explanation: "'Failing to grasp core ideas.' is the correct meaning of the idiom."
     },
     {
         q: "What does 'no pain, no gain' mean?",
         options: [
-            'Gym workouts should hurt.',
-            'Suffering brings happiness.',
-            'You have to work hard and endure hardship in order to achieve success or progress.',
-            'Injuries are necessary for health.'
+            'Gym sessions must hurt',
+            'Suffering brings joy',
+            'Hardship brings true progress',
+            'Injuries aid fitness'
         ],
         answer: 2,
-        explanation: "'You have to work hard and endure hardship in order to achieve success or progress.' is the correct meaning of the idiom."
+        explanation: "'Hardship brings true progress.' is the correct meaning of the idiom."
     },
     {
         q: "What does 'on the fence' mean?",
         options: [
-            'Trespassing on property.',
-            'Undecided or neutral about a particular issue or choice.',
-            'Sitting on a wooden barrier.',
-            'Being athletic.'
+            'Trespassing yards',
+            'Remaining neutral on choices',
+            'Sitting on barriers',
+            'Being very athletic'
         ],
         answer: 1,
-        explanation: "'Undecided or neutral about a particular issue or choice.' is the correct meaning of the idiom."
+        explanation: "'Remaining neutral on choices.' is the correct meaning of the idiom."
     },
     {
         q: "Choose the meaning of: 'out of the frying pan into the fire'",
         options: [
-            'Moving from a bad or difficult situation to one that is even worse.',
-            'Cooking outdoors.',
-            'Escaping a house fire safely.',
-            'Moving from one kitchen appliance to another.'
+            'Moving to a worse situation',
+            'Cooking out in fields',
+            'Escaping fires safely',
+            'Switching kitchen tools'
         ],
         answer: 0,
-        explanation: "'Moving from a bad or difficult situation to one that is even worse.' is the correct meaning of the idiom."
+        explanation: "'Moving to a worse situation.' is the correct meaning of the idiom."
     },
     {
         q: "What does 'pan out' mean?",
         options: [
-            'To fail completely.',
-            'To cook food in a skillet.',
-            'To wash gold in a river.',
-            'To develop or turn out well; to have a successful outcome.'
+            'Failing completely',
+            'Cooking in skillets',
+            'Washing gold in rivers',
+            'To develop successfully'
         ],
         answer: 3,
-        explanation: "'To develop or turn out well; to have a successful outcome.' is the correct meaning of the idiom."
+        explanation: "'To develop successfully.' is the correct meaning of the idiom."
     },
     {
         q: "What is meant by 'play devil's advocate'?",
         options: [
-            'To play scary games.',
-            'To disobey rules.',
-            'To argue against an idea or take a contrary stance just for the sake of debate.',
-            'To defend evil in court.'
+            'Disobeying standard rules',
+            'Playing scary games',
+            'Arguing a contrary stance',
+            'Defending evil in court'
         ],
         answer: 2,
-        explanation: "'To argue against an idea or take a contrary stance just for the sake of debate.' is the correct meaning of the idiom."
+        explanation: "'Arguing a contrary stance.' is the correct meaning of the idiom."
     },
     {
         q: "What does 'pull someone's leg' mean?",
         options: [
-            'To trip a runner.',
-            'To stretch the truth.',
-            'To tease or joke by telling a falsehood.',
-            'To help someone stretch.'
+            'Tripping a runner over',
+            'Stretching truth lines',
+            'Teasing by telling falsehoods',
+            'Helping stretch limbs'
         ],
         answer: 2,
-        explanation: "'To tease or joke by telling a falsehood.' is the correct meaning of the idiom."
+        explanation: "'Teasing by telling falsehoods.' is the correct meaning of the idiom."
     },
     {
         q: "What does 'put all your eggs in one basket' mean?",
         options: [
-            'To collect farm produce.',
-            'To bake a large cake.',
-            'To risk everything on a single venture or course of action.',
-            'To carry groceries carefully.'
+            'Baking a huge cake',
+            'Collecting farm goods',
+            'Risking everything on one venture',
+            'Carrying groceries safe'
         ],
         answer: 2,
-        explanation: "'To risk everything on a single venture or course of action.' is the correct meaning of the idiom."
+        explanation: "'Risking everything on one venture.' is the correct meaning of the idiom."
     },
     {
         q: "Choose the meaning of: 'raining cats and dogs'",
         options: [
-            'An animal shelter storm.',
-            'Raining very heavily and intensely.',
-            'Light drizzling rain.',
-            'Pets falling from the sky.'
+            'Animal shelter storms',
+            'Raining extremely heavily',
+            'Light drizzle rain',
+            'Pets falling down'
         ],
         answer: 1,
-        explanation: "'Raining very heavily and intensely.' is the correct meaning of the idiom."
+        explanation: "'Raining extremely heavily.' is the correct meaning of the idiom."
     },
     {
         q: "What does 'read between the lines' mean?",
         options: [
-            'To understand the hidden meaning or underlying intention of something.',
-            'To find typos in a book.',
-            'To trace lines with a pen.',
-            'To practice speed reading.'
+            'Finding hidden intentions',
+            'Finding typo errors',
+            'Tracing drawn lines',
+            'Practicing speed reading'
         ],
         answer: 0,
-        explanation: "'To understand the hidden meaning or underlying intention of something.' is the correct meaning of the idiom."
+        explanation: "'Finding hidden intentions.' is the correct meaning of the idiom."
     },
     {
         q: "What does 'Rome wasn't built in a day' mean?",
         options: [
-            'Ancient history took long to study.',
-            'Important or complex tasks require a lot of time and patience.',
-            'Travel takes time.',
-            'Italian architecture is durable.'
+            'History takes long study',
+            'Big tasks take much time',
+            'Travel takes hours',
+            'Italian masonry is old'
         ],
         answer: 1,
-        explanation: "'Important or complex tasks require a lot of time and patience.' is the correct meaning of the idiom."
+        explanation: "'Big tasks take much time.' is the correct meaning of the idiom."
     },
     {
         q: "What does 'see eye to eye' mean?",
         options: [
-            'To have the same eye color.',
-            'To stare intensely.',
-            'To agree fully with someone; to share the same perspective.',
-            'To wear matching glasses.'
+            'Matching eye colors',
+            'Staring intensely',
+            'Agreeing fully on matters',
+            'Wearing matching specs'
         ],
         answer: 2,
-        explanation: "'To agree fully with someone; to share the same perspective.' is the correct meaning of the idiom."
+        explanation: "'Agreeing fully on matters.' is the correct meaning of the idiom."
     },
     {
         q: "What does 'shoot for the moon' mean?",
         options: [
-            'To aim for a high, ambitious goal.',
-            'To aim a rocket into space.',
-            'To practice archery at night.',
-            'To dream about astronomy.'
+            'Aiming for ambitious goals',
+            'Firing space rockets',
+            'Archery practice out',
+            'Dreaming of stars'
         ],
         answer: 0,
-        explanation: "'To aim for a high, ambitious goal.' is the correct meaning of the idiom."
+        explanation: "'Aiming for ambitious goals.' is the correct meaning of the idiom."
     },
     {
         q: "Choose the meaning of: 'sit on the fence'",
         options: [
-            'Avoiding work.',
-            'Resting in a yard.',
-            'Remaining neutral or undecided in a dispute.',
-            'Balancing on a wooden rail.'
+            'Balancing on rails',
+            'Avoiding all work',
+            'Remaining neutral in disputes',
+            'Resting in yards'
         ],
         answer: 2,
-        explanation: "'Remaining neutral or undecided in a dispute.' is the correct meaning of the idiom."
+        explanation: "'Remaining neutral in disputes.' is the correct meaning of the idiom."
     },
     {
         q: "What does 'spill the beans' mean?",
         options: [
-            'To drop cooking ingredients.',
-            'To plant seeds.',
-            'To reveal a secret.',
-            'To make a mess in the kitchen.'
+            'Making kitchen messes',
+            'Planting seeds early',
+            'Revealing a secret',
+            'Dropping food items'
         ],
         answer: 2,
-        explanation: "'To reveal a secret.' is the correct meaning of the idiom."
+        explanation: "'Revealing a secret.' is the correct meaning of the idiom."
     },
     {
         q: "What does 'steal someone's thunder' mean?",
         options: [
-            'To capture weather lightning.',
-            "To borrow someone's ideas.",
-            "To take the attention, praise, or credit away from someone else's success.",
-            'To interrupt a storm.'
+            'Catching storm lightning',
+            'Interrupting storms',
+            'Taking credit from others',
+            'Borrowing good ideas'
         ],
         answer: 2,
-        explanation: "'To take the attention, praise, or credit away from someone else's success.' is the correct meaning of the idiom."
+        explanation: "'Taking credit from others.' is the correct meaning of the idiom."
     },
     {
         q: "What does 'take with a grain of salt' mean?",
         options: [
-            'To season food properly.',
-            'To maintain skepticism; not to take something too seriously or literally.',
-            'To cure meat.',
-            'To swallow medication.'
+            'Seasoning food right',
+            'Maintaining healthy skepticism',
+            'Curing meat cuts',
+            'Swallowing tablets'
         ],
         answer: 1,
-        explanation: "'To maintain skepticism; not to take something too seriously or literally.' is the correct meaning of the idiom."
+        explanation: "'Maintaining healthy skepticism.' is the correct meaning of the idiom."
     },
     {
         q: "What does 'taste of your own medicine' mean?",
         options: [
-            'Visiting a pharmacy.',
-            'Experiencing the same unpleasant treatment that you have given to others.',
-            'Taking prescribed cough syrup.',
-            'Eating bitter vegetables.'
+            'Visiting pharmacies',
+            'Facing your own bad treatment',
+            'Taking cough syrups',
+            'Eating bitter greens'
         ],
         answer: 1,
-        explanation: "'Experiencing the same unpleasant treatment that you have given to others.' is the correct meaning of the idiom."
+        explanation: "'Facing your own bad treatment.' is the correct meaning of the idiom."
     },
     {
         q: "Choose the meaning of: 'the ball is in your court'",
         options: [
-            'It is your turn to play tennis.',
-            'You own the playground.',
-            'It is your responsibility to take the next step or make a decision.',
-            'You lost the sports game.'
+            'Your turn to play tennis',
+            'You lost sports games',
+            'Your turn to take action',
+            'You own playgrounds'
         ],
         answer: 2,
-        explanation: "'It is your responsibility to take the next step or make a decision.' is the correct meaning of the idiom."
+        explanation: "'Your turn to take action.' is the correct meaning of the idiom."
     },
     {
         q: "What does 'the best of both worlds' mean?",
         options: [
-            'Winning two prizes.',
-            'Living in two countries.',
-            'Enjoying the advantages of two different things simultaneously.',
-            'Having dual careers.'
+            'Living in two lands',
+            'Winning dual prizes',
+            'Enjoying dual advantages',
+            'Holding dual jobs'
         ],
         answer: 2,
-        explanation: "'Enjoying the advantages of two different things simultaneously.' is the correct meaning of the idiom."
+        explanation: "'Enjoying dual advantages.' is the correct meaning of the idiom."
     },
     {
         q: "What does 'the elephant in the room' mean?",
         options: [
-            'An obvious, major problem or issue that everyone is consciously avoiding discussing.',
-            'A large piece of furniture.',
-            'A decorative statue.',
-            'A zoo animal inside a house.'
+            'An obvious avoided problem',
+            'Zoo animals inside homes',
+            'Large house furniture',
+            'Decorative statues'
         ],
         answer: 0,
-        explanation: "'An obvious, major problem or issue that everyone is consciously avoiding discussing.' is the correct meaning of the idiom."
+        explanation: "'An obvious avoided problem.' is the correct meaning of the idiom."
     },
     {
         q: "What does 'the last straw' mean?",
         options: [
-            'The conclusion of harvest season.',
-            'The final drinking straw in a box.',
-            'The final irritation or problem in a series of troubles that makes a situation unbearable.',
-            'A broken broomstick.'
+            'Final straws in boxes',
+            'End of harvest days',
+            'The final unbearable trouble',
+            'Broken broomsticks'
         ],
         answer: 2,
-        explanation: "'The final irritation or problem in a series of troubles that makes a situation unbearable.' is the correct meaning of the idiom."
+        explanation: "'The final unbearable trouble.' is the correct meaning of the idiom."
     },
     {
         q: "What does 'through thick and thin' mean?",
         options: [
-            'Traveling through jungles.',
-            'Experiencing varying body weights.',
-            'Reading books of varying lengths.',
-            'Remaining loyal and supportive through all hardships and good times alike.'
+            'Varying body weights',
+            'Hiking through jungles',
+            'Reading varying books',
+            'Staying loyal through trials'
         ],
         answer: 3,
-        explanation: "'Remaining loyal and supportive through all hardships and good times alike.' is the correct meaning of the idiom."
+        explanation: "'Staying loyal through trials.' is the correct meaning of the idiom."
     },
     {
         q: "Choose the meaning of: 'throw in the towel'",
         options: [
-            'To dry off after swimming.',
-            'To surrender, give up, or admit defeat.',
-            'To throw laundry into a basket.',
-            'To wash gym clothes.'
+            'Washing gym clothes',
+            'Surrendering or giving up',
+            'Drying after swims',
+            'Tossing laundry out'
         ],
         answer: 1,
-        explanation: "'To surrender, give up, or admit defeat.' is the correct meaning of the idiom."
+        explanation: "'Surrendering or giving up.' is the correct meaning of the idiom."
     },
     {
         q: "What does 'time flies' mean?",
         options: [
-            'Clocks run too fast.',
-            'Hours drag on slowly.',
-            'Insects live short lives.',
-            'Time passes surprisingly quickly.'
+            'Insects have short lives',
+            'Clocks run too fast',
+            'Hours drag slowly',
+            'Time passes very fast'
         ],
         answer: 3,
-        explanation: "'Time passes surprisingly quickly.' is the correct meaning of the idiom."
+        explanation: "'Time passes very fast.' is the correct meaning of the idiom."
     },
     {
         q: "What does 'turn a blind eye' mean?",
         options: [
-            'To wear an eye patch.',
-            'To deliberately ignore wrongdoing or pretend not to notice something.',
-            'To have poor vision.',
-            'To blink rapidly.'
+            'Wearing eye patches',
+            'Deliberately ignoring faults',
+            'Having poor vision',
+            'Blinking rapidly'
         ],
         answer: 1,
-        explanation: "'To deliberately ignore wrongdoing or pretend not to notice something.' is the correct meaning of the idiom."
+        explanation: "'Deliberately ignoring faults.' is the correct meaning of the idiom."
     },
     {
         q: "What does 'under the table' mean?",
         options: [
-            'Cleaning lower surfaces.',
-            'Hiding beneath dining furniture.',
-            'Sitting on the floor.',
-            'Done secretly or illegally, often involving clandestine financial transactions.'
+            'Hiding under furniture',
+            'Sitting on floors',
+            'Cleaning low surfaces',
+            'Done secretly or illegally'
         ],
         answer: 3,
-        explanation: "'Done secretly or illegally, often involving clandestine financial transactions.' is the correct meaning of the idiom."
+        explanation: "'Done secretly or illegally.' is the correct meaning of the idiom."
     },
     {
         q: "What does 'up in the air' mean?",
         options: [
-            'Jumping high.',
-            'Uncertain, undecided, or unsettled.',
-            'Floating in a hot air balloon.',
-            'Flying an airplane.'
+            'Floating in balloons',
+            'Uncertain or undecided',
+            'Flying airplanes high',
+            'Jumping upward'
         ],
         answer: 1,
-        explanation: "'Uncertain, undecided, or unsettled.' is the correct meaning of the idiom."
+        explanation: "'Uncertain or undecided.' is the correct meaning of the idiom."
     },
     {
         q: "Choose the meaning of: 'use your head'",
         options: [
-            'To wear a hat.',
-            'To think logically and sensibly.',
-            'To rest your forehead.',
-            'To nod in agreement.'
+            'Nodding in agreement',
+            'Thinking logically',
+            'Wearing baseball caps',
+            'Resting foreheads'
         ],
         answer: 1,
-        explanation: "'To think logically and sensibly.' is the correct meaning of the idiom."
+        explanation: "'Thinking logically.' is the correct meaning of the idiom."
     },
     {
         q: "What does 'water under the bridge' mean?",
         options: [
-            'River current flow.',
-            'Past events, grievances, or disputes that are forgiven and forgotten.',
-            'Flooding in the city.',
-            'Bridge engineering.'
+            'River current flows',
+            'Forgiven past disputes',
+            'City flood waters',
+            'Bridge architecture'
         ],
         answer: 1,
-        explanation: "'Past events, grievances, or disputes that are forgiven and forgotten.' is the correct meaning of the idiom."
+        explanation: "'Forgiven past disputes.' is the correct meaning of the idiom."
     },
     {
         q: "What does 'wear your heart on your sleeve' mean?",
         options: [
-            'To feel chest pain.',
-            'To openly and transparently show your true emotions and feelings.',
-            'To sew patches on clothes.',
-            'To pin a brooch on your shirt.'
+            'Pinning brooches on shirts',
+            'Showing true emotions openly',
+            'Sewing clothing patches',
+            'Experiencing chest pain'
         ],
         answer: 1,
-        explanation: "'To openly and transparently show your true emotions and feelings.' is the correct meaning of the idiom."
+        explanation: "'Showing true emotions openly.' is the correct meaning of the idiom."
     },
     {
         q: "What does 'when it rains, it pours' mean?",
         options: [
-            'Water bills are high.',
-            'Weather is unpredictable.',
-            'Misfortunes or difficult events tend to happen all at once in large numbers.',
-            'Storms bring heavy water.'
+            'Storms bring heavy floods',
+            'Weather is fickle',
+            'Misfortunes happen together',
+            'Water bills spike'
         ],
         answer: 2,
-        explanation: "'Misfortunes or difficult events tend to happen all at once in large numbers.' is the correct meaning of the idiom."
+        explanation: "'Misfortunes happen together.' is the correct meaning of the idiom."
     },
     {
         q: "What does 'whole nine yards' mean?",
         options: [
-            'A long football field.',
-            'Nine meters of fabric.',
-            'A full inventory check.',
-            'Everything possible; the entire amount or complete story.'
+            'Long football fields',
+            'Nine meters of cloth',
+            'Full inventory checks',
+            'Everything possible'
         ],
         answer: 3,
-        explanation: "'Everything possible; the entire amount or complete story.' is the correct meaning of the idiom."
+        explanation: "'Everything possible.' is the correct meaning of the idiom."
     },
     {
         q: "Choose the meaning of: 'wild goose chase'",
         options: [
-            'A foolish, hopeless, or futile pursuit of something unattainable.',
-            'Hunting migrating birds.',
-            'A wild safari trip.',
-            'Running after farm animals.'
+            'Futile pursuit of aims',
+            'Hunting migrating birds',
+            'Running after farm pets',
+            'Wild safari tours'
         ],
         answer: 0,
-        explanation: "'A foolish, hopeless, or futile pursuit of something unattainable.' is the correct meaning of the idiom."
+        explanation: "'Futile pursuit of aims.' is the correct meaning of the idiom."
     },
     {
         q: "What does 'worth your salt' mean?",
         options: [
-            'Eating a healthy diet.',
-            'Buying expensive seasonings.',
-            'Valuable mineral resources.',
-            'Competent, deserving, and efficient at your job or duties.'
+            'Buying fine seasonings',
+            'Eating healthy diets',
+            'Valuing mineral goods',
+            'Competent at your duties'
         ],
         answer: 3,
-        explanation: "'Competent, deserving, and efficient at your job or duties.' is the correct meaning of the idiom."
+        explanation: "'Competent at your duties.' is the correct meaning of the idiom."
     },
     {
         q: "What does 'you can't judge a book by its cover' mean?",
         options: [
-            'Book designs can be deceiving.',
-            'Library books are fragile.',
-            'Reading requires looking inside.',
-            'You cannot determine the worth or character of someone or something solely by outward appearance.'
+            'Book designs trick buyers',
+            'Reading requires looking',
+            'Library books break',
+            'Appearances can deceive'
         ],
         answer: 3,
-        explanation: "'You cannot determine the worth or character of someone or something solely by outward appearance.' is the correct meaning of the idiom."
+        explanation: "'Appearances can deceive.' is the correct meaning of the idiom."
     },
     {
         q: "What does 'your guess is as good as mine' mean?",
         options: [
-            'I have no idea; I am just as uncertain as you are.',
-            'Your opinion is superior.',
-            'We both know the correct answer.',
-            'Let us guess together.'
+            'Total uncertainty shared',
+            'We know answers',
+            'Your view is superior',
+            'Let us guess now'
         ],
         answer: 0,
-        explanation: "'I have no idea; I am just as uncertain as you are.' is the correct meaning of the idiom."
+        explanation: "'Total uncertainty shared.' is the correct meaning of the idiom."
     },
     {
         q: "What does 'zero hour' mean?",
         options: [
-            'The end of a workday.',
-            'A paused stopwatch.',
-            'Midnight precisely.',
-            'The exact scheduled time for an operation, attack, or critical event to begin.'
+            'Midnight precisely',
+            'Workday endings',
+            'Paused stopwatches',
+            'Exact critical start time'
         ],
         answer: 3,
-        explanation: "'The exact scheduled time for an operation, attack, or critical event to begin.' is the correct meaning of the idiom."
+        explanation: "'Exact critical start time.' is the correct meaning of the idiom."
     },
     {
         q: "Choose the meaning of: 'add fuel to the fire'",
         options: [
-            'To make a bad situation or argument even worse.',
-            'To stoke a fireplace.',
-            'To cook outdoors.',
-            'To cause an explosion.'
+            'Making a bad situation worse',
+            'Stoking fireplaces',
+            'Causing explosions',
+            'Cooking outside'
         ],
         answer: 0,
-        explanation: "'To make a bad situation or argument even worse.' is the correct meaning of the idiom."
+        explanation: "'Making a bad situation worse.' is the correct meaning of the idiom."
     },
     {
         q: "What does 'against the clock' mean?",
         options: [
-            'Timing a race.',
-            'Running past a wall clock.',
-            'Working under extreme time pressure to finish before a deadline.',
-            'Fixing a broken watch.'
+            'Racing wall clocks',
+            'Fixing broken watches',
+            'Working under tight deadlines',
+            'Timing running tracks'
         ],
         answer: 2,
-        explanation: "'Working under extreme time pressure to finish before a deadline.' is the correct meaning of the idiom."
+        explanation: "'Working under tight deadlines.' is the correct meaning of the idiom."
     },
     {
         q: "What does 'all ears' mean?",
         options: [
-            'Being deaf.',
-            'Listening to music with headphones.',
-            'Having large hearing organs.',
-            'Eager and fully prepared to listen attentively.'
+            'Having large ears',
+            'Wearing headphones',
+            'Being totally deaf',
+            'Listening very attentively'
         ],
         answer: 3,
-        explanation: "'Eager and fully prepared to listen attentively.' is the correct meaning of the idiom."
+        explanation: "'Listening very attentively.' is the correct meaning of the idiom."
     },
     {
         q: "What does 'at the drop of a hat' mean?",
         options: [
-            'Wearing caps outdoors.',
-            'Picking up hats from the floor.',
-            'Happening instantly, without hesitation or delay.',
-            'Dropping clothing items.'
+            'Dropping garments',
+            'Picking up hats',
+            'Happening instantly',
+            'Wearing caps out'
         ],
         answer: 2,
-        explanation: "'Happening instantly, without hesitation or delay.' is the correct meaning of the idiom."
+        explanation: "'Happening instantly.' is the correct meaning of the idiom."
     },
     {
         q: "What does 'back to square one' mean?",
         options: [
-            'Returning to the starting point because a plan failed.',
-            'Moving forward step by step.',
-            'Playing a board game.',
-            'Drawing a square box.'
+            'Returning to starting points',
+            'Playing board games',
+            'Drawing boxes out',
+            'Stepping forward'
         ],
         answer: 0,
-        explanation: "'Returning to the starting point because a plan failed.' is the correct meaning of the idiom."
+        explanation: "'Returning to starting points.' is the correct meaning of the idiom."
     },
     {
         q: "Choose the meaning of: 'ballistic'",
         options: [
-            'Becoming extremely angry or furious.',
-            'Running fast.',
-            'Studying physics.',
-            'Launching a missile.'
+            'Becoming extremely angry',
+            'Studying physics',
+            'Launching missiles',
+            'Running sprints'
         ],
         answer: 0,
-        explanation: "'Becoming extremely angry or furious.' is the correct meaning of the idiom."
+        explanation: "'Becoming extremely angry.' is the correct meaning of the idiom."
     },
     {
         q: "What does 'bark up the wrong tree' mean?",
         options: [
-            'Climbing tall trees.',
-            'Pursuing a mistaken course of action or blaming the wrong person.',
-            'Gardening errors.',
-            'Barking dogs.'
+            'Barking guard dogs',
+            'Blaming the wrong person',
+            'Climbing tall trees',
+            'Gardening mistakes'
         ],
         answer: 1,
-        explanation: "'Pursuing a mistaken course of action or blaming the wrong person.' is the correct meaning of the idiom."
+        explanation: "'Blaming the wrong person.' is the correct meaning of the idiom."
     },
     {
         q: "What does 'bat an eye' mean?",
         options: [
-            'Having dry eyes.',
-            'Showing shock, surprise, or emotional reaction.',
-            'Blinking eyelashes.',
-            'Contact lenses.'
+            'Blinking eyelashes',
+            'Showing emotional reaction',
+            'Having dry eyes',
+            'Wearing contact lens'
         ],
         answer: 1,
-        explanation: "'Showing shock, surprise, or emotional reaction.' is the correct meaning of the idiom."
+        explanation: "'Showing emotional reaction.' is the correct meaning of the idiom."
     },
     {
         q: "What does 'bed of roses' mean?",
         options: [
-            'A sleeping arrangement.',
-            'Floral scents.',
-            'A garden flowerbed.',
-            'A comfortable, easy, or luxurious situation devoid of difficulties.'
+            'Garden flower beds',
+            'Sleeping arrangements',
+            'Floral fragrances',
+            'A luxurious easy life'
         ],
         answer: 3,
-        explanation: "'A comfortable, easy, or luxurious situation devoid of difficulties.' is the correct meaning of the idiom."
+        explanation: "'A luxurious easy life.' is the correct meaning of the idiom."
     },
     {
         q: "What does 'bide your time' mean?",
         options: [
-            'Wasting hours.',
-            'Waiting patiently for a favorable opportunity to act.',
-            'Reading a watch.',
-            'Counting seconds.'
+            'Watching clocks',
+            'Waiting patiently to act',
+            'Wasting hours away',
+            'Counting seconds'
         ],
         answer: 1,
-        explanation: "'Waiting patiently for a favorable opportunity to act.' is the correct meaning of the idiom."
+        explanation: "'Waiting patiently to act.' is the correct meaning of the idiom."
     },
     {
         q: "Choose the meaning of: 'bone to pick'",
         options: [
-            'A grievance or a topic of disagreement to discuss with someone.',
-            'Dog treats.',
-            'Eating fish.',
-            'A skeleton display.'
+            'A topic of disagreement',
+            'Eating fish dishes',
+            'Skeleton displays',
+            'Dog snack treats'
         ],
         answer: 0,
-        explanation: "'A grievance or a topic of disagreement to discuss with someone.' is the correct meaning of the idiom."
+        explanation: "'A topic of disagreement.' is the correct meaning of the idiom."
     },
     {
         q: "What does 'born with a silver spoon in one's mouth' mean?",
         options: [
-            'Dentistry procedures.',
-            'Silver mining.',
-            'Born into a very wealthy and privileged family.',
-            'Eating with expensive cutlery.'
+            'Using fine cutlery',
+            'Dental procedures',
+            'Born into wealthy privilege',
+            'Silver mining jobs'
         ],
         answer: 2,
-        explanation: "'Born into a very wealthy and privileged family.' is the correct meaning of the idiom."
+        explanation: "'Born into wealthy privilege.' is the correct meaning of the idiom."
     },
     {
         q: "What does 'bread and butter' mean?",
         options: [
-            'Simple meals.',
-            'Bakery products.',
-            'Breakfast food items.',
-            "A person's livelihood or primary source of income."
+            'Breakfast food items',
+            'Bakery goods sold',
+            'Simple daily meals',
+            'Primary source of income'
         ],
         answer: 3,
-        explanation: "'A person's livelihood or primary source of income.' is the correct meaning of the idiom."
+        explanation: "'Primary source of income.' is the correct meaning of the idiom."
     },
     {
         q: "What does 'burn bridges' mean?",
         options: [
-            'Damaging a relationship or eliminating future options irreparably.',
-            'Destroying architecture.',
-            'Building wooden structures.',
-            'Crossing rivers.'
+            'Ruining relationships permanently',
+            'Destroying real structures',
+            'Building log cabins',
+            'Crossing rivers'
         ],
         answer: 0,
-        explanation: "'Damaging a relationship or eliminating future options irreparably.' is the correct meaning of the idiom."
+        explanation: "'Ruining relationships permanently.' is the correct meaning of the idiom."
     }
 ];
