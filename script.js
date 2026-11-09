@@ -157,6 +157,8 @@ function startQuiz(categoryKey) {
         rawPool = expertQuestions;
     } else if (categoryKey === 'idioms' && typeof idiomsQuestions !== 'undefined') {
         rawPool = idiomsQuestions;
+        sessionCount = 15; // Set session length to 15 for Idioms!
+    }
     } else if (categoryKey === 'analogy' && typeof wordAnalogyQuestions !== 'undefined') {
         rawPool = wordAnalogyQuestions;
     } else if (categoryKey === 'reading' && typeof readingCompQuestions !== 'undefined') {
