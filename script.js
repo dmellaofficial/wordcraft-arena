@@ -146,6 +146,7 @@ function updateTimeTrialTimer() {
 
 function startQuiz(categoryKey) {
     let rawPool = [];
+    let sessionCount = 10; // Default session length
 
     if (categoryKey === 'basic' && typeof basicQuestions !== 'undefined') {
         rawPool = basicQuestions;
@@ -157,8 +158,7 @@ function startQuiz(categoryKey) {
         rawPool = expertQuestions;
     } else if (categoryKey === 'idioms' && typeof idiomsQuestions !== 'undefined') {
         rawPool = idiomsQuestions;
-        sessionCount = 15; // Set session length to 15 for Idioms!
-    }
+        sessionCount = 15; // Idioms set to 15 questions per session!
     } else if (categoryKey === 'analogy' && typeof wordAnalogyQuestions !== 'undefined') {
         rawPool = wordAnalogyQuestions;
     } else if (categoryKey === 'reading' && typeof readingCompQuestions !== 'undefined') {
@@ -174,7 +174,7 @@ function startQuiz(categoryKey) {
     }
 
     currentCategory = categoryKey;
-    currentQuestions = getShuffledSessionQuestions(rawPool, 10);
+    currentQuestions = getShuffledSessionQuestions(rawPool, sessionCount);
     currentQuestionIndex = 0;
     score = 0;
     userAnswers = [];
@@ -207,7 +207,7 @@ function loadQuestion() {
     const questionCounter = document.getElementById('question-counter');
     const progressBar = document.getElementById('progress-bar');
 
-    if (categoryTitle) categoryTitle.innerText = isTimeTrial ? currentCategory.toUpperCase() : `${currentCategory.toUpperCase()} Tier (10 Qs)`;
+    if (categoryTitle) categoryTitle.innerText = isTimeTrial ? currentCategory.toUpperCase() : `${currentCategory.toUpperCase()} Tier (${currentQuestions.length} Qs)`;
     if (questionCounter) questionCounter.innerText = `Question ${currentQuestionIndex + 1} of ${currentQuestions.length}`;
     
     if (progressBar) {
@@ -331,7 +331,7 @@ async function showResults() {
         if (stat1Label) stat1Label.textContent = "Final Time (HH:MM:SS)";
         if (stat2Label) stat2Label.innerHTML = `No. of Correct: <span class="text-emerald-600 font-bold">${correctCount}</span><br>No. of Mistakes: <span class="text-rose-600 font-bold">${mistakeCount}</span>`;
         if (finalScore) finalScore.textContent = formatHHMMSS(elapsedTimeSeconds);
-        if (finalCorrect) finalCorrect.textContent = ""; // Handled cleanly via stat2Label HTML layout
+        if (finalCorrect) finalCorrect.textContent = ""; 
         if (resultMessage) resultMessage.textContent = "Time trial record saved successfully!";
 
         if (typeof auth !== 'undefined' && auth.currentUser && typeof db !== 'undefined') {
