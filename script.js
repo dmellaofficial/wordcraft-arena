@@ -146,7 +146,7 @@ function updateTimeTrialTimer() {
 
 function startQuiz(categoryKey) {
     let rawPool = [];
-    let sessionCount = 15; // Default session length
+    let sessionCount = 10; // Default session length for Core Tiers
 
     if (categoryKey === 'basic' && typeof basicQuestions !== 'undefined') {
         rawPool = basicQuestions;
@@ -158,14 +158,19 @@ function startQuiz(categoryKey) {
         rawPool = expertQuestions;
     } else if (categoryKey === 'idioms' && typeof idiomsQuestions !== 'undefined') {
         rawPool = idiomsQuestions;
+        sessionCount = 15; // Skill practice category
     } else if (categoryKey === 'analogy' && typeof wordAnalogyQuestions !== 'undefined') {
         rawPool = wordAnalogyQuestions;
+        sessionCount = 15; // Skill practice category
     } else if (categoryKey === 'reading' && typeof readingCompQuestions !== 'undefined') {
         rawPool = readingCompQuestions;
+        sessionCount = 15; // Skill practice category
     } else if (categoryKey === 'errors' && typeof identifyingErrorsQuestions !== 'undefined') {
         rawPool = identifyingErrorsQuestions;
+        sessionCount = 15; // Skill practice category
     } else if (categoryKey === 'vocab' && typeof vocabularyQuestions !== 'undefined') {
         rawPool = vocabularyQuestions;
+        sessionCount = 15; // Skill practice category
     } else {
         console.error("Error: Question pool not found for category:", categoryKey);
         alert("Error loading questions. Please check your script file connections.");
