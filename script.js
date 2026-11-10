@@ -146,7 +146,7 @@ function updateTimeTrialTimer() {
 
 function startQuiz(categoryKey) {
     let rawPool = [];
-    let sessionCount = 10; // Default session length
+    let sessionCount = 15; // Default session length
 
     if (categoryKey === 'basic' && typeof basicQuestions !== 'undefined') {
         rawPool = basicQuestions;
@@ -158,7 +158,6 @@ function startQuiz(categoryKey) {
         rawPool = expertQuestions;
     } else if (categoryKey === 'idioms' && typeof idiomsQuestions !== 'undefined') {
         rawPool = idiomsQuestions;
-        sessionCount = 15; // Idioms set to 15 questions per session!
     } else if (categoryKey === 'analogy' && typeof wordAnalogyQuestions !== 'undefined') {
         rawPool = wordAnalogyQuestions;
     } else if (categoryKey === 'reading' && typeof readingCompQuestions !== 'undefined') {
