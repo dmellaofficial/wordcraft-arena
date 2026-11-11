@@ -8,8 +8,9 @@ let currentQuestionIndex = 0;
 let score = 0;
 let userAnswers = [];
 
-// Time Trial specific state
+// Time Trial / Skill Practice Challenge specific state
 let isTimeTrial = false;
+let isSkillPracticeChallenge = false;
 let timeTrialCount = 10;
 let timeTrialStartTime = 0;
 let timeTrialTimerInterval = null;
@@ -59,6 +60,7 @@ function getShuffledSessionQuestions(rawPool, count = 10) {
 
 function selectLevel(categoryKey) {
     isTimeTrial = false;
+    isSkillPracticeChallenge = false;
     startQuiz(categoryKey);
 }
 
@@ -76,6 +78,7 @@ function startTimedChallenge(questionCount) {
     }
 
     isTimeTrial = true;
+    isSkillPracticeChallenge = false;
     timeTrialCount = questionCount;
     timeTrialPenaltySeconds = 0;
     currentCategory = `Time Trial (${questionCount} Qs)`;
@@ -96,10 +99,61 @@ function startTimedChallenge(questionCount) {
         elapsedTimeSeconds = 0;
         timeTrialStartTime = Date.now();
         const timerWrapper = document.getElementById('tt-timer-wrapper');
+        const timerLabel = document.getElementById('tt-timer-label');
+        if (timerLabel) timerLabel.textContent = "Time Trial Challenge (+1s penalty per wrong answer)";
         if (timerWrapper) timerWrapper.classList.remove('hidden');
 
         if (timeTrialTimerInterval) clearInterval(timeTrialTimerInterval);
         timeTrialTimerInterval = setInterval(updateTimeTrialTimer, 100);
+
+        loadQuestion();
+    });
+}
+
+function startSkillPracticeChallenge() {
+    let combinedPool = [];
+    if (typeof idiomsQuestions !== 'undefined') combinedPool.push(...idiomsQuestions);
+    if (typeof idioms2Questions !== 'undefined') combinedPool.push(...idioms2Questions);
+    if (typeof wordAnalogyQuestions !== 'undefined') combinedPool.push(...wordAnalogyQuestions);
+    if (typeof wordAnalogy2Questions !== 'undefined') combinedPool.push(...wordAnalogy2Questions);
+    if (typeof readingCompQuestions !== 'undefined') combinedPool.push(...readingCompQuestions);
+    if (typeof readingComp2Questions !== 'undefined') combinedPool.push(...readingComp2Questions);
+    if (typeof identifyingErrorsQuestions !== 'undefined') combinedPool.push(...identifyingErrorsQuestions);
+    if (typeof vocabularyQuestions !== 'undefined') combinedPool.push(...vocabularyQuestions);
+    if (typeof vocabulary2Questions !== 'undefined') combinedPool.push(...vocabulary2Questions);
+
+    if (combinedPool.length === 0) {
+        alert("Skill practice question pools are not loaded.");
+        return;
+    }
+
+    isTimeTrial = false;
+    isSkillPracticeChallenge = true;
+    timeTrialCount = 150;
+    currentCategory = "Skill Practice Challenge";
+    currentQuestions = getShuffledSessionQuestions(combinedPool, 150);
+    currentQuestionIndex = 0;
+    score = 0;
+    userAnswers = [];
+
+    runCountdown(() => {
+        const dashboard = document.getElementById('screen-levels');
+        const quizView = document.getElementById('screen-quiz');
+        const resultsView = document.getElementById('screen-results');
+
+        if (dashboard) dashboard.classList.add('hidden');
+        if (resultsView) resultsView.classList.add('hidden');
+        if (quizView) quizView.classList.remove('hidden');
+
+        elapsedTimeSeconds = 0;
+        timeTrialStartTime = Date.now();
+        const timerWrapper = document.getElementById('tt-timer-wrapper');
+        const timerLabel = document.getElementById('tt-timer-label');
+        if (timerLabel) timerLabel.textContent = "Skill Practice Challenge (3:00 Limit)";
+        if (timerWrapper) timerWrapper.classList.remove('hidden');
+
+        if (timeTrialTimerInterval) clearInterval(timeTrialTimerInterval);
+        timeTrialTimerInterval = setInterval(updateSkillPracticeChallengeTimer, 100);
 
         loadQuestion();
     });
@@ -141,6 +195,28 @@ function updateTimeTrialTimer() {
     const timerDisplay = document.getElementById('tt-timer-display');
     if (timerDisplay) {
         timerDisplay.textContent = formatHHMMSS(elapsedTimeSeconds);
+    }
+}
+
+function updateSkillPracticeChallengeTimer() {
+    const rawElapsed = (Date.now() - timeTrialStartTime) / 1000;
+    const remaining = 180 - rawElapsed; // 3 minutes = 180 seconds
+
+    const timerDisplay = document.getElementById('tt-timer-display');
+    const timerBar = document.getElementById('tt-timer-bar');
+
+    if (timerDisplay) {
+        timerDisplay.textContent = formatMMSS(Math.max(0, remaining));
+    }
+    if (timerBar) {
+        const percent = Math.max(0, Math.min(100, (remaining / 180) * 100));
+        timerBar.style.width = `${percent}%`;
+    }
+
+    if (remaining <= 0) {
+        clearInterval(timeTrialTimerInterval);
+        elapsedTimeSeconds = 180;
+        showResults();
     }
 }
 
@@ -213,7 +289,7 @@ function startQuiz(categoryKey) {
 
 function loadQuestion() {
     if (currentQuestionIndex >= currentQuestions.length) {
-        if (isTimeTrial && timeTrialTimerInterval) {
+        if ((isTimeTrial || isSkillPracticeChallenge) && timeTrialTimerInterval) {
             clearInterval(timeTrialTimerInterval);
         }
         showResults();
@@ -226,7 +302,7 @@ function loadQuestion() {
     const questionCounter = document.getElementById('question-counter');
     const progressBar = document.getElementById('progress-bar');
 
-    if (categoryTitle) categoryTitle.innerText = isTimeTrial ? currentCategory.toUpperCase() : `${currentCategory.toUpperCase()} Tier (${currentQuestions.length} Qs)`;
+    if (categoryTitle) categoryTitle.innerText = isTimeTrial || isSkillPracticeChallenge ? currentCategory.toUpperCase() : `${currentCategory.toUpperCase()} Tier (${currentQuestions.length} Qs)`;
     if (questionCounter) questionCounter.innerText = `Question ${currentQuestionIndex + 1} of ${currentQuestions.length}`;
     
     if (progressBar) {
@@ -337,7 +413,67 @@ async function showResults() {
     const correctCount = userAnswers.filter(a => a.isCorrect).length;
     const mistakeCount = currentQuestions.length - correctCount;
 
-    if (isTimeTrial) {
+    if (isSkillPracticeChallenge) {
+        if (quizView) quizView.classList.add('hidden');
+        if (resultsView) resultsView.classList.remove('hidden');
+
+        const rawElapsed = (Date.now() - timeTrialStartTime) / 1000;
+        const finalTimeSeconds = Math.min(180, rawElapsed);
+
+        const finalScore = document.getElementById('final-score');
+        const finalCorrect = document.getElementById('final-correct');
+        const stat1Label = document.getElementById('res-stat-1-label');
+        const stat2Label = document.getElementById('res-stat-2-label');
+        const resultMessage = document.getElementById('result-message');
+
+        if (stat1Label) stat1Label.textContent = "Correct Count (Score)";
+        if (stat2Label) stat2Label.textContent = "Accomplished Time";
+        if (finalScore) finalScore.textContent = `${correctCount} Correct`;
+        if (finalCorrect) finalCorrect.textContent = formatMMSS(finalTimeSeconds);
+        if (resultMessage) resultMessage.textContent = "Skill Practice Challenge record saved successfully!";
+
+        if (typeof auth !== 'undefined' && auth.currentUser && typeof db !== 'undefined') {
+            try {
+                const userId = auth.currentUser.uid;
+                const userDoc = await db.collection('users').doc(userId).get();
+                const username = userDoc.exists && userDoc.data().username ? userDoc.data().username : auth.currentUser.email.split('@')[0];
+
+                const existingQuery = await db.collection('skillpractice')
+                    .where('userId', '==', userId)
+                    .get();
+
+                let shouldSave = true;
+                let existingDocId = null;
+
+                if (!existingQuery.empty) {
+                    const existingData = existingQuery.docs[0].data();
+                    existingDocId = existingQuery.docs[0].id;
+                    // Save if higher score, or same score with faster time
+                    if (existingData.score > correctCount || (existingData.score === correctCount && existingData.timeSeconds <= finalTimeSeconds)) {
+                        shouldSave = false;
+                    }
+                }
+
+                if (shouldSave) {
+                    const payload = {
+                        userId: userId,
+                        username: username,
+                        score: correctCount,
+                        timeSeconds: Math.round(finalTimeSeconds),
+                        timestamp: firebase.firestore.FieldValue.serverTimestamp()
+                    };
+                    if (existingDocId) {
+                        await db.collection('skillpractice').doc(existingDocId).set(payload);
+                    } else {
+                        await db.collection('skillpractice').add(payload);
+                    }
+                }
+                loadSkillPracticeLeaderboards();
+            } catch (e) {
+                console.error("Error saving skill practice challenge record:", e);
+            }
+        }
+    } else if (isTimeTrial) {
         if (quizView) quizView.classList.add('hidden');
         if (resultsView) resultsView.classList.remove('hidden');
 
@@ -476,6 +612,8 @@ async function showResults() {
 function restartQuiz() {
     if (isTimeTrial) {
         startTimedChallenge(timeTrialCount);
+    } else if (isSkillPracticeChallenge) {
+        startSkillPracticeChallenge();
     } else {
         startQuiz(currentCategory);
     }
@@ -493,88 +631,7 @@ function goHome() {
     if (levelsView) levelsView.classList.remove('hidden');
     
     loadTimeTrialLeaderboards();
-}
-
-async function loadTimeTrialLeaderboards() {
-    await populateTTList('20 Questions', 'tt-leaderboard-list-A', 'emerald', 5);
-    await populateTTList('50 Questions', 'tt-leaderboard-list-B', 'purple', 5);
-}
-
-async function openFullTimeTrialModal() {
-    document.getElementById('modal-full-timetrial').classList.remove('hidden');
-    document.getElementById('modal-full-timetrial').classList.add('flex');
-
-    await populateTTList('20 Questions', 'modal-tt-list-A', 'emerald', 50);
-    await populateTTList('50 Questions', 'modal-tt-list-B', 'purple', 50);
-}
-
-function closeFullTimeTrialModal() {
-    document.getElementById('modal-full-timetrial').classList.remove('flex');
-    document.getElementById('modal-full-timetrial').classList.add('hidden');
-}
-
-async function populateTTList(challengeType, containerId, colorTheme, limitCount) {
-    const container = document.getElementById(containerId);
-    if (!container) return;
-
-    container.innerHTML = '<p class="text-center text-slate-400 py-4 text-[11px]">Loading...</p>';
-
-    try {
-        const snapshot = await db.collection('timetrials')
-            .where('challengeType', '==', challengeType)
-            .get();
-
-        container.innerHTML = '';
-
-        if (snapshot.empty) {
-            container.innerHTML = '<p class="text-center text-slate-400 py-4 text-[11px]">No records yet.</p>';
-            return;
-        }
-
-        let records = [];
-        snapshot.forEach(doc => {
-            records.push({ id: doc.id, ...doc.data() });
-        });
-
-        records.sort((a, b) => a.timeSeconds - b.timeSeconds);
-        records = records.slice(0, limitCount);
-
-        let rank = 1;
-        records.forEach(data => {
-            const playerName = data.username || 'Anonymous';
-            const isYou = currentUser && data.userId === currentUser.uid;
-            const formattedTime = formatHHMMSS(data.timeSeconds);
-
-            let rankDisplay = '';
-            if (rank === 1) rankDisplay = '🥇';
-            else if (rank === 2) rankDisplay = '🥈';
-            else if (rank === 3) rankDisplay = '🥉';
-            else rankDisplay = `#${rank}`;
-
-            const bgStyle = isYou 
-                ? (colorTheme === 'emerald' ? 'bg-emerald-50 border-emerald-200' : 'bg-purple-50 border-purple-200')
-                : 'bg-slate-50 border-slate-200';
-            
-            const badgeStyle = colorTheme === 'emerald'
-                ? 'text-emerald-600 bg-emerald-100'
-                : 'text-purple-600 bg-purple-100';
-
-            const row = document.createElement('div');
-            row.className = `flex items-center justify-between p-2 rounded-xl border ${bgStyle}`;
-            row.innerHTML = `
-                <div class="flex items-center space-x-2 truncate">
-                    <span class="font-bold text-sm w-6 text-center">${rankDisplay}</span>
-                    <span class="font-semibold text-slate-800 truncate">${playerName} ${isYou ? '(You)' : ''}</span>
-                </div>
-                <span class="font-bold ${badgeStyle} px-1.5 py-0.5 rounded-md shrink-0 font-mono text-[11px]">${formattedTime}</span>
-            `;
-            container.appendChild(row);
-            rank++;
-        });
-    } catch (e) {
-        console.error(`Error loading time trial leaderboard for ${challengeType}:`, e);
-        container.innerHTML = '<p class="text-center text-rose-500 py-4 text-[11px]">Error loading times.</p>';
-    }
+    loadSkillPracticeLeaderboards();
 }
 
 function formatHHMMSS(totalSeconds) {
@@ -585,4 +642,12 @@ function formatHHMMSS(totalSeconds) {
 
     const pad = (num) => String(num).padStart(2, '0');
     return `${pad(hrs)}:${pad(mins)}:${pad(secs)}`;
+}
+
+function formatMMSS(totalSeconds) {
+    const totalSecInt = Math.max(0, Math.floor(totalSeconds));
+    const mins = Math.floor(totalSecInt / 60);
+    const secs = totalSecInt % 60;
+    const pad = (num) => String(num).padStart(2, '0');
+    return `${pad(mins)}:${pad(secs)}`;
 }
