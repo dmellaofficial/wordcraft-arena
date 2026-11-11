@@ -240,8 +240,8 @@
                 </div>
 
                 <!-- Skill Practice Challenge Button -->
-                <button onclick="startSkillPracticeChallenge()" class="w-full p-4 bg-amber-400 hover:bg-amber-500 text-slate-900 font-extrabold rounded-2xl shadow-md transition flex items-center justify-center space-x-2 text-lg">
-                    <span>Skill Practice Challenge</span>
+                <button onclick="promptSkillPracticeChallenge()" class="w-full p-4 bg-amber-400 hover:bg-amber-500 text-slate-900 font-extrabold rounded-2xl shadow-md transition flex items-center justify-center space-x-2 text-lg">
+                    <span>🌟 Skill Practice Challenge</span>
                 </button>
             </div>
 
@@ -392,6 +392,26 @@
                         Continue
                     </button>
                     <button onclick="closeFigureOfSpeechModal()" class="w-full py-3.5 bg-white hover:bg-slate-50 text-slate-600 font-bold rounded-2xl border border-slate-200 transition text-sm">
+                        Cancel
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- SKILL PRACTICE CHALLENGE PRE-EXAM MODAL -->
+        <div id="modal-spc-prompt" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm hidden items-center justify-center p-4 z-50">
+            <div class="bg-white border border-slate-200 w-full max-w-md rounded-3xl p-6 shadow-2xl space-y-5 slide-in text-center">
+                <div class="space-y-1 border-b border-slate-100 pb-3">
+                    <h3 class="text-xl font-extrabold text-slate-900">🌟 Skill Practice Challenge</h3>
+                </div>
+                <p class="text-sm text-slate-700 font-medium leading-relaxed">
+                    This test covers all <strong>Skill Practice Categories</strong> except <strong>Figure of Speech</strong>! You have <strong>1 hour</strong> to complete as many as possible.
+                </p>
+                <div class="space-y-2 pt-2">
+                    <button onclick="startSkillPracticeChallenge()" class="w-full py-3.5 bg-amber-400 hover:bg-amber-500 text-slate-900 font-bold rounded-2xl transition shadow-sm text-sm">
+                        Continue
+                    </button>
+                    <button onclick="closeSkillPracticeModal()" class="w-full py-3.5 bg-white hover:bg-slate-50 text-slate-600 font-bold rounded-2xl border border-slate-200 transition text-sm">
                         Cancel
                     </button>
                 </div>
@@ -579,7 +599,7 @@
                     <h3 class="font-bold text-slate-800 text-base">2. Skill Practice & Skill Practice Challenge</h3>
                     <ul class="list-disc pl-5 space-y-1">
                         <li><strong>Skill Practice Categories:</strong> Focused practice with 15 questions per session.</li>
-                        <li><strong>Skill Practice Challenge:</strong> Complete as many questions as possible from the 150-question random pool before the 3-minute timer runs out!</li>
+                        <li><strong>Skill Practice Challenge:</strong> Complete as many questions as possible from the 150-question random pool (covering all categories except Figure of Speech) before the 1-hour timer runs out!</li>
                     </ul>
 
                     <h3 class="font-bold text-slate-800 text-base">3. Time Trial Challenge (Challenge A & Challenge B)</h3>
@@ -1092,6 +1112,16 @@
         function startFigureOfSpeechQuiz() {
             closeFigureOfSpeechModal();
             selectLevel('fos');
+        }
+
+        function promptSkillPracticeChallenge() {
+            document.getElementById('modal-spc-prompt').classList.remove('hidden');
+            document.getElementById('modal-spc-prompt').classList.add('flex');
+        }
+
+        function closeSkillPracticeModal() {
+            document.getElementById('modal-spc-prompt').classList.remove('flex');
+            document.getElementById('modal-spc-prompt').classList.add('hidden');
         }
 
         function openTimeTrialModal() {
