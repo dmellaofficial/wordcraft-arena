@@ -200,7 +200,7 @@
                     <span>⚡ Time Trial Challenge</span>
                 </button>
 
-                <!-- Skill Practice Categories -->
+                <!-- Skill Practice Categories matching user reference layout -->
                 <div class="bg-white border border-slate-200 rounded-3xl p-5 shadow-sm space-y-3">
                     <div class="text-center space-y-0.5">
                         <h3 class="font-extrabold text-slate-900 text-lg">Skill Practice Categories</h3>
@@ -218,8 +218,23 @@
                         <button onclick="selectLevel('errors')" class="p-3 bg-slate-50 hover:bg-indigo-50/50 border border-slate-200 hover:border-indigo-400 rounded-2xl text-center transition shadow-xs flex flex-col items-center justify-center space-y-1.5 group">
                             <span class="font-bold text-slate-800 group-hover:text-indigo-600 text-xs truncate w-full">Finding Errors</span>
                         </button>
-                        <button onclick="selectLevel('vocab')" class="p-3 bg-slate-50 hover:bg-indigo-50/50 border border-slate-200 hover:border-indigo-400 rounded-2xl text-center transition shadow-xs flex flex-col items-center justify-center space-y-1.5 group col-span-2 sm:col-span-1">
+                        <button onclick="selectLevel('vocab')" class="p-3 bg-slate-50 hover:bg-indigo-50/50 border border-slate-200 hover:border-indigo-400 rounded-2xl text-center transition shadow-xs flex flex-col items-center justify-center space-y-1.5 group">
                             <span class="font-bold text-slate-800 group-hover:text-indigo-600 text-xs truncate w-full">Vocabulary</span>
+                        </button>
+                        <button onclick="selectLevel('idioms2')" class="p-3 bg-slate-50 hover:bg-indigo-50/50 border border-slate-200 hover:border-indigo-400 rounded-2xl text-center transition shadow-xs flex flex-col items-center justify-center space-y-1.5 group">
+                            <span class="font-bold text-slate-800 group-hover:text-indigo-600 text-xs truncate w-full">Idioms 2</span>
+                        </button>
+                        <button onclick="selectLevel('analogy2')" class="p-3 bg-slate-50 hover:bg-indigo-50/50 border border-slate-200 hover:border-indigo-400 rounded-2xl text-center transition shadow-xs flex flex-col items-center justify-center space-y-1.5 group">
+                            <span class="font-bold text-slate-800 group-hover:text-indigo-600 text-xs truncate w-full">Word Analogy 2</span>
+                        </button>
+                        <button onclick="selectLevel('reading2')" class="p-3 bg-slate-50 hover:bg-indigo-50/50 border border-slate-200 hover:border-indigo-400 rounded-2xl text-center transition shadow-xs flex flex-col items-center justify-center space-y-1.5 group">
+                            <span class="font-bold text-slate-800 group-hover:text-indigo-600 text-xs truncate w-full">Reading Comp 2</span>
+                        </button>
+                        <button onclick="selectLevel('vocab2')" class="p-3 bg-slate-50 hover:bg-indigo-50/50 border border-slate-200 hover:border-indigo-400 rounded-2xl text-center transition shadow-xs flex flex-col items-center justify-center space-y-1.5 group">
+                            <span class="font-bold text-slate-800 group-hover:text-indigo-600 text-xs truncate w-full">Vocabulary 2</span>
+                        </button>
+                        <button onclick="promptFigureOfSpeech()" class="p-3 bg-slate-50 hover:bg-indigo-50/50 border border-slate-200 hover:border-indigo-400 rounded-2xl text-center transition shadow-xs flex flex-col items-center justify-center space-y-1.5 group">
+                            <span class="font-bold text-slate-800 group-hover:text-indigo-600 text-xs truncate w-full">Figure of Speech</span>
                         </button>
                     </div>
                 </div>
@@ -327,6 +342,24 @@
                 <button onclick="goHome()" class="w-full py-3.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded-xl transition">
                     Choose Another Level
                 </button>
+            </div>
+        </div>
+
+        <!-- FIGURE OF SPEECH PRE-EXAM MODAL -->
+        <div id="modal-fos-prompt" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm hidden items-center justify-center p-4 z-50">
+            <div class="bg-white border border-slate-200 w-full max-w-md rounded-3xl p-6 shadow-2xl space-y-5 slide-in text-center">
+                <div class="space-y-1 border-b border-slate-100 pb-3">
+                    <h3 class="text-xl font-extrabold text-slate-900">Figure of Speech</h3>
+                </div>
+                <p class="text-sm text-slate-600 font-medium">In this test, identify the figure of speech use in the line</p>
+                <div class="space-y-2 pt-2">
+                    <button onclick="startFigureOfSpeechQuiz()" class="w-full py-3.5 bg-white hover:bg-slate-50 text-slate-800 font-bold rounded-2xl border border-slate-200 transition shadow-sm text-sm">
+                        Continue
+                    </button>
+                    <button onclick="closeFigureOfSpeechModal()" class="w-full py-3.5 bg-white hover:bg-slate-50 text-slate-600 font-bold rounded-2xl border border-slate-200 transition text-sm">
+                        Cancel
+                    </button>
+                </div>
             </div>
         </div>
 
@@ -478,7 +511,7 @@
 
                     <h3 class="font-bold text-slate-800 text-base">2. Skill Practice Categories (Idioms, Analogies, Reading Comp, etc.)</h3>
                     <ul class="list-disc pl-5 space-y-1">
-                        <li>Designed for focused training on specific linguistic skills with 10 shuffled questions per session. Great for practice without affecting global leaderboard stats.</li>
+                        <li>Designed for focused training on specific linguistic skills with 15 shuffled questions per session. Great for practice without affecting global leaderboard stats.</li>
                     </ul>
 
                     <h3 class="font-bold text-slate-800 text-base">3. Time Trial Challenge (Challenge A & Challenge B)</h3>
@@ -594,17 +627,22 @@
         </div>
     </footer>
 
-        <!-- 1. LOAD SEPARATED QUESTION POOLS FIRST -->
+    <!-- 1. LOAD SEPARATED QUESTION POOLS FIRST -->
     <script src="basic-questions.js?v=5.0"></script>
     <script src="teens-questions.js?v=5.0"></script>
     <script src="advanced-questions.js?v=5.0"></script>
     <script src="expert-questions.js?v=5.0"></script>
     <script src="extra-questions.js?v=5.0"></script>
     <script src="idioms-questions.js?v=5.0"></script>
+    <script src="idioms2-questions.js?v=5.0"></script>
     <script src="wordAnalogy-questions.js?v=5.0"></script>
+    <script src="wordAnalogy2-questions.js?v=5.0"></script>
     <script src="readingComp-questions.js?v=5.0"></script>
+    <script src="readingComp2-questions.js?v=5.0"></script>
     <script src="identifyingErrors-questions.js?v=5.0"></script>
     <script src="vocabulary-questions.js?v=5.0"></script>
+    <script src="vocabulary2-questions.js?v=5.0"></script>
+    <script src="figuresOfSpeech-questions.js?v=5.0"></script>
 
     <!-- 2. MAIN GAME LOGIC SCRIPT SECOND -->
     <script src="script.js?v=5.0"></script>
@@ -900,6 +938,21 @@
                 console.error(`Error loading time trial leaderboard for ${challengeType}:`, e);
                 container.innerHTML = '<p class="text-center text-rose-500 py-4 text-[11px]">Error loading times.</p>';
             }
+        }
+
+        function promptFigureOfSpeech() {
+            document.getElementById('modal-fos-prompt').classList.remove('hidden');
+            document.getElementById('modal-fos-prompt').classList.add('flex');
+        }
+
+        function closeFigureOfSpeechModal() {
+            document.getElementById('modal-fos-prompt').classList.remove('flex');
+            document.getElementById('modal-fos-prompt').classList.add('hidden');
+        }
+
+        function startFigureOfSpeechQuiz() {
+            closeFigureOfSpeechModal();
+            selectLevel('fos');
         }
 
         function openTimeTrialModal() {
