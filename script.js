@@ -149,7 +149,7 @@ function startSkillPracticeChallenge() {
         timeTrialStartTime = Date.now();
         const timerWrapper = document.getElementById('tt-timer-wrapper');
         const timerLabel = document.getElementById('tt-timer-label');
-        if (timerLabel) timerLabel.textContent = "Skill Practice Challenge (3:00 Limit)";
+        if (timerLabel) timerLabel.textContent = "Skill Practice Challenge (1h 30m Limit)";
         if (timerWrapper) timerWrapper.classList.remove('hidden');
 
         if (timeTrialTimerInterval) clearInterval(timeTrialTimerInterval);
@@ -200,22 +200,23 @@ function updateTimeTrialTimer() {
 
 function updateSkillPracticeChallengeTimer() {
     const rawElapsed = (Date.now() - timeTrialStartTime) / 1000;
-    const remaining = 180 - rawElapsed; // 3 minutes = 180 seconds
+    const totalLimit = 5400; // 1 hour 30 minutes = 5400 seconds
+    const remaining = totalLimit - rawElapsed;
 
     const timerDisplay = document.getElementById('tt-timer-display');
     const timerBar = document.getElementById('tt-timer-bar');
 
     if (timerDisplay) {
-        timerDisplay.textContent = formatMMSS(Math.max(0, remaining));
+        timerDisplay.textContent = formatHHMMSS(Math.max(0, remaining));
     }
     if (timerBar) {
-        const percent = Math.max(0, Math.min(100, (remaining / 180) * 100));
+        const percent = Math.max(0, Math.min(100, (remaining / totalLimit) * 100));
         timerBar.style.width = `${percent}%`;
     }
 
     if (remaining <= 0) {
         clearInterval(timeTrialTimerInterval);
-        elapsedTimeSeconds = 180;
+        elapsedTimeSeconds = totalLimit;
         showResults();
     }
 }
@@ -418,7 +419,7 @@ async function showResults() {
         if (resultsView) resultsView.classList.remove('hidden');
 
         const rawElapsed = (Date.now() - timeTrialStartTime) / 1000;
-        const finalTimeSeconds = Math.min(180, rawElapsed);
+        const finalTimeSeconds = Math.min(5400, rawElapsed);
 
         const finalScore = document.getElementById('final-score');
         const finalCorrect = document.getElementById('final-correct');
@@ -448,7 +449,6 @@ async function showResults() {
                 if (!existingQuery.empty) {
                     const existingData = existingQuery.docs[0].data();
                     existingDocId = existingQuery.docs[0].id;
-                    // Save if higher score, or same score with faster time
                     if (existingData.score > correctCount || (existingData.score === correctCount && existingData.timeSeconds <= finalTimeSeconds)) {
                         shouldSave = false;
                     }
