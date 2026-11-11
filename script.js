@@ -181,7 +181,7 @@ function startSkillPracticeChallenge() {
         timeTrialStartTime = Date.now();
         const timerWrapper = document.getElementById('tt-timer-wrapper');
         const timerLabel = document.getElementById('tt-timer-label');
-        if (timerLabel) timerLabel.textContent = "Skill Practice Challenge (1h 30m Limit)";
+        if (timerLabel) timerLabel.textContent = "Skill Practice Challenge (1h Limit)";
         if (timerWrapper) timerWrapper.classList.remove('hidden');
 
         if (timeTrialTimerInterval) clearInterval(timeTrialTimerInterval);
@@ -232,7 +232,7 @@ function updateTimeTrialTimer() {
 
 function updateSkillPracticeChallengeTimer() {
     const rawElapsed = (Date.now() - timeTrialStartTime) / 1000;
-    const totalLimit = 5400; // 1 hour 30 minutes = 5400 seconds
+    const totalLimit = 3600; // 1 hour = 3600 seconds
     const remaining = totalLimit - rawElapsed;
 
     const timerDisplay = document.getElementById('tt-timer-display');
@@ -451,7 +451,7 @@ async function showResults() {
         if (resultsView) resultsView.classList.remove('hidden');
 
         const rawElapsed = (Date.now() - timeTrialStartTime) / 1000;
-        const finalTimeSeconds = Math.min(5400, rawElapsed);
+        const finalTimeSeconds = Math.min(3600, rawElapsed);
 
         const finalScore = document.getElementById('final-score');
         const finalCorrect = document.getElementById('final-correct');
