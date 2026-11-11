@@ -10,7 +10,7 @@ const identifyingErrorsQuestions = [
             'A new list of applicants',
             'who passed the preliminary screening',
             'are posted on the bulletin board',
-            'outside the personnel office.'
+            'No error.'
         ],
         answer: 2,
         explanation: "The subject is 'list', which is singular. The modifying phrase 'of applicants who passed the preliminary screening' does not change its number. Therefore, 'are posted' should be 'is posted'."
@@ -21,7 +21,7 @@ const identifyingErrorsQuestions = [
             'Neither the team captain',
             'nor the assistant coaches',
             'was present',
-            'during the emergency meeting.'
+            'No error.'
         ],
         answer: 2,
         explanation: "When subjects are joined by 'neither... nor', the verb agrees with the closer subject ('coaches', which is plural), requiring 'were present' instead of 'was present'."
@@ -32,7 +32,7 @@ const identifyingErrorsQuestions = [
             'My uncle, along with',
             'his business partners and lawyer,',
             'are attending',
-            'the annual stockholders convention.'
+            'No error.'
         ],
         answer: 2,
         explanation: "Phrases introduced by 'along with', 'accompanied by', or 'together with' do not change the grammatical number of the subject ('My uncle' is singular). Thus, 'are attending' should be 'is attending'."
@@ -43,7 +43,7 @@ const identifyingErrorsQuestions = [
             'Each of the participants',
             'in the seminar',
             'are required to submit',
-            'a comprehensive project proposal.'
+            'No error.'
         ],
         answer: 2,
         explanation: "The pronoun 'Each' is singular and takes a singular verb. 'are required' should be changed to 'is required'."
@@ -54,7 +54,7 @@ const identifyingErrorsQuestions = [
             'The committee has finalized',
             'their official recommendation',
             'regarding the budget allocation',
-            'for the upcoming fiscal year.'
+            'No error.'
         ],
         answer: 1,
         explanation: "When a collective noun ('committee') acts as a single unit, it takes a singular pronoun ('its' instead of 'their'). Change 'their' to 'its'."
@@ -65,7 +65,7 @@ const identifyingErrorsQuestions = [
             'Between you and I,',
             'the proposed restructuring plan',
             'will likely face heavy opposition',
-            'from the department heads.'
+            'No error.'
         ],
         answer: 0,
         explanation: "The preposition 'Between' requires objective case pronouns. 'Between you and I' should be 'Between you and me'."
@@ -76,7 +76,7 @@ const identifyingErrorsQuestions = [
             'She is one of those managers',
             'who always encourages',
             'her staff to pursue',
-            'continuous professional development.'
+            'No error.'
         ],
         answer: 1,
         explanation: "In the clause 'who always encourages', the relative pronoun 'who' refers to its antecedent 'managers' (plural). Therefore, the verb must be plural: 'encourage'."
@@ -98,7 +98,7 @@ const identifyingErrorsQuestions = [
             'Walking through the historical district,',
             'magnificent colonial architecture',
             'could be seen',
-            'along every cobblestone street.'
+            'No error.'
         ],
         answer: 1,
         explanation: "This contains a dangling modifier. The introductory participial phrase must modify a person, not 'architecture'."
@@ -109,7 +109,7 @@ const identifyingErrorsQuestions = [
             'The director insisted',
             'that every employee',
             'is punctual',
-            'during Monday morning briefings.'
+            'No error.'
         ],
         answer: 2,
         explanation: "After verbs of insisting, the subjunctive mood is required in the dependent clause. 'is punctual' should be 'be punctual'."
@@ -120,7 +120,7 @@ const identifyingErrorsQuestions = [
             'Fifty thousand pesos',
             'were allocated',
             'by the local government',
-            'for the community library project.'
+            'No error.'
         ],
         answer: 1,
         explanation: "A sum of money representing a single unified amount takes a singular verb. 'were allocated' should be 'was allocated'."
@@ -131,7 +131,7 @@ const identifyingErrorsQuestions = [
             'Not only did the researcher',
             'collect extensive field data,',
             'but she also publish',
-            'three peer-reviewed articles.'
+            'No error.'
         ],
         answer: 2,
         explanation: "Correlative conjunctions require parallel verb tenses. Since 'did... collect' is past tense, 'publish' must match in past tense: 'published'."
@@ -153,7 +153,7 @@ const identifyingErrorsQuestions = [
             'Whom do you think',
             'will be appointed',
             'as the new regional director',
-            'of the bureau?'
+            'No error.'
         ],
         answer: 0,
         explanation: "In the dependent clause, the pronoun functions as the subject of 'will be appointed'. Therefore, the subjective form 'Who' must be used instead of 'Whom'."
@@ -164,7 +164,7 @@ const identifyingErrorsQuestions = [
             'Neither of the two applicants',
             'possess the required',
             'technical qualifications',
-            'for the senior engineering position.'
+            'No error.'
         ],
         answer: 1,
         explanation: "'Neither' is singular and requires a singular verb. 'possess' should be changed to 'possesses'."
@@ -175,7 +175,7 @@ const identifyingErrorsQuestions = [
             'If the administration',
             'would have acted promptly,',
             'the labor strike',
-            'could have been avoided.'
+            'No error.'
         ],
         answer: 1,
         explanation: "In a contrary-to-fact past conditional sentence, the 'if' clause must use the past perfect tense ('had acted'), not 'would have acted'."
@@ -186,7 +186,7 @@ const identifyingErrorsQuestions = [
             'The criteria for judging',
             'the creative writing contest',
             'includes originality, depth,',
-            'and stylistic coherence.'
+            'No error.'
         ],
         answer: 2,
         explanation: "'Criteria' is the plural form of 'criterion'. Therefore, the plural verb 'include' must be used instead of 'includes'."
@@ -197,7 +197,7 @@ const identifyingErrorsQuestions = [
             'Try and finish',
             'the administrative report',
             'before you leave',
-            'for the weekend.'
+            'No error.'
         ],
         answer: 0,
         explanation: "Idiomatically and grammatically, 'try and' is incorrect in formal writing; it should be 'try to finish'."
@@ -208,7 +208,7 @@ const identifyingErrorsQuestions = [
             'The weather bureau reported',
             'that a severe tropical storm',
             'is approaching',
-            'the eastern coast of Luzon.'
+            'No error.'
         ],
         answer: 2,
         explanation: "In indirect discourse following a past tense verb ('reported'), verbs must shift into past tense sequence: 'is approaching' should be 'was approaching'."
@@ -219,7 +219,7 @@ const identifyingErrorsQuestions = [
             'Everyone in the office',
             'must submit their',
             'completed tax clearance forms',
-            'before Friday afternoon.'
+            'No error.'
         ],
         answer: 1,
         explanation: "The indefinite pronoun 'Everyone' is singular, so the possessive pronoun referring to it must also be singular ('his or her'), not plural 'their'."
@@ -230,7 +230,7 @@ const identifyingErrorsQuestions = [
             'The number of enrolled students',
             'in vocational courses',
             'have increased significantly',
-            'over the past three years.'
+            'No error.'
         ],
         answer: 2,
         explanation: "'The number' is singular. Therefore, it takes a singular verb: 'has increased'."
@@ -241,7 +241,7 @@ const identifyingErrorsQuestions = [
             'Harder she worked',
             'on her research thesis,',
             'the more confident',
-            'she felt about her defense.'
+            'No error.'
         ],
         answer: 0,
         explanation: "Correlative comparative structures require the definite article 'The' before both clauses. 'Harder she worked' must be 'The harder she worked'."
@@ -252,7 +252,7 @@ const identifyingErrorsQuestions = [
             'The principal spoke',
             'fluent than the visiting speaker',
             'during the plenary session',
-            'held at the auditorium.'
+            'No error.'
         ],
         answer: 1,
         explanation: "When comparing two items using an adverb, the comparative form must be used ('more fluently'), not the positive form 'fluent'."
@@ -263,9 +263,9 @@ const identifyingErrorsQuestions = [
             'After reviewing the evidence,',
             'the judge decided',
             'to acquit the defendant',
-            'of all charges.'
+            'No error.'
         ],
-        answer: 4, // No error representing a fourth option or none if handled in UI, keeping structural consistency
+        answer: 3,
         explanation: "No error. The sentence is grammatically correct and idiomatically sound."
     },
     {
@@ -274,7 +274,7 @@ const identifyingErrorsQuestions = [
             'Supposing if the flight',
             'gets delayed due to fog,',
             'what alternative travel arrangements',
-            'should we make?'
+            'No error.'
         ],
         answer: 0,
         explanation: "'Supposing' and 'if' are redundant when used together to introduce a conditional clause. Remove 'if' or 'Supposing'."
@@ -285,7 +285,7 @@ const identifyingErrorsQuestions = [
             'The manager delegated',
             'the task to John and I,',
             'expecting us to finish',
-            'before closing hours.'
+            'No error.'
         ],
         answer: 1,
         explanation: "The pronouns serve as objects of the preposition 'to'. Objective case pronouns are required ('John and me', not 'John and I')."
@@ -296,7 +296,7 @@ const identifyingErrorsQuestions = [
             'Little did the board of directors',
             'know that their financial strategy',
             'will trigger',
-            'an immediate shareholder revolt.'
+            'No error.'
         ],
         answer: 2,
         explanation: "The main clause opens with a past tense auxiliary ('did'). Therefore, the subordinate verb must match in past tense: 'will trigger' should be 'would trigger'."
@@ -307,7 +307,7 @@ const identifyingErrorsQuestions = [
             'Rabies are a viral disease',
             'transmitted through the saliva',
             'of infected warm-blooded animals',
-            'such as dogs and bats.'
+            'No error.'
         ],
         answer: 0,
         explanation: "Although ending in 's', 'Rabies' is treated as a singular noun representing a single disease. 'are a viral disease' should be 'is a viral disease'."
@@ -318,7 +318,7 @@ const identifyingErrorsQuestions = [
             'Being an experienced investigator,',
             'the clues left at the crime scene',
             'were easily analyzed',
-            'by Detective Santos.'
+            'No error.'
         ],
         answer: 0,
         explanation: "This is a misplaced modifier. The participial phrase 'Being an experienced investigator' incorrectly modifies 'the clues'."
@@ -329,7 +329,7 @@ const identifyingErrorsQuestions = [
             'Scarcely had she stepped',
             'into the conference room',
             'than the telephone',
-            'began to ring incessantly.'
+            'No error.'
         ],
         answer: 2,
         explanation: "The adverb 'Scarcely' must be paired with the conjunction 'when', not 'than'. Change 'than' to 'when'."
@@ -340,7 +340,7 @@ const identifyingErrorsQuestions = [
             'One of the main challenges',
             'that faces urban planners',
             'today are managing',
-            'municipal solid waste disposal.'
+            'No error.'
         ],
         answer: 2,
         explanation: "The true subject of the linking verb is 'One' (singular). Therefore, 'are managing' must be singular: 'is managing'."
@@ -351,7 +351,7 @@ const identifyingErrorsQuestions = [
             'The museum houses',
             'an extensive collection of artifacts',
             'dating back from',
-            'the Spanish colonial period.'
+            'No error.'
         ],
         answer: 2,
         explanation: "Standard idiom pairs 'dating back' with 'to', not 'from'. Change 'dating back from' to 'dating back to'."
@@ -362,7 +362,7 @@ const identifyingErrorsQuestions = [
             'Despite of his rigorous training',
             'and impressive qualifications,',
             'he failed to secure',
-            'the executive position.'
+            'No error.'
         ],
         answer: 0,
         explanation: "'Despite' is a preposition that does not take 'of' (unlike 'in spite of'). 'Despite of' should be simply 'Despite'."
@@ -373,9 +373,9 @@ const identifyingErrorsQuestions = [
             'The committee recommended',
             'that the ordinance',
             'should be amended',
-            'immediately.'
+            'No error.'
         ],
-        answer: 4,
+        answer: 3,
         explanation: "No error. 'Recommended that' can take auxiliary construction structures correctly."
     },
     {
@@ -384,7 +384,7 @@ const identifyingErrorsQuestions = [
             'She speaks English',
             'more better',
             'than any other candidate',
-            'interviewed today.'
+            'No error.'
         ],
         answer: 1,
         explanation: "Double comparatives are incorrect in English. 'more better' should be corrected to 'better'."
@@ -395,7 +395,7 @@ const identifyingErrorsQuestions = [
             'Ten kilometers',
             'are too far',
             'to walk in this scorching heat',
-            'without resting.'
+            'No error.'
         ],
         answer: 1,
         explanation: "A distance expressed as a single collective measurement takes a singular verb ('is too far', not 'are too far')."
@@ -406,7 +406,7 @@ const identifyingErrorsQuestions = [
             'He is accustomed',
             'to work long hours',
             'under extreme pressure',
-            'during fiscal auditing periods.'
+            'No error.'
         ],
         answer: 1,
         explanation: "The phrasal preposition 'accustomed to' takes a gerund object (ending in --ing), not an infinitive. 'to work' should be 'to working'."
@@ -417,7 +417,7 @@ const identifyingErrorsQuestions = [
             'The data collected',
             'during the clinical trial',
             'indicates a positive correlation',
-            'with dietary habits.'
+            'No error.'
         ],
         answer: 2,
         explanation: "'Data' is strictly plural. Therefore, the verb must be plural: 'indicate' instead of 'indicates'."
@@ -428,7 +428,7 @@ const identifyingErrorsQuestions = [
             'Neither the professor nor',
             'his graduate students',
             'was able to solve',
-            'the complex biochemical equation.'
+            'No error.'
         ],
         answer: 2,
         explanation: "With 'neither... nor', the verb agrees with the closer subject ('students', which is plural). 'was' should be changed to 'were'."
@@ -439,7 +439,7 @@ const identifyingErrorsQuestions = [
             'The architectural design',
             'is uniquely different',
             'from any other building',
-            'in the metropolitan district.'
+            'No error.'
         ],
         answer: 1,
         explanation: "'Uniquely different' is redundant since 'different' already implies uniqueness. It should be simplified to 'different from'."
@@ -450,7 +450,7 @@ const identifyingErrorsQuestions = [
             'All the heavy equipment',
             'in the manufacturing plant',
             'need to be calibrated',
-            'before operations resume.'
+            'No error.'
         ],
         answer: 2,
         explanation: "The subject 'equipment' is an uncountable noun taking a singular verb. 'need to be' should be 'needs to be'."
@@ -461,7 +461,7 @@ const identifyingErrorsQuestions = [
             'The editorial board',
             'expressed their opinions',
             'regarding the controversial',
-            'legislative bill.'
+            'No error.'
         ],
         answer: 1,
         explanation: "Pronoun agreement mismatch with collective noun treated as singular or plural. Standardize pronoun usage."
@@ -472,9 +472,9 @@ const identifyingErrorsQuestions = [
             'Hardly had the Prime Minister',
             'finished his address',
             'when the opposition party',
-            'walked out of the chamber.'
+            'No error.'
         ],
-        answer: 4,
+        answer: 3,
         explanation: "No error. 'Hardly... when' is correctly paired and inverted."
     },
     {
@@ -483,7 +483,7 @@ const identifyingErrorsQuestions = [
             'The number of applicants',
             'who qualified for the interview',
             'were disappointingly low',
-            'this year.'
+            'No error.'
         ],
         answer: 2,
         explanation: "'The number' is singular and takes a singular verb. 'were' should be 'was'."
@@ -494,9 +494,9 @@ const identifyingErrorsQuestions = [
             'She is taller than',
             'any other student',
             'enrolled in the',
-            'senior nursing class.'
+            'No error.'
         ],
-        answer: 4,
+        answer: 3,
         explanation: "No error. The comparison correctly excludes the subject from the group using 'any other'."
     },
     {
@@ -505,7 +505,7 @@ const identifyingErrorsQuestions = [
             'The company’s quarterly profit',
             'rose up by fifteen percent',
             'following the successful launch',
-            'of their new software line.'
+            'No error.'
         ],
         answer: 1,
         explanation: "'Rose up' is redundant because 'rose' already indicates upward movement. Drop 'up'."
@@ -516,7 +516,7 @@ const identifyingErrorsQuestions = [
             'Each book and manual',
             'in the reference library',
             'are cataloged',
-            'using the Dewey decimal system.'
+            'No error.'
         ],
         answer: 2,
         explanation: "When singular subjects are connected by 'and' but preceded by 'Each', the subject is singular. 'are cataloged' should be 'is cataloged'."
@@ -527,9 +527,9 @@ const identifyingErrorsQuestions = [
             'The committee were divided',
             'in their opinions',
             'concerning the proposed',
-            'disciplinary sanctions.'
+            'No error.'
         ],
-        answer: 4,
+        answer: 3,
         explanation: "No error. Members acting individually allow plural verbs and pronouns."
     },
     {
@@ -538,9 +538,9 @@ const identifyingErrorsQuestions = [
             'He spoke so fast',
             'that I was unable',
             'to comprehend',
-            'his instructions clearly.'
+            'No error.'
         ],
-        answer: 4,
+        answer: 3,
         explanation: "No error. The structure 'so... that' is used correctly."
     },
     {
@@ -549,7 +549,7 @@ const identifyingErrorsQuestions = [
             'The principal, together with',
             'the PTA officers and faculty members,',
             'are organizing',
-            'the annual foundation day celebration.'
+            'No error.'
         ],
         answer: 2,
         explanation: "The subject 'principal' is singular; prepositional modifiers do not alter its number. 'are organizing' should be 'is organizing'."
@@ -560,9 +560,9 @@ const identifyingErrorsQuestions = [
             'The scientist explained',
             'how photosynthesis converts',
             'sunlight into chemical energy',
-            'to sustain plant growth.'
+            'No error.'
         ],
-        answer: 4,
+        answer: 3,
         explanation: "No error. Scientific facts are correctly expressed in the present tense."
     },
     {
@@ -571,7 +571,7 @@ const identifyingErrorsQuestions = [
             'The novel was written',
             'by an author whom',
             'critics believe will win',
-            'the national literary award.'
+            'No error.'
         ],
         answer: 1,
         explanation: "The pronoun is the subject of the verb 'will win'. Therefore, it must be the subjective 'who', not 'whom'."
@@ -582,7 +582,7 @@ const identifyingErrorsQuestions = [
             'More than one official',
             'have been questioned',
             'regarding the alleged',
-            'procurement irregularities.'
+            'No error.'
         ],
         answer: 1,
         explanation: "The phrase 'More than one' takes a singular noun and a singular verb. 'have been questioned' should be 'has been questioned'."
@@ -593,9 +593,9 @@ const identifyingErrorsQuestions = [
             'The department store offers',
             'discounts to whoever',
             'registers early for',
-            'the holiday promotional sale.'
+            'No error.'
         ],
-        answer: 4,
+        answer: 3,
         explanation: "No error. 'Whoever' is correct because it serves as the subject of the clause."
     },
     {
@@ -604,7 +604,7 @@ const identifyingErrorsQuestions = [
             'He is one of those individuals',
             'who never compromises',
             'his personal integrity',
-            'for financial gain.'
+            'No error.'
         ],
         answer: 2,
         explanation: "The pronoun 'his' refers back to the antecedent 'individuals' (plural). It must agree in number, changing to 'their'."
@@ -615,7 +615,7 @@ const identifyingErrorsQuestions = [
             'The package containing',
             'confidential legal documents',
             'were delivered',
-            'to the law firm this morning.'
+            'No error.'
         ],
         answer: 2,
         explanation: "The head subject of the sentence is 'package' (singular). 'were delivered' must be 'was delivered'."
@@ -626,7 +626,7 @@ const identifyingErrorsQuestions = [
             'If I was in your position,',
             'I would accept the job offer',
             'without any hesitation',
-            'or second thoughts.'
+            'No error.'
         ],
         answer: 0,
         explanation: "In hypothetical conditional statements, use 'were' instead of 'was'. 'If I was' should be 'If I were'."
@@ -637,9 +637,9 @@ const identifyingErrorsQuestions = [
             'The prosecution argued',
             'that the accused had fled',
             'the crime scene before',
-            'police officers arrived.'
+            'No error.'
         ],
-        answer: 4,
+        answer: 3,
         explanation: "No error. The past perfect tense 'had fled' correctly precedes the simple past 'arrived'."
     },
     {
@@ -648,7 +648,7 @@ const identifyingErrorsQuestions = [
             'A series of public hearings',
             'regarding the tax reform bill',
             'are scheduled',
-            'for next week.'
+            'No error.'
         ],
         answer: 2,
         explanation: "The subject is 'A series' (singular collective unit). Therefore, 'are scheduled' should be 'is scheduled'."
@@ -659,9 +659,9 @@ const identifyingErrorsQuestions = [
             'The artist spent hours',
             'meticulously mixing colors',
             'to achieve the exact shade',
-            'of azure blue.'
+            'No error.'
         ],
-        answer: 4,
+        answer: 3,
         explanation: "No error. The sentence is grammatically sound and well-constructed."
     }
 ];
