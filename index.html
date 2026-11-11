@@ -141,7 +141,7 @@
             </div>
         </div>
 
-        <!-- SCREEN 1: LEVEL SELECTION & SIDE-BY-SIDE TIME TRIAL LEADERBOARDS -->
+        <!-- SCREEN 1: LEVEL SELECTION & LEADERBOARDS -->
         <div id="screen-levels" class="slide-in hidden grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
             
             <!-- Left Side: Challenges & Practice Categories (Occupies 2 Columns) -->
@@ -200,7 +200,7 @@
                     <span>⚡ Time Trial Challenge</span>
                 </button>
 
-                <!-- Skill Practice Categories matching user reference layout -->
+                <!-- Skill Practice Categories -->
                 <div class="bg-white border border-slate-200 rounded-3xl p-5 shadow-sm space-y-3">
                     <div class="text-center space-y-0.5">
                         <h3 class="font-extrabold text-slate-900 text-lg">Skill Practice Categories</h3>
@@ -238,40 +238,75 @@
                         </button>
                     </div>
                 </div>
+
+                <!-- Skill Practice Challenge Button -->
+                <button onclick="startSkillPracticeChallenge()" class="w-full p-4 bg-amber-400 hover:bg-amber-500 text-slate-900 font-extrabold rounded-2xl shadow-md transition flex items-center justify-center space-x-2 text-lg">
+                    <span>🌟 Skill Practice Challenge</span>
+                </button>
             </div>
 
-            <!-- Right Side: Time Trial Leaderboard (Occupies 1 Column) -->
-            <div class="bg-white border border-slate-200 rounded-3xl p-5 shadow-sm space-y-4">
-                <div class="flex items-center justify-between border-b border-slate-100 pb-3">
-                    <div class="flex items-center space-x-2">
-                        <span class="text-lg">⏱️</span>
-                        <h3 class="font-bold text-slate-900 text-sm">Time Trial Leaderboard</h3>
+            <!-- Right Side: Leaderboards (Occupies 1 Column) -->
+            <div class="space-y-4">
+                <!-- Time Trial Leaderboard Box -->
+                <div class="bg-white border border-slate-200 rounded-3xl p-5 shadow-sm space-y-4">
+                    <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+                        <div class="flex items-center space-x-2">
+                            <span class="text-lg">⏱️</span>
+                            <h3 class="font-bold text-slate-900 text-sm">Time Trial Leaderboard</h3>
+                        </div>
+                        <button onclick="openFullTimeTrialModal()" class="text-xs font-bold text-indigo-600 bg-indigo-50 hover:bg-indigo-100 px-2.5 py-1 rounded-xl transition">
+                            View All ⚡
+                        </button>
                     </div>
-                    <button onclick="openFullTimeTrialModal()" class="text-xs font-bold text-indigo-600 bg-indigo-50 hover:bg-indigo-100 px-2.5 py-1 rounded-xl transition">
-                        View All ⚡
-                    </button>
+
+                    <div class="grid grid-cols-1 xl:grid-cols-2 gap-3">
+                        <div class="space-y-2">
+                            <div class="py-1 px-2 rounded-xl text-[11px] font-extrabold bg-emerald-600 text-white text-center shadow-xs">
+                                Challenge A (20Q)
+                            </div>
+                            <div id="tt-leaderboard-list-A" class="space-y-1.5 max-h-48 overflow-y-auto pr-1 text-xs">
+                                <p class="text-center text-slate-400 py-4 text-[11px]">Loading...</p>
+                            </div>
+                        </div>
+
+                        <div class="space-y-2">
+                            <div class="py-1 px-2 rounded-xl text-[11px] font-extrabold bg-purple-600 text-white text-center shadow-xs">
+                                Challenge B (50Q)
+                            </div>
+                            <div id="tt-leaderboard-list-B" class="space-y-1.5 max-h-48 overflow-y-auto pr-1 text-xs">
+                                <p class="text-center text-slate-400 py-4 text-[11px]">Loading...</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
-                <!-- Challenge A & Challenge B Side-by-Side Columns -->
-                <div class="grid grid-cols-1 xl:grid-cols-2 gap-3">
-                    <!-- Challenge A List -->
-                    <div class="space-y-2">
-                        <div class="py-1 px-2 rounded-xl text-[11px] font-extrabold bg-emerald-600 text-white text-center shadow-xs">
-                            Challenge A (20Q)
+                <!-- Skill Practice Challenge Leaderboard Box -->
+                <div class="bg-amber-50/70 border border-amber-200 rounded-3xl p-5 shadow-sm space-y-3">
+                    <div class="flex items-center justify-between border-b border-amber-200 pb-3">
+                        <div class="flex items-center space-x-2">
+                            <span class="text-lg">🌟</span>
+                            <h3 class="font-bold text-amber-900 text-sm">Skill Practice Challenge Leaderboard</h3>
                         </div>
-                        <div id="tt-leaderboard-list-A" class="space-y-1.5 max-h-72 overflow-y-auto pr-1 text-xs">
-                            <p class="text-center text-slate-400 py-4 text-[11px]">Loading...</p>
-                        </div>
+                        <button onclick="openFullSkillPracticeModal()" class="text-xs font-bold text-amber-800 bg-amber-100 hover:bg-amber-200 px-2.5 py-1 rounded-xl transition">
+                            View All 🌟
+                        </button>
                     </div>
 
-                    <!-- Challenge B List -->
-                    <div class="space-y-2">
-                        <div class="py-1 px-2 rounded-xl text-[11px] font-extrabold bg-purple-600 text-white text-center shadow-xs">
-                            Challenge B (50Q)
-                        </div>
-                        <div id="tt-leaderboard-list-B" class="space-y-1.5 max-h-72 overflow-y-auto pr-1 text-xs">
-                            <p class="text-center text-slate-400 py-4 text-[11px]">Loading...</p>
-                        </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-xs text-left">
+                            <thead>
+                                <tr class="text-amber-900 font-bold border-b border-amber-200">
+                                    <th class="py-1.5 px-2">Users</th>
+                                    <th class="py-1.5 px-2 text-center">Score</th>
+                                    <th class="py-1.5 px-2 text-right">Time</th>
+                                </tr>
+                            </thead>
+                            <tbody id="skillpractice-leaderboard-body" class="divide-y divide-amber-100 font-medium text-slate-800">
+                                <tr>
+                                    <td colspan="3" class="text-center text-slate-400 py-3">Loading...</td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
@@ -285,10 +320,10 @@
                     <span id="quiz-level-badge" class="px-2.5 py-0.5 rounded-full bg-indigo-50 text-indigo-700 border border-indigo-200">Level</span>
                     <span id="question-counter">Question 1 of 10</span>
                 </div>
-                <!-- Timer Bar for Time Trial Mode -->
+                <!-- Timer Bar for Time Trial / Skill Practice Challenge Mode -->
                 <div id="tt-timer-wrapper" class="hidden space-y-1">
                     <div class="flex justify-between text-xs font-bold text-slate-600">
-                        <span id="tt-timer-label">Time Trial Challenge (+1s penalty per wrong answer)</span>
+                        <span id="tt-timer-label">Time Trial Challenge</span>
                         <span id="tt-timer-display" class="text-emerald-600 font-mono">00:00:00</span>
                     </div>
                     <div class="w-full bg-slate-200 h-2 rounded-full overflow-hidden border border-slate-300">
@@ -420,6 +455,38 @@
             </div>
         </div>
 
+        <!-- FULL SKILL PRACTICE CHALLENGE PARTICIPANTS MODAL -->
+        <div id="modal-full-skillpractice" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm hidden items-center justify-center p-4 z-50">
+            <div class="bg-white border border-slate-200 w-full max-w-xl rounded-3xl p-6 shadow-2xl space-y-5 slide-in">
+                <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+                    <div class="flex items-center space-x-2">
+                        <span class="text-xl">🌟</span>
+                        <h3 class="text-lg font-bold text-slate-900">Skill Practice Challenge Leaderboard</h3>
+                    </div>
+                    <button onclick="closeFullSkillPracticeModal()" class="text-slate-400 hover:text-slate-700 font-bold p-1 text-xl">✕</button>
+                </div>
+
+                <div class="overflow-x-auto max-h-96">
+                    <table class="w-full text-xs text-left">
+                        <thead>
+                            <tr class="text-slate-700 font-bold border-b border-slate-200 bg-slate-50">
+                                <th class="py-2.5 px-3">Rank & Users</th>
+                                <th class="py-2.5 px-3 text-center">Score (Correct)</th>
+                                <th class="py-2.5 px-3 text-right">Time</th>
+                            </tr>
+                        </thead>
+                        <tbody id="modal-skillpractice-body" class="divide-y divide-slate-100 font-medium text-slate-800">
+                            <tr><td colspan="3" class="text-center text-slate-400 py-6">Loading...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <button onclick="closeFullSkillPracticeModal()" class="w-full py-3 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded-xl transition text-sm">
+                    Close
+                </button>
+            </div>
+        </div>
+
         <!-- TIME TRIAL CHALLENGE SETUP MODAL -->
         <div id="modal-timetrial-setup" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm hidden items-center justify-center p-4 z-50">
             <div class="bg-white rounded-3xl shadow-2xl max-w-md w-full p-6 space-y-5 slide-in border border-slate-200">
@@ -509,16 +576,16 @@
                         <li><strong>Streak & Cloud Sync:</strong> Successfully finishing any core tier session increments your streak counter by +1 and records your cumulative score to your profile and the global leaderboard.</li>
                     </ul>
 
-                    <h3 class="font-bold text-slate-800 text-base">2. Skill Practice Categories (Idioms, Analogies, Reading Comp, etc.)</h3>
+                    <h3 class="font-bold text-slate-800 text-base">2. Skill Practice & Skill Practice Challenge</h3>
                     <ul class="list-disc pl-5 space-y-1">
-                        <li>Designed for focused training on specific linguistic skills with 15 shuffled questions per session. Great for practice without affecting global leaderboard stats.</li>
+                        <li><strong>Skill Practice Categories:</strong> Focused practice with 15 questions per session.</li>
+                        <li><strong>Skill Practice Challenge:</strong> Complete as many questions as possible from the 150-question random pool before the 3-minute timer runs out!</li>
                     </ul>
 
                     <h3 class="font-bold text-slate-800 text-base">3. Time Trial Challenge (Challenge A & Challenge B)</h3>
                     <ul class="list-disc pl-5 space-y-1">
                         <li><strong>Formats:</strong> Challenge A (20 Questions) and Challenge B (50 Questions).</li>
                         <li><strong>The Penalty Rule:</strong> Every wrong answer adds a <strong>+1 second time penalty</strong> to your overall stopwatch timer.</li>
-                        <li><strong>Leaderboard:</strong> Your personal best completion times are ranked on the Time Trial Leaderboards.</li>
                     </ul>
                 </div>
 
@@ -543,20 +610,10 @@
                     <p>Welcome to <strong>WordCraft & Grammar Arena</strong>. We respect your privacy and are committed to protecting any information you choose to share with us when you use our web application and submit feedback.</p>
 
                     <h3 class="font-bold text-slate-800 text-base">2. Information We Collect</h3>
-                    <p>When you voluntarily submit feedback through our feedback form, we may collect:</p>
-                    <ul class="list-disc pl-5 space-y-1">
-                        <li>Your feedback comments, ratings, and user experience notes.</li>
-                        <li>Optional demographic details you provide, such as general location, age group/birthday, and gender, solely to help us understand our player community better.</li>
-                    </ul>
+                    <p>When you voluntarily submit feedback through our feedback form, we may collect your comments, ratings, and user experience notes.</p>
 
                     <h3 class="font-bold text-slate-800 text-base">3. Use of Google reCAPTCHA Enterprise</h3>
-                    <p>To protect our platform and feedback system from automated spam and abuse, this site is protected by Google reCAPTCHA Enterprise. Your use of reCAPTCHA is subject to the <a href="https://policies.google.com/privacy" target="_blank" class="text-indigo-600 underline">Google Privacy Policy</a> and <a href="https://policies.google.com/terms" target="_blank" class="text-indigo-600 underline">Terms of Service</a>.</p>
-
-                    <h3 class="font-bold text-slate-800 text-base">4. How We Use Your Data</h3>
-                    <p>All data collected through the feedback form is used exclusively for evaluating player experiences, improving game features, and fixing bugs. <strong>We will never sell, trade, or rent your personal information to third parties.</strong></p>
-
-                    <h3 class="font-bold text-slate-800 text-base">5. Security</h3>
-                    <p>We implement secure database rules (via Firebase) and verification tools (like reCAPTCHA Enterprise) to ensure that your submissions remain confidential and secure.</p>
+                    <p>To protect our platform from automated spam, this site is protected by Google reCAPTCHA Enterprise.</p>
                 </div>
 
                 <div class="pt-4 border-t border-slate-100 text-right">
@@ -628,24 +685,24 @@
     </footer>
 
     <!-- 1. LOAD SEPARATED QUESTION POOLS FIRST -->
-    <script src="basic-questions.js?v=5.0"></script>
-    <script src="teens-questions.js?v=5.0"></script>
-    <script src="advanced-questions.js?v=5.0"></script>
-    <script src="expert-questions.js?v=5.0"></script>
-    <script src="extra-questions.js?v=5.0"></script>
-    <script src="idioms-questions.js?v=5.0"></script>
-    <script src="idioms2-questions.js?v=5.0"></script>
-    <script src="wordAnalogy-questions.js?v=5.0"></script>
-    <script src="wordAnalogy2-questions.js?v=5.0"></script>
-    <script src="readingComp-questions.js?v=5.0"></script>
-    <script src="readingComp2-questions.js?v=5.0"></script>
-    <script src="identifyingErrors-questions.js?v=5.0"></script>
-    <script src="vocabulary-questions.js?v=5.0"></script>
-    <script src="vocabulary2-questions.js?v=5.0"></script>
-    <script src="figuresOfSpeech-questions.js?v=5.0"></script>
+    <script src="basic-questions.js?v=6.0"></script>
+    <script src="teens-questions.js?v=6.0"></script>
+    <script src="advanced-questions.js?v=6.0"></script>
+    <script src="expert-questions.js?v=6.0"></script>
+    <script src="extra-questions.js?v=6.0"></script>
+    <script src="idioms-questions.js?v=6.0"></script>
+    <script src="idioms2-questions.js?v=6.0"></script>
+    <script src="wordAnalogy-questions.js?v=6.0"></script>
+    <script src="wordAnalogy2-questions.js?v=6.0"></script>
+    <script src="readingComp-questions.js?v=6.0"></script>
+    <script src="readingComp2-questions.js?v=6.0"></script>
+    <script src="identifyingErrors-questions.js?v=6.0"></script>
+    <script src="vocabulary-questions.js?v=6.0"></script>
+    <script src="vocabulary2-questions.js?v=6.0"></script>
+    <script src="figuresOfSpeech-questions.js?v=6.0"></script>
 
     <!-- 2. MAIN GAME LOGIC SCRIPT SECOND -->
-    <script src="script.js?v=5.0"></script>
+    <script src="script.js?v=6.0"></script>
 
     <!-- 3. FIREBASE CONFIG & AUTH/UI HANDLERS LAST -->
     <script>
@@ -697,6 +754,7 @@
                 
                 await loadUserData(user.uid);
                 loadTimeTrialLeaderboards();
+                loadSkillPracticeLeaderboards();
             } else {
                 currentUser = null;
                 mainHeader.classList.add('hidden');
@@ -940,6 +998,87 @@
             }
         }
 
+        async function loadSkillPracticeLeaderboards() {
+            await populateSkillPracticeTable('skillpractice-leaderboard-body', 5);
+        }
+
+        async function openFullSkillPracticeModal() {
+            document.getElementById('modal-full-skillpractice').classList.remove('hidden');
+            document.getElementById('modal-full-skillpractice').classList.add('flex');
+            await populateSkillPracticeTable('modal-skillpractice-body', 50);
+        }
+
+        function closeFullSkillPracticeModal() {
+            document.getElementById('modal-full-skillpractice').classList.remove('flex');
+            document.getElementById('modal-full-skillpractice').classList.add('hidden');
+        }
+
+        async function populateSkillPracticeTable(tbodyId, limitCount) {
+            const tbody = document.getElementById(tbodyId);
+            if (!tbody) return;
+
+            tbody.innerHTML = '<tr><td colspan="3" class="text-center text-slate-400 py-3 text-xs">Loading...</td></tr>';
+
+            try {
+                const snapshot = await db.collection('skillpractice').get();
+                tbody.innerHTML = '';
+
+                if (snapshot.empty) {
+                    tbody.innerHTML = '<tr><td colspan="3" class="text-center text-slate-400 py-3 text-xs">No records yet.</td></tr>';
+                    return;
+                }
+
+                let records = [];
+                snapshot.forEach(doc => {
+                    records.push({ id: doc.id, ...doc.data() });
+                });
+
+                // Sort by highest score first, then fastest time (ascending seconds)
+                records.sort((a, b) => {
+                    if (b.score !== a.score) {
+                        return b.score - a.score;
+                    }
+                    return a.timeSeconds - b.timeSeconds;
+                });
+
+                records = records.slice(0, limitCount);
+
+                let rank = 1;
+                records.forEach(data => {
+                    const playerName = data.username || 'Anonymous';
+                    const isYou = currentUser && data.userId === currentUser.uid;
+                    const formattedTime = formatMMSS(data.timeSeconds);
+
+                    let rankDisplay = '';
+                    if (rank === 1) rankDisplay = '🥇 ';
+                    else if (rank === 2) rankDisplay = '🥈 ';
+                    else if (rank === 3) rankDisplay = '🥉 ';
+                    else rankDisplay = `#${rank} `;
+
+                    const tr = document.createElement('tr');
+                    tr.className = isYou ? 'bg-amber-100/60 font-bold' : '';
+                    tr.innerHTML = `
+                        <td class="py-2 px-2 truncate max-w-[120px]">${rankDisplay}${playerName} ${isYou ? '(You)' : ''}</td>
+                        <td class="py-2 px-2 text-center font-bold text-amber-700">${data.score}</td>
+                        <td class="py-2 px-2 text-right font-mono">${formattedTime}</td>
+                    `;
+                    tbody.appendChild(tr);
+                    rank++;
+                });
+            } catch (e) {
+                console.error("Error loading skill practice leaderboard:", e);
+                tbody.innerHTML = '<tr><td colspan="3" class="text-center text-rose-500 py-3 text-xs">Error loading records.</td></tr>';
+            }
+        }
+
+        function formatMMSS(totalSeconds) {
+            const totalSecInt = Math.max(0, Math.floor(totalSeconds));
+            const mins = Math.floor(totalSecInt / 60);
+            const secs = totalSecInt % 60;
+            const pad = (num) => String(num).padStart(2, '0');
+            return `${pad(mins)}:${pad(secs)}`;
+        }
+
         function promptFigureOfSpeech() {
             document.getElementById('modal-fos-prompt').classList.remove('hidden');
             document.getElementById('modal-fos-prompt').classList.add('flex');
@@ -1040,16 +1179,6 @@
                     alert("Security verification error. Please try again.");
                 }
             });
-        }
-
-        function formatHHMMSS(totalSeconds) {
-            const totalSecInt = Math.floor(totalSeconds);
-            const hrs = Math.floor(totalSecInt / 3600);
-            const mins = Math.floor((totalSecInt % 3600) / 60);
-            const secs = totalSecInt % 60;
-
-            const pad = (num) => String(num).padStart(2, '0');
-            return `${pad(hrs)}:${pad(mins)}:${pad(secs)}`;
         }
     </script>
 
