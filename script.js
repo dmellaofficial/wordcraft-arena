@@ -40,21 +40,53 @@ function getShuffledSessionQuestions(rawPool, count = 10) {
     localStorage.setItem('wordcraft_recent_q', JSON.stringify(recentIds));
 
     return selected.map(item => {
-        const indexedOptions = item.options.map((opt, idx) => ({ text: opt, originalIdx: idx }));
+        const hasNoE = item.options.some(opt => opt.toLowerCase().includes('no error'));
         
-        for (let i = indexedOptions.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            [indexedOptions[i], indexedOptions[j]] = [indexedOptions[j], indexedOptions[i]];
-        }
-        
-        const newAnswerIndex = indexedOptions.findIndex(opt => opt.originalIdx === item.answer);
+        if (hasNoE) {
+            // Keep 'No error' (the 4th option) fixed at index 3, and shuffle only the first 3 options (A, B, C)
+            const noErrorOption = item.options[3];
+            const firstThree = [
+                { text: item.options[0], originalIdx: 0 },
+                { text: item.options[1], originalIdx: 1 },
+                { text: item.options[2], originalIdx: 2 }
+            ];
 
-        return {
-            q: item.q,
-            options: indexedOptions.map(opt => opt.text),
-            answer: newAnswerIndex,
-            explanation: item.explanation
-        };
+            // Shuffle the first 3 items
+            for (let i = firstThree.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [firstThree[i], firstThree[j]] = [firstThree[j], firstThree[i]];
+            }
+
+            const finalOptions = firstThree.map(opt => opt.text);
+            finalOptions.push(noErrorOption); // Lock No error at the 4th position (index 3)
+
+            const newAnswerIndex = firstThree.findIndex(opt => opt.originalIdx === item.answer);
+            const finalAnswerIdx = item.answer === 3 ? 3 : newAnswerIndex;
+
+            return {
+                q: item.q,
+                options: finalOptions,
+                answer: finalAnswerIdx,
+                explanation: item.explanation
+            };
+        } else {
+            // Standard shuffle for 4 regular options
+            const indexedOptions = item.options.map((opt, idx) => ({ text: opt, originalIdx: idx }));
+            
+            for (let i = indexedOptions.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [indexedOptions[i], indexedOptions[j]] = [indexedOptions[j], indexedOptions[i]];
+            }
+            
+            const newAnswerIndex = indexedOptions.findIndex(opt => opt.originalIdx === item.answer);
+
+            return {
+                q: item.q,
+                options: indexedOptions.map(opt => opt.text),
+                answer: newAnswerIndex,
+                explanation: item.explanation
+            };
+        }
     });
 }
 
