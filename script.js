@@ -143,6 +143,8 @@ function startTimedChallenge(questionCount) {
 }
 
 function startSkillPracticeChallenge() {
+    closeSkillPracticeModal();
+
     let combinedPool = [];
     if (typeof idiomsQuestions !== 'undefined') combinedPool.push(...idiomsQuestions);
     if (typeof idioms2Questions !== 'undefined') combinedPool.push(...idioms2Questions);
